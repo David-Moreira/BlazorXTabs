@@ -22,12 +22,12 @@
         </ul>
     </div>
     @{
-    <div class="xtabs-tab-content tab-content">
+    <div class="xtabs-content tab-content">
         @if (FullTabRender)
         {
             @foreach (var tab in TabContent)
             {
-            <div class='xtabs-content card-body tab-pane fade @(IsActive(tab) ? "show active" : "")'>
+            <div class='xtabs-tab-content card-body tab-pane fade @(IsActive(tab) ? "show active" : "")'>
                 @tab.ChildContent
             </div>
             }
@@ -38,13 +38,13 @@
             {
                 @if (IsActive(tab))
                 {
-                    <div class="xtabs-content card-body tab-pane fade show active" >
+                    <div class="xtabs-tab-content card-body tab-pane fade show active" >
                         @tab.ChildContent
                     </div> 
                 }
                 else if (tab.InactiveRender)
                 {
-                    <div class="xtabs-content card-body tab-pane fade" >
+                    <div class="xtabs-tab-content card-body tab-pane fade" >
                         @tab.ChildContent
                     </div>
                 }

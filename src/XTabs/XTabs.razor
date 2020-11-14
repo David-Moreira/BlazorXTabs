@@ -1,4 +1,5 @@
-﻿<CascadingValue Value="this">
+﻿@using Configuration
+<CascadingValue Value="this">
     @ChildContent
 </CascadingValue>
 
@@ -23,11 +24,11 @@
     </div>
     @{
     <div class="xtabs-content tab-content">
-        @if (FullTabRender)
+        @if (RenderMode == RenderMode.Full)
         {
             @foreach (var tab in TabContent)
             {
-            <div class='xtabs-tab-content card-body tab-pane fade @(IsActive(tab) ? "show active" : "")'>
+            <div class='xtabs-tab-content card-body tab-pane fade @tab.CssClass @(IsActive(tab) ? "show active" : "")'>
                 @tab.ChildContent
             </div>
             }
@@ -38,13 +39,13 @@
             {
                 @if (IsActive(tab))
                 {
-                    <div class="xtabs-tab-content card-body tab-pane fade show active" >
+                    <div class="xtabs-tab-content card-body tab-pane fade @tab.CssClass show active" >
                         @tab.ChildContent
                     </div> 
                 }
                 else if (tab.InactiveRender)
                 {
-                    <div class="xtabs-tab-content card-body tab-pane fade" >
+                    <div class="xtabs-tab-content card-body tab-pane fade @tab.CssClass" >
                         @tab.ChildContent
                     </div>
                 }
@@ -55,32 +56,33 @@
 </div>
 
 
-@code { /// <summary>
-    /// Fully renders every tab and hides them avoiding re-rendering and loss of state
-    /// </summary>
-    [Parameter]
-    public bool FullTabRender { get; set; }
+@code { 
+
+    [Parameter] public RenderMode RenderMode { get; set; } = RenderMode.Partial;
+
 
     /// <summary>
     /// Can close tabs
     /// </summary>
-    [Parameter]
-    public bool CloseTabs { get; set; }
+    [Parameter] public bool CloseTabs { get; set; }
 
     /// <summary>
     /// When a new tab is added, sets it to active
     /// </summary>
-    [Parameter]
-    public bool NewTabSetActive { get; set; }
+    [Parameter] public bool NewTabSetActive { get; set; }
 
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
-    [Parameter]
-    public string CssClass { get; set; }
+    [Parameter] public string CssClass { get; set; }
+
+    [Parameter] public EventCallback<XTab> TabAdded { get; set; }
+    [Parameter] public EventCallback<XTab> ActiveTabChanged { get; set; }
+
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
+
+
 
     private List<XTab> TabContent = new List<XTab>();
     private XTab Active { get; set; }
@@ -95,6 +97,8 @@
             TabContent.Add(tab);
             if (TabContent.Count == 1 || NewTabSetActive)
                 SetActive(tab);
+            if (TabAdded.HasDelegate)
+                TabAdded.InvokeAsync(tab);
         }
         StateHasChanged();
     }
@@ -109,6 +113,8 @@
     private void SetActive(XTab tab)
     {
         Active = tab;
+        if (ActiveTabChanged.HasDelegate)
+            ActiveTabChanged.InvokeAsync(tab);
     }
 
     private bool IsActive(XTab tab)

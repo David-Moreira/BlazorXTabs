@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XTabs", "src\XTabs\XTabs.csproj", "{DCE7D223-A2F7-478B-8838-12BAB08C83AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorXTabs", "src\XTabs\BlazorXTabs.csproj", "{DCE7D223-A2F7-478B-8838-12BAB08C83AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{E0E7504B-B0DA-4EE7-B0CB-408C75CDA83D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "sample\Demo\Demo.csproj", "{CA4D8FF4-542B-45B6-9F17-51752E39863D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "sample\Demo\Demo.csproj", "{40DDB364-23BC-416B-92E0-BBC072CFF270}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,16 +19,16 @@ Global
 		{DCE7D223-A2F7-478B-8838-12BAB08C83AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCE7D223-A2F7-478B-8838-12BAB08C83AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCE7D223-A2F7-478B-8838-12BAB08C83AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA4D8FF4-542B-45B6-9F17-51752E39863D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA4D8FF4-542B-45B6-9F17-51752E39863D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA4D8FF4-542B-45B6-9F17-51752E39863D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA4D8FF4-542B-45B6-9F17-51752E39863D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40DDB364-23BC-416B-92E0-BBC072CFF270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40DDB364-23BC-416B-92E0-BBC072CFF270}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40DDB364-23BC-416B-92E0-BBC072CFF270}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40DDB364-23BC-416B-92E0-BBC072CFF270}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CA4D8FF4-542B-45B6-9F17-51752E39863D} = {E0E7504B-B0DA-4EE7-B0CB-408C75CDA83D}
+		{40DDB364-23BC-416B-92E0-BBC072CFF270} = {E0E7504B-B0DA-4EE7-B0CB-408C75CDA83D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {096945CF-7E3C-47DC-9C96-78EC7C9FE0AC}

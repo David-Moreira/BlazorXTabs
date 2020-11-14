@@ -1,0 +1,139 @@
+﻿<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+<div class="xtabs card @CssClass">
+    <div class="xtabs-header card-header">
+        <ul class="xtabs-header-tabs nav nav-tabs card-header-tabs">
+            @foreach (var tab in TabContent)
+            {
+                <li class="xtabs-item nav-item">
+                    @if (CloseTabs)
+                    {
+                        <button type="button" @onclick="()=> CloseTab(tab)" class="xtabs-close close" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    }
+                    <a class='xtabs-link nav-link @(IsActive(tab) ? "active" : "")' @onclick="() => SetActive(tab)">
+                        <h6 class="m-0 font-weight-bold text-primary">@tab.Title</h6>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+    @{
+    <div class="xtabs-tab-content tab-content">
+        @if (FullTabRender)
+        {
+            @foreach (var tab in TabContent)
+            {
+            <div class='xtabs-content card-body tab-pane fade @(IsActive(tab) ? "show active" : "")'>
+                @tab.ChildContent
+            </div>
+            }
+        }
+        else
+        {
+            @foreach (var tab in TabContent)
+            {
+                @if (IsActive(tab))
+                {
+                    <div class="xtabs-content card-body tab-pane fade show active" >
+                        @tab.ChildContent
+                    </div> 
+                }
+                else if (tab.InactiveRender)
+                {
+                    <div class="xtabs-content card-body tab-pane fade" >
+                        @tab.ChildContent
+                    </div>
+                }
+            }
+        }
+
+    </div> }
+</div>
+
+
+@code { /// <summary>
+    /// Fully renders every tab and hides them avoiding re-rendering and loss of state
+    /// </summary>
+    [Parameter]
+    public bool FullTabRender { get; set; }
+
+    /// <summary>
+    /// Can close tabs
+    /// </summary>
+    [Parameter]
+    public bool CloseTabs { get; set; }
+
+    /// <summary>
+    /// When a new tab is added, sets it to active
+    /// </summary>
+    [Parameter]
+    public bool NewTabSetActive { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string CssClass { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    private List<XTab> TabContent = new List<XTab>();
+    private XTab Active { get; set; }
+
+    internal void AddPage(XTab tab)
+    {
+        ///TODO: Using Titles for now. Probably should use an ID.
+        if (TabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+            SetActive(existingTab);
+        else
+        {
+            TabContent.Add(tab);
+            if (TabContent.Count == 1 || NewTabSetActive)
+                SetActive(tab);
+        }
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// If there are children that depend on each other's state, you should notify this parent component that the state has changed.
+    /// </summary>
+    public void NotifyStateHasChanged()
+    {
+        StateHasChanged();
+    }
+    private void SetActive(XTab tab)
+    {
+        Active = tab;
+    }
+
+    private bool IsActive(XTab tab)
+    {
+        return tab == Active;
+    }
+
+    private void CloseTab(XTab tab)
+    {
+        var nextSelected = Active;
+        if (Active == tab && TabContent.Count > 1)
+            for (int i = 0; i < TabContent.Count; i++)
+            {
+                if (i > 0 && TabContent[i] == Active)
+                    nextSelected = TabContent[i - 1];
+                if (i > 0 && TabContent[i - 1] == Active)
+                    nextSelected = TabContent[i];
+            }
+
+        TabContent.Remove(tab);
+
+        SetActive(nextSelected);
+
+        if (TabContent.Count == 0)
+            NavigationManager.NavigateTo("");
+
+        StateHasChanged();
+    } }

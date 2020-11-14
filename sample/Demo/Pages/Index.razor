@@ -1,7 +1,24 @@
 ﻿@page "/"
+    <XTab Title="Home">
+        <h1>XTabs</h1>
+        <p>Try Navigating to other pages, XTabs will make your other pages a tab!</p>
+        <p>It will also keep track of tabs already opened, therefore not opening them again.</p>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+        <h2>You can also nest XTabs:</h2>
+        <XTabs>
+            <XTab Title="Closeable Tabs">
+                <h3>Closeable Tabs</h3>
+                <p>You can set CloseTabs="true" and you're able to close the tabs.</p>
+            </XTab>
+            <XTab Title="FullTab Render">
+                <h3>FullTab Render</h3>
+                <p>You can set FullTabRender="true" to always keep the tabs rendered, as this will keep their state. Try navigating to the Form Page, typing values, out and back again, the values should be preserved.</p>
+            </XTab>      
+            <XTab Title="Customizable css">
+                <h3>Customizable css</h3>
+                <p>
+                    Every html element created by XTabs has a XTabs based class so you can style the XTabs look to your liking.
+                </p>
+            </XTab>
+        </XTabs>
+    </XTab>

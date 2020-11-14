@@ -1,0 +1,32 @@
+﻿@code{ 
+
+    [CascadingParameter]
+    private XTabs Parent { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Even if inactive, renders in the page hidden
+    /// </summary>
+    [Parameter]
+    public bool InactiveRender { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        if (Parent == null)
+            throw new ArgumentNullException(nameof(Parent), "XTabs must exist!");
+        base.OnInitialized();
+        Parent.AddPage(this);
+
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}

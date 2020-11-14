@@ -1,2 +1,3 @@
-﻿.xtabs button.close {
+﻿.xtabs .xtabs-item:hover {
+    cursor:pointer;
 }

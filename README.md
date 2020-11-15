@@ -45,7 +45,7 @@ Install-Package BlazorXTabs
 dotnet add package BlazorXTabs
 ```
 
-- If you'd like to bring in XTabs default stylying, don't forget to add:
+- If you'd like to bring in XTabs default styling, don't forget to add:
 ```    
 <link href="{YOUR-PROJECT-NAME}.styles.css" rel="stylesheet" />
 ```

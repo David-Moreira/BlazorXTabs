@@ -1,5 +1,5 @@
 # BlazorXTabs
-An extended tabs component library providing various features for Blazor!
+An extended tabs component library providing various tab features for Blazor!
 
 ![Screenshot of sample](sample.png)
 

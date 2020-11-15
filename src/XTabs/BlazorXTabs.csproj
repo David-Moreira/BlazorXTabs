@@ -26,7 +26,7 @@
 
   <PropertyGroup>
     <PackageId>BlazorXTabs</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
     <Authors>David Nogueira Moreira</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <ProjectUrl>https://github.com/David-Moreira/XTabs</ProjectUrl>
@@ -35,5 +35,6 @@
     <RepositoryUrl>https://github.com/David-Moreira/BlazorXTabs</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <Description>An extended tabs blazor implementation</Description>
+    <PackageTags>blazorx blazorxtabs blazor tabs components library</PackageTags>
   </PropertyGroup>
 </Project>

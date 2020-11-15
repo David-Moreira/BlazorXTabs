@@ -75,8 +75,8 @@
 
     [Parameter] public string CssClass { get; set; }
 
-    [Parameter] public EventCallback<XTab> TabAdded { get; set; }
-    [Parameter] public EventCallback<XTab> ActiveTabChanged { get; set; }
+    [Parameter] public EventCallback<XTab> OnTabAdded { get; set; }
+    [Parameter] public EventCallback<XTab> OnActiveTabChanged { get; set; }
 
 
     [Inject]
@@ -97,8 +97,8 @@
             TabContent.Add(tab);
             if (TabContent.Count == 1 || NewTabSetActive)
                 SetActive(tab);
-            if (TabAdded.HasDelegate)
-                TabAdded.InvokeAsync(tab);
+            if (OnTabAdded.HasDelegate)
+                OnTabAdded.InvokeAsync(tab);
         }
         StateHasChanged();
     }
@@ -113,8 +113,8 @@
     private void SetActive(XTab tab)
     {
         Active = tab;
-        if (ActiveTabChanged.HasDelegate)
-            ActiveTabChanged.InvokeAsync(tab);
+        if (OnActiveTabChanged.HasDelegate)
+            OnActiveTabChanged.InvokeAsync(tab);
     }
 
     private bool IsActive(XTab tab)

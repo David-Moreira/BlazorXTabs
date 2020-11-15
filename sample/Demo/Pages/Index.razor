@@ -1,24 +1,94 @@
 ﻿@page "/"
-    <XTab Title="Home">
-        <h1>XTabs</h1>
-        <p>Try Navigating to other pages, XTabs will make your other pages a tab!</p>
-        <p>It will also keep track of tabs already opened, therefore not opening them again.</p>
+<XTab Title="Home">
+    <h1>XTabs</h1>
+    <p>Try Navigating to other pages, XTabs will make your other pages a tab!</p>
+    <p>It will also keep track of tabs already opened, therefore not opening them again.</p>
 
-        <h2>You can also nest XTabs:</h2>
-        <XTabs>
-            <XTab Title="Closeable Tabs">
-                <h3>Closeable Tabs</h3>
-                <p>You can set CloseTabs="true" and you're able to close the tabs.</p>
-            </XTab>
-            <XTab Title="FullTab Render">
-                <h3>FullTab Render</h3>
-                <p>You can set FullTabRender="true" to always keep the tabs rendered, as this will keep their state. Try navigating to the Form Page, typing values, out and back again, the values should be preserved.</p>
-            </XTab>      
-            <XTab Title="Customizable css">
-                <h3>Customizable css</h3>
-                <p>
-                    Every html element created by XTabs has a XTabs based class so you can style the XTabs look to your liking.
-                </p>
-            </XTab>
-        </XTabs>
-    </XTab>
+    <h2>You can also nest XTabs:</h2>
+    <XTabs OnActiveTabChanged="ActiveTabChange">
+        <XTab Title="Render Modes">
+            <h3>Partial</h3>
+            <p>You can set the RenderMode to Partial, this is the default behaviour to only render the active tab.</p>
+
+            <h3>Full</h3>
+            <p>
+                You can set the RenderMode to Full to always keep the tabs rendered(but hidden if not active), as this will keep their state.
+                Try navigating to the Form Page, typing values, out and back again, the values should be preserved.
+            </p>
+
+            <h3>Steps</h3>
+            <p>You can set the RenderMode to Steps to generate a wizard like tabs component.</p>
+
+        </XTab>
+        <XTab Title="Events">
+            <h3>OnActiveTabChanged</h3>
+            <p>
+                Whenever you switch a tab, XTabs will trigger the ActiveTabChanged event.
+            </p>
+            <h3>OnTabAdded</h3>
+            <p>
+                Whenever a tab is added, XTabs will trigger the TabAdded event.
+            </p>
+        </XTab>
+        <XTab Title="Closeable Tabs">
+            <h3>Closeable Tabs</h3>
+            <p>You can set CloseTabs="true" and you're able to close the tabs.</p>
+        </XTab>
+
+        <XTab Title="Customizable css">
+            <h3>Customizable css</h3>
+            <p>
+                XTabs supports bootstrap by default, by providing bootstrap classes that provides a nice starting layout.
+            </p>
+            <p>
+                However XTabs is independent of a css framework layout, every html element created by XTabs has a XTabs based class that provides a starting look and enables you to further style the XTabs look.
+            </p>
+        </XTab>
+
+
+    </XTabs>
+
+    <div class="row">
+        <div class="col-12 mt-2">
+            <h4 class="text-center"><strong>ActiveTabEvent</strong></h4>
+        </div>
+        <div class="col-12">
+            <input class=" input-group input-group-text" disabled type="text" @bind-value="SelectedTab.Title" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mt-2">
+            <h4 class="text-center"><strong>LastAddedTab</strong></h4>
+        </div>
+        <div class="col-12">
+            <input class=" input-group input-group-text" disabled type="text" @bind-value="TabAdded.Title" />
+        </div>
+    </div>
+</XTab>
+@code{
+
+    [CascadingParameter]
+    public XTabs XTabs { get; set; }
+    public XTab SelectedTab { get; set; } = new XTab();
+    public XTab TabAdded{ get; set; } = new XTab();
+
+    protected override Task OnInitializedAsync()
+    {
+        //DEMO PURPOSES -- THIS SHOULD NOT BE DONE LIKE THIS
+        XTabs.OnTabAdded = EventCallback.Factory.Create<XTab>(XTabs, TabAdd);
+        return base.OnInitializedAsync();
+    }
+    private void ActiveTabChange(XTab tab){
+        SelectedTab = tab;
+        XTabs.NotifyStateHasChanged();
+
+    }
+
+    private void TabAdd(XTab tab)
+    {
+        TabAdded = tab;
+        XTabs.NotifyStateHasChanged();
+
+    }
+}

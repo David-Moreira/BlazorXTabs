@@ -1,0 +1,89 @@
+@import '';
+
+/* _content/BlazorXTabs/XTabs.razor.rz.scp.css */
+
+.xtabs[b-mlpxtvpz0w] {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+    .xtabs .xtabs-header[b-mlpxtvpz0w] {
+        padding: .75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: rgba(0,0,0,.03);
+        border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+
+    .xtabs .xtabs-header-tabs[b-mlpxtvpz0w] {
+        margin-right: -.625rem;
+        margin-bottom: -.75rem;
+        margin-left: -.625rem;
+        border-bottom: 0;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .xtabs .xtabs-item[b-mlpxtvpz0w] {
+        margin-bottom: -1px;
+    }
+        .xtabs .xtabs-item .xtabs-link[b-mlpxtvpz0w] {
+            color: #495057;
+            border-color: #dee2e6 #dee2e6 #fff;
+            border: 1px solid transparent;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+            display: block;
+            padding: .5rem 1rem;
+        }
+        .xtabs .xtabs-item .xtabs-link.active[b-mlpxtvpz0w] {
+            background-color: #fff;
+            border-color: #dee2e6 #dee2e6 #fff;
+        }
+
+.xtabs button.close[b-mlpxtvpz0w] {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}
+
+.xtabs .xtabs-item:hover[b-mlpxtvpz0w] {
+    cursor: pointer;
+}
+
+    .xtabs .xtabs-content[b-mlpxtvpz0w] {
+
+    }
+
+    .xtabs .xtabs-tab-content[b-mlpxtvpz0w] {
+        display: none;
+        flex: 1 1 auto;
+        padding: 1.25rem;
+    }
+.xtabs .xtabs-tab-content.active[b-mlpxtvpz0w] {
+    display:block;
+}
+
+
+.xtabs h6[b-mlpxtvpz0w]{
+    margin: 0.75rem;
+}

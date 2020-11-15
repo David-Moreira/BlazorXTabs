@@ -33,7 +33,7 @@ An extended tabs component library providing various tab features for Blazor!
         </XTab>
         
 ## Setup: 
-You can install the package via the nuget package manager just search for *Blazored.Modal*. You can also install via powershell using the following command.
+You can install the package via the nuget package manager just search for *BlazorXTabs*. You can also install via powershell using the following command.
 
 ```powershell
 Install-Package BlazorXTabs

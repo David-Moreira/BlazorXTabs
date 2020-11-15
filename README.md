@@ -1,7 +1,7 @@
 # BlazorXTabs
 An extended tabs implementation.
 
-![Screenshot of sample](sampleScreenshot.png)
+![Screenshot of sample](sample.png)
 
 ## Main Features:
 - Able to close tabs

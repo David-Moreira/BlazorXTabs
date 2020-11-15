@@ -15,7 +15,7 @@ jobs:
 
     # sets up .NET Core SDK 5.0
     - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v1.6.0
+      uses: actions/setup-dotnet@v1.7.2
       with:
         dotnet-version: 5.0
       

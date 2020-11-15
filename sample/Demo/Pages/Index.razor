@@ -23,11 +23,17 @@
         <XTab Title="Events">
             <h3>OnActiveTabChanged</h3>
             <p>
-                Whenever you switch a tab, XTabs will trigger the ActiveTabChanged event.
+                Whenever you switch a tab, XTabs will trigger the OnActiveTabChanged event.
             </p>
             <h3>OnTabAdded</h3>
             <p>
-                Whenever a tab is added, XTabs will trigger the TabAdded event.
+                Whenever a tab is added, XTabs will trigger the OnTabAdded event.
+            </p>
+
+            <h3>OnTabRemoved</h3>
+            <p>
+                Whenever a tab is removed, XTabs will trigger the OnTabRemoved event.
+                This is applicable when CloseTabs is set to true.
             </p>
         </XTab>
         <XTab Title="Closeable Tabs">

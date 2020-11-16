@@ -2,7 +2,6 @@
 An extended tabs component library providing various tab features for Blazor!
 
 [![NuGet](https://img.shields.io/nuget/vpre/BlazorXTabs.svg)](https://www.nuget.org/profiles/DavidMoreira)
-![Nuget](https://img.shields.io/nuget/dt/BlazorXTabs.svg)
 [![MIT](https://img.shields.io/github/license/stsrki/Blazorise.svg)](LICENSE)
 
 ![Screenshot of sample](sample.png)

@@ -1,6 +1,7 @@
 # BlazorXTabs
 An extended tabs component library providing various tab features for Blazor!
 
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/David-Moreira/BlazorXTabs)
 [![NuGet](https://img.shields.io/nuget/vpre/BlazorXTabs.svg)](https://www.nuget.org/profiles/DavidMoreira)
 ![Nuget](https://img.shields.io/nuget/dt/BlazorXTabs?flat)
 [![MIT](https://img.shields.io/github/license/stsrki/Blazorise.svg)](LICENSE)

@@ -1,23 +1,26 @@
-﻿@code{ 
-
-    [CascadingParameter]
+﻿@code{ [CascadingParameter]
     private XTabs Parent { get; set; }
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// Sets the tab's title.
+    /// </summary>
     [Parameter]
     public string Title { get; set; }
 
+    /// <summary>
+    /// Sets the tab's css class.
+    /// </summary>
     [Parameter]
     public string CssClass { get; set; }
 
     /// <summary>
-    /// Even if inactive, renders in the page hidden
+    /// Even if inactive, renders in the page hidden.
     /// </summary>
     [Parameter]
     public bool InactiveRender { get; set; }
-
 
     protected override void OnInitialized()
     {
@@ -31,5 +34,4 @@
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         return base.OnAfterRenderAsync(firstRender);
-    }
-}
+    } }

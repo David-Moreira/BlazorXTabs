@@ -51,7 +51,7 @@
         </XTab>
 
         <XTab Title="Steps example">
-            <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Steps">
+            <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Steps" OnNextSteps="NextSteps" OnPreviousSteps="PreviousSteps">
                 <PreviousStepsContent>
                     <button type="button" class="btn btn-info  mr-1" disabled="@context.IsDisabled" @onclick="@context.Clicked">Previous</button>
                 </PreviousStepsContent>
@@ -76,7 +76,7 @@
 
     <div class="row">
         <div class="col-12 mt-2">
-            <h4 class="text-center"><strong>ActiveTabEvent</strong></h4>
+            <h4 class="text-center"><strong>Active Tab Event</strong></h4>
         </div>
         <div class="col-12">
             <input class=" input-group input-group-text" disabled type="text" @bind-value="SelectedTab.Title" />
@@ -85,10 +85,19 @@
 
     <div class="row">
         <div class="col-12 mt-2">
-            <h4 class="text-center"><strong>LastAddedTab</strong></h4>
+            <h4 class="text-center"><strong>Last Added Tab</strong></h4>
         </div>
         <div class="col-12">
             <input class=" input-group input-group-text" disabled type="text" @bind-value="TabAdded.Title" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mt-2">
+            <h4 class="text-center"><strong>Last Steps Event</strong></h4>
+        </div>
+        <div class="col-12">
+            <input class=" input-group input-group-text" disabled type="text" @bind-value="StepsEvent" />
         </div>
     </div>
 </XTab>
@@ -98,6 +107,7 @@
     public XTabs XTabs { get; set; }
     public XTab SelectedTab { get; set; } = new XTab();
     public XTab TabAdded { get; set; } = new XTab();
+    private string StepsEvent { get; set; }
 
     protected override Task OnInitializedAsync()
     {
@@ -116,6 +126,17 @@
     {
         TabAdded = tab;
         XTabs.NotifyStateHasChanged();
+    }
 
+    private void NextSteps()
+    {
+        StepsEvent = "Next";
+        XTabs.NotifyStateHasChanged();
+    }
+
+    private void PreviousSteps()
+    {
+        StepsEvent = "Previous";
+        XTabs.NotifyStateHasChanged();
     }
 }

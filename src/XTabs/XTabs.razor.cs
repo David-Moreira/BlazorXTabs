@@ -68,6 +68,16 @@ namespace BlazorXTabs
         /// </summary>
         [Parameter] public EventCallback<XTab> OnTabRemoved { get; set; }
 
+        /// <summary>
+        /// Event: When on XTabs Steps Mode, triggers on previous click.
+        /// </summary>
+        [Parameter] public EventCallback OnPreviousSteps { get; set; }
+
+        /// <summary>
+        /// Event: When on XTabs Steps Mode, triggers on next click.
+        /// </summary>
+        [Parameter] public EventCallback OnNextSteps { get; set; }
+
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
@@ -163,12 +173,16 @@ namespace BlazorXTabs
         {
             var next = TabContent.IndexOf(Active) + 1;
             SetActive(TabContent[next]);
+            if (OnNextSteps.HasDelegate)
+                OnNextSteps.InvokeAsync();
         }
 
         private void PreviousTab()
         {
             var previous = TabContent.IndexOf(Active) - 1;
             SetActive(TabContent[previous]);
+            if (OnPreviousSteps.HasDelegate)
+                OnPreviousSteps.InvokeAsync();
         }
 
         #endregion Steps

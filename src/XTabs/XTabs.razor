@@ -62,7 +62,7 @@
                     }
                     else
                     {
-                        <button type="button" class="btn btn-info mr-1" disabled="@IsPreviousDisabled" @onclick="PreviousTab">Previous</button>
+                        <button type="button" class="xtabs-steps-btn-previous btn btn-info mr-1" disabled="@IsPreviousDisabled" @onclick="PreviousTab">Previous</button>
                     }
                     @if (NextStepsContent is object)
                     {
@@ -70,7 +70,7 @@
                     }
                     else
                     {
-                        <button type="button" class="btn btn-success" disabled="@(IsNextDisabled)" @onclick="NextTab">Next</button>
+                        <button type="button" class="xtabs-steps-btn-next btn btn-success" disabled="@(IsNextDisabled)" @onclick="NextTab">Next</button>
                     }
                 </div>
             }

@@ -55,7 +55,7 @@
 
             @if (RenderMode == RenderMode.Steps)
             {
-                <div class="d-flex justify-content-center mb-1">
+                <div class="xtabs-steps-buttons d-flex justify-content-center mb-1">
                     @if (PreviousStepsContent is object)
                     {
                         @PreviousStepsContent(new PreviousStepsContext(EventCallback.Factory.Create(this, this.PreviousTab), IsPreviousDisabled));

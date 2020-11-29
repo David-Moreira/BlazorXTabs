@@ -39,6 +39,16 @@ namespace BlazorXTabs
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
+        /// Sets the template that handles the previous click handler.
+        /// </summary>
+        [Parameter] public RenderFragment<PreviousStepsContext> PreviousStepsContent { get; set; }
+
+        /// <summary>
+        /// Sets the template that handles the next click handler.
+        /// </summary>
+        [Parameter] public RenderFragment<NextStepsContext> NextStepsContent { get; set; }
+
+        /// <summary>
         /// Sets the wrapping container css class
         /// </summary>
         [Parameter] public string CssClass { get; set; }

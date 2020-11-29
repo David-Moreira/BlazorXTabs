@@ -18,7 +18,6 @@
 
             <h3>Steps</h3>
             <p>You can set the RenderMode to Steps to generate a wizard like tabs component.</p>
-
         </XTab>
         <XTab Title="Events">
             <h3>OnActiveTabChanged</h3>
@@ -51,22 +50,28 @@
             </p>
         </XTab>
 
-
         <XTab Title="Steps example">
             <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Steps">
-                <XTab Title="Step1">
-                       This is step 1!
-                </XTab>
-                <XTab Title="Step2">
-                    This is step 2!
-                </XTab>
-                <XTab Title="Step3">
-                    This is the last step. Step 3!
-                </XTab>
+                <PreviousStepsContent>
+                    <button type="button" class="btn btn-info  mr-1" disabled="@context.IsDisabled" @onclick="@context.Clicked">Previous</button>
+                </PreviousStepsContent>
+                <NextStepsContent>
+                    <button type="button" class="btn btn-success" disabled="@context.IsDisabled" @onclick="@context.Clicked">Next</button>
+                </NextStepsContent>
+                <ChildContent>
+                    <XTab Title="Step1">
+                        This is step 1!
+                        <p>You can either use the default provided step buttons or you can define your previous and next step buttons by using the PreviousStepsContent and NextStepsContent.</p>
+                    </XTab>
+                    <XTab Title="Step2">
+                        This is step 2!
+                    </XTab>
+                    <XTab Title="Step3">
+                        This is the last step. Step 3!
+                    </XTab>
+                </ChildContent>
             </XTabs>
         </XTab>
-
-
     </XTabs>
 
     <div class="row">
@@ -92,7 +97,7 @@
     [CascadingParameter]
     public XTabs XTabs { get; set; }
     public XTab SelectedTab { get; set; } = new XTab();
-    public XTab TabAdded{ get; set; } = new XTab();
+    public XTab TabAdded { get; set; } = new XTab();
 
     protected override Task OnInitializedAsync()
     {
@@ -100,7 +105,8 @@
         XTabs.OnTabAdded = EventCallback.Factory.Create<XTab>(XTabs, TabAdd);
         return base.OnInitializedAsync();
     }
-    private void ActiveTabChange(XTab tab){
+    private void ActiveTabChange(XTab tab)
+    {
         SelectedTab = tab;
         XTabs.NotifyStateHasChanged();
 

@@ -42,7 +42,8 @@
                     {
                         <div class="xtabs-tab-content card-body tab-pane fade @tab.CssClass show active">
                             @tab.ChildContent
-                        </div> }
+                        </div>
+                    }
                     else if (tab.InactiveRender)
                     {
                         <div class="xtabs-tab-content card-body tab-pane fade @tab.CssClass">
@@ -54,9 +55,23 @@
 
             @if (RenderMode == RenderMode.Steps)
             {
-                <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-info" disabled="@IsPreviousDisabled" @onclick="PreviousTab">Previous</button>
-                    <button type="button" class="btn btn-success" disabled="@(IsNextDisabled)" @onclick="NextTab">Next</button>
+                <div class="d-flex justify-content-center mb-1">
+                    @if (PreviousStepsContent is object)
+                    {
+                        @PreviousStepsContent(new PreviousStepsContext(EventCallback.Factory.Create(this, this.PreviousTab), IsPreviousDisabled));
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-info mr-1" disabled="@IsPreviousDisabled" @onclick="PreviousTab">Previous</button>
+                    }
+                    @if (NextStepsContent is object)
+                    {
+                        @NextStepsContent(new NextStepsContext(EventCallback.Factory.Create(this, this.NextTab), IsNextDisabled));
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-success" disabled="@(IsNextDisabled)" @onclick="NextTab">Next</button>
+                    }
                 </div>
             }
         </div>

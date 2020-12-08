@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BlazorXTabs.Configuration
+﻿namespace BlazorXTabs.Configuration
 {
     /// <summary>
     /// Partial: Will only render the active tab

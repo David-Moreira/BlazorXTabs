@@ -8,7 +8,6 @@
         <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
     </XTab>
 
-
     @code {
         [CascadingParameter]
         public XTabs XTabs { get; set; }
@@ -17,8 +16,6 @@
         private void IncrementCount()
         {
             currentCount++;
-            XTabs.NotifyStateHasChanged();
+            XTabs.NotifyStateHasChangedAsync();
         }
     }
-
-

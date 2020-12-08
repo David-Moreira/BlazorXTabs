@@ -5,21 +5,10 @@
 
 <div class="xtabs card @CssClass">
     <div class="xtabs-header card-header">
-        <ul class="xtabs-header-tabs nav nav-tabs card-header-tabs">
+        <ul class='xtabs-header-tabs nav nav-tabs card-header-tabs @(_isDragging ? "drag": "")'>
             @foreach (var tab in TabContent)
             {
-                <li class="xtabs-item nav-item">
-                    @if (CloseTabs)
-                    {
-                        <button type="button" @onclick="()=> CloseTab(tab)" class="xtabs-close close" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    }
-                    <a class='xtabs-link nav-link @(IsActive(tab) ? "active" : "")' @onclick="() => { if (!IsTabHeaderDisabled) { SetActive(tab);} }">
-                        <h6 class="m-0 font-weight-bold text-primary">@tab.Title</h6>
-                    </a>
-                </li>
-
+                <_XTabHeader XTab="@tab" CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@CloseTabs" OnCloseTab="@CloseTab" OnSetActive="@SetActive" IsActive="@IsActive(tab)" OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />
             }
         </ul>
     </div>

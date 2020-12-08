@@ -1,0 +1,12 @@
+﻿.xtabs-content {
+}
+
+.xtabs-tab-content {
+    display: none;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.xtabs-tab-content.active {
+    display: block;
+}

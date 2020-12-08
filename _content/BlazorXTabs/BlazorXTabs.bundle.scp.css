@@ -36,24 +36,56 @@
         list-style: none;
     }
 
-    .xtabs .xtabs-item[b-mlpxtvpz0w] {
-        margin-bottom: -1px;
-    }
-        .xtabs .xtabs-item .xtabs-link[b-mlpxtvpz0w] {
-            color: #495057;
-            border-color: #dee2e6 #dee2e6 #fff;
-            border: 1px solid transparent;
-            border-top-left-radius: .25rem;
-            border-top-right-radius: .25rem;
-            display: block;
-            padding: .5rem 1rem;
-        }
-        .xtabs .xtabs-item .xtabs-link.active[b-mlpxtvpz0w] {
-            background-color: #fff;
-            border-color: #dee2e6 #dee2e6 #fff;
-        }
 
-.xtabs button.close[b-mlpxtvpz0w] {
+.xtabs h6[b-mlpxtvpz0w]{
+    margin: 0.75rem;
+}
+/* _content/BlazorXTabs/_XTab.razor.rz.scp.css */
+.xtabs-content[b-v3bceqm99j] {
+}
+
+.xtabs-tab-content[b-v3bceqm99j] {
+    display: none;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.xtabs-tab-content.active[b-v3bceqm99j] {
+    display: block;
+}
+/* _content/BlazorXTabs/_XTabHeader.razor.rz.scp.css */
+.xtabs-item[b-21c0qposjk] {
+    margin-bottom: -1px;
+}
+
+    .xtabs-item .xtabs-link[b-21c0qposjk] {
+        color: #495057;
+        border-color: #dee2e6 #dee2e6 #fff;
+        border: 1px solid transparent;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+        display: block;
+        padding: .5rem 1rem;
+    }
+
+    .xtabs-item.drop .xtabs-link[b-21c0qposjk] {
+        border: 1px dashed green;
+    }
+
+    .xtabs-item .xtabs-link.active[b-21c0qposjk] {
+        background-color: #fff;
+        border-color: #dee2e6 #dee2e6 #fff;
+    }
+
+    .xtabs-item:hover[b-21c0qposjk] {
+        cursor: pointer;
+    }
+
+.drag a[b-21c0qposjk] {
+    pointer-events: none !important;
+}
+
+button.close[b-21c0qposjk] {
     padding: 0;
     background-color: transparent;
     border: 0;
@@ -64,26 +96,4 @@
     color: #000;
     text-shadow: 0 1px 0 #fff;
     opacity: .5;
-}
-
-.xtabs .xtabs-item:hover[b-mlpxtvpz0w] {
-    cursor: pointer;
-}
-
-    .xtabs .xtabs-content[b-mlpxtvpz0w] {
-
-    }
-
-    .xtabs .xtabs-tab-content[b-mlpxtvpz0w] {
-        display: none;
-        flex: 1 1 auto;
-        padding: 1.25rem;
-    }
-.xtabs .xtabs-tab-content.active[b-mlpxtvpz0w] {
-    display:block;
-}
-
-
-.xtabs h6[b-mlpxtvpz0w]{
-    margin: 0.75rem;
 }

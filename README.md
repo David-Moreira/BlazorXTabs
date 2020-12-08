@@ -17,7 +17,8 @@ An extended tabs component library providing various tab features for Blazor!
 - Use XTabs classes to further customize the look
 - Keep tabs state when switching between tabs
 - Bind to events: Selected / Changed / Removed
-- Setup wizard like tabs
+- Setup wizard like tabs with events: Previous / Next and customizable previous/next buttons
+- Possibility to set the active tab to Loading
 
 ## Examples:
 #### Using as wrapper to render pages as tabs:

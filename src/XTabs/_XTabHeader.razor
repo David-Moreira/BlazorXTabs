@@ -1,0 +1,57 @@
+﻿<li class="xtabs-item nav-item" draggable="true" ondragover="event.preventDefault();" @ondragstart="@((e)=>{ e.DataTransfer.Items = new DataTransferItem[] { new DataTransferItem() { Kind = XTab.Title, Type = XTab.Title } }; OnDragStart(e);})" @ondrop="@OnDragDrop">
+    @if (CloseTabs)
+    {
+        <button type="button" @onclick="() => CloseTab.InvokeAsync(XTab)" class="xtabs-close close" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    }
+    <a class='xtabs-link nav-link @(IsActive ? "active" : "")' @onclick="() => { if (CanSetActive) { SetActive.InvokeAsync(XTab);} }">
+        <h6 class="m-0 font-weight-bold text-primary">@XTab.Title</h6>
+    </a>
+</li>
+@code {
+    /// <summary>
+    /// Can close tabs.
+    /// </summary>
+    [Parameter] public bool CloseTabs { get; set; }
+
+    /// <summary>
+    /// Gets or sets if tab header is active.
+    /// </summary>
+    [Parameter] public bool IsActive { get; set; }
+
+    /// <summary>
+    /// Gets or sets if tab header can change active on click
+    /// </summary>
+    [Parameter] public bool CanSetActive { get; set; }
+
+    /// <summary>
+    /// Gets or sets the related XTab
+    /// </summary>
+    [Parameter]
+    public XTab XTab { get; set; }
+
+    /// <summary>
+    /// Event: Sets current tab header and related xtab as active
+    /// </summary>
+    [Parameter]
+    public EventCallback<XTab> SetActive { get; set; }
+
+    /// <summary>
+    /// Event: Closes current tab header and related xtab
+    /// </summary>
+    [Parameter]
+    public EventCallback<XTab> CloseTab { get; set; }
+
+    private void OnDragStart(DragEventArgs dragEventArgs)
+    {
+            
+        return;
+    }
+
+    private void OnDragDrop(DragEventArgs dragEventArgs)
+    {
+
+        return;
+    }
+}

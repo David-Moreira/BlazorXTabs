@@ -17,12 +17,16 @@ namespace BlazorXTabs
         /// </summary>
         private IList<XTab> _tabContent = new List<XTab>();
 
+        #endregion Private Fields
+
+        #region Public Properties
+
         /// <summary>
         /// All the tabs contained in this XTabs instance.
         /// </summary>
         public IEnumerable<XTab> TabContent => _tabContent.AsEnumerable();
 
-        #endregion Private Fields
+        #endregion
 
         #region Public Properties
 
@@ -30,7 +34,7 @@ namespace BlazorXTabs
         private NavigationManager _navigationManager { get; set; }
 
         /// <summary>
-        /// Sets the XTabs RenderMode.
+        /// Gets or sets the XTabs RenderMode.
         /// <code>Defaults to: <see cref="RenderMode.Partial" /></code>
         /// </summary>
         [Parameter] public RenderMode RenderMode { get; set; } = RenderMode.Partial;
@@ -46,23 +50,23 @@ namespace BlazorXTabs
         [Parameter] public bool NewTabSetActive { get; set; }
 
         /// <summary>
-        /// Sets the XTabs ChildContent.
+        /// Gets or sets the XTabs ChildContent.
         /// XTab should be inserted here.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
-        /// Sets the template that handles the previous click handler.
+        /// Gets or sets the template that handles the previous click handler.
         /// </summary>
         [Parameter] public RenderFragment<PreviousStepsContext> PreviousStepsContent { get; set; }
 
         /// <summary>
-        /// Sets the template that handles the next click handler.
+        /// Gets or sets the template that handles the next click handler.
         /// </summary>
         [Parameter] public RenderFragment<NextStepsContext> NextStepsContent { get; set; }
 
         /// <summary>
-        /// Sets the wrapping container css class
+        /// Gets or sets the wrapping container css class
         /// </summary>
         [Parameter] public string CssClass { get; set; }
 
@@ -96,6 +100,12 @@ namespace BlazorXTabs
         /// </summary>
         [Parameter]
         public bool IsLoading { get; set; }
+
+        /// <summary>
+        /// Gets or sets the XTabs's drag feature.
+        /// </summary>
+        [Parameter]
+        public bool IsDraggable { get; set; }
 
         #endregion Public Properties
 
@@ -178,7 +188,7 @@ namespace BlazorXTabs
 
         #endregion Private Methods
 
-        #region Steps
+        #region Steps Feature
 
         private bool IsTabHeaderDisabled => RenderMode == RenderMode.Steps;
         private bool IsPreviousDisabled => (_tabContent?.Count > 0 && _tabContent.IndexOf(Active) == 0);
@@ -201,6 +211,38 @@ namespace BlazorXTabs
                 OnPreviousSteps.InvokeAsync();
         }
 
-        #endregion Steps
+        #endregion Steps Feature
+
+        #region Drag Feature
+
+        private bool _isDragging;
+        private XTab _isDraggedTab;
+
+        private void DragStart(XTab tab)
+        {
+            _isDragging = true;
+            _isDraggedTab = tab;
+            return;
+        }
+
+        private void DragDrop(XTab tab)
+        {
+            var indexToReplace = _tabContent.IndexOf(_isDraggedTab);
+            _tabContent[_tabContent.IndexOf(tab)] = _isDraggedTab;
+            _tabContent[indexToReplace] = tab;
+            return;
+        }
+
+#pragma warning disable IDE0060 // Remove unused parameter
+
+        private void DragEnd(XTab tab)
+#pragma warning restore IDE0060 // Remove unused parameter
+        {
+            _isDragging = false;
+            _isDraggedTab = null;
+            return;
+        }
+
+        #endregion Drag Feature
     }
 }

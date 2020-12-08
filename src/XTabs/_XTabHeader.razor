@@ -1,15 +1,16 @@
-﻿<li class="xtabs-item nav-item" draggable="true" ondragover="event.preventDefault();" @ondragstart="@((e)=>{ e.DataTransfer.Items = new DataTransferItem[] { new DataTransferItem() { Kind = XTab.Title, Type = XTab.Title } }; OnDragStart(e);})" @ondrop="@OnDragDrop">
+﻿<li class="xtabs-item nav-item @_dropClass" draggable="@IsDraggable.ToString()" ondragover="event.preventDefault();" @ondragstart="@DragStart" @ondragenter="DragEnter" @ondrop="@DragDrop" @ondragleave="DragLeave" @ondragend="DragEnd">
     @if (CloseTabs)
     {
-        <button type="button" @onclick="() => CloseTab.InvokeAsync(XTab)" class="xtabs-close close" aria-label="Close">
+        <button type="button" @onclick="() => OnCloseTab.InvokeAsync(XTab)" class="xtabs-close close" aria-label="Close">
             <span aria-hidden="true">×</span>
         </button>
     }
-    <a class='xtabs-link nav-link @(IsActive ? "active" : "")' @onclick="() => { if (CanSetActive) { SetActive.InvokeAsync(XTab);} }">
-        <h6 class="m-0 font-weight-bold text-primary">@XTab.Title</h6>
+    <a class='xtabs-link nav-link @(IsActive ? "active" : "")' @onclick="() => { if (CanSetActive) { OnSetActive.InvokeAsync(XTab);} }" ondragover="event.preventDefault();" draggable="false">
+        <h6 class="m-0 font-weight-bold text-primary" draggable="false">@XTab.Title</h6>
     </a>
 </li>
 @code {
+
     /// <summary>
     /// Can close tabs.
     /// </summary>
@@ -35,23 +36,78 @@
     /// Event: Sets current tab header and related xtab as active
     /// </summary>
     [Parameter]
-    public EventCallback<XTab> SetActive { get; set; }
+    public EventCallback<XTab> OnSetActive { get; set; }
 
     /// <summary>
     /// Event: Closes current tab header and related xtab
     /// </summary>
     [Parameter]
-    public EventCallback<XTab> CloseTab { get; set; }
+    public EventCallback<XTab> OnCloseTab { get; set; }
 
-    private void OnDragStart(DragEventArgs dragEventArgs)
+    /// <summary>
+    /// Gets or sets the XTabs's drag feature.
+    /// </summary>
+    [Parameter]
+    public bool IsDraggable { get; set; }
+
+    /// <summary>
+    /// Event: Current tab header started drag.
+    /// </summary>
+    [Parameter]
+    public EventCallback<XTab> OnDragStart { get; set; }
+
+    /// <summary>
+    /// Event: Current tab header ended drag.
+    /// </summary>
+    [Parameter]
+    public EventCallback<XTab> OnDragEnd { get; set; }
+
+    /// <summary>
+    /// Event: Current tab header dropped drag.
+    /// </summary>
+    [Parameter]
+    public EventCallback<XTab> OnDragDrop { get; set; }
+
+    private string _dropClass;
+
+    private void DragStart(DragEventArgs dragEventArgs)
     {
-            
+        if (!IsDraggable)
+            return;
+        OnDragStart.InvokeAsync(XTab);
         return;
     }
 
-    private void OnDragDrop(DragEventArgs dragEventArgs)
+    private void DragDrop(DragEventArgs dragEventArgs)
     {
+        if (!IsDraggable)
+            return;
+        OnDragDrop.InvokeAsync(XTab);
+        _dropClass = string.Empty;
+        return;
+    }
 
+    private void DragEnd(DragEventArgs dragEventArgs)
+    {
+        if (!IsDraggable)
+            return;
+        OnDragEnd.InvokeAsync(XTab);
+        return;
+    }
+
+    private void DragEnter()
+    {
+        if (!IsDraggable)
+            return;
+        _dropClass = "drop";
+        return;
+    }
+
+    private void DragLeave()
+    {
+        if (!IsDraggable)
+            return;
+        _dropClass = string.Empty;
         return;
     }
 }

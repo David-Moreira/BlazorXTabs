@@ -1,21 +1,21 @@
 ﻿@page "/counter"
 
-    <XTab Title="Counter">
-        <h1>Counter</h1>
+<XTab Title="Counter">
+    <h1>Counter</h1>
 
-        <p>Current count: @currentCount</p>
+    <p>Current count: @currentCount</p>
 
-        <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-    </XTab>
+    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+</XTab>
 
-    @code {
-        [CascadingParameter]
-        public XTabs XTabs { get; set; }
-        private int currentCount = 0;
+@code {
+    [CascadingParameter]
+    public XTabs XTabs { get; set; }
+    private int currentCount = 0;
 
-        private void IncrementCount()
-        {
-            currentCount++;
-            XTabs.NotifyStateHasChangedAsync();
-        }
+    private void IncrementCount()
+    {
+        currentCount++;
+        XTabs.NotifyStateHasChangedAsync();
     }
+}

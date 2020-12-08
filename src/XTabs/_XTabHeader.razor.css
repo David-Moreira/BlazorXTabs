@@ -12,14 +12,22 @@
         padding: .5rem 1rem;
     }
 
-        .xtabs-item .xtabs-link.active {
-            background-color: #fff;
-            border-color: #dee2e6 #dee2e6 #fff;
-        }
+    .xtabs-item.drop .xtabs-link {
+        border: 1px dashed green;
+    }
+
+    .xtabs-item .xtabs-link.active {
+        background-color: #fff;
+        border-color: #dee2e6 #dee2e6 #fff;
+    }
 
     .xtabs-item:hover {
         cursor: pointer;
     }
+
+.drag a {
+    pointer-events: none !important;
+}
 
 button.close {
     padding: 0;

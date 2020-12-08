@@ -1,0 +1,31 @@
+﻿<div class="xtabs-tab-content card-body tab-pane fade @CssClass">
+    @if (IsLoading)
+    {
+        if (LoadingContent is object)
+        {
+            @LoadingContent
+        }
+        else
+        {
+            <text>Loading...</text>
+        }
+    }
+    else if (ChildContent is object)
+    {
+        @ChildContent
+    }
+</div>
+@code {
+    [Parameter]
+    public string CssClass { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment LoadingContent { get; set; }
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+}

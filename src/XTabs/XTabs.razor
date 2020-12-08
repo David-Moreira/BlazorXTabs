@@ -29,9 +29,15 @@
             {
                 @foreach (var tab in TabContent)
                 {
-                    <div class='xtabs-tab-content card-body tab-pane fade @tab.CssClass @(IsActive(tab) ? "show active" : "")'>
-                        @tab.ChildContent
-                    </div>
+                    var isActiveCss = IsActive(tab) ? "show active" : "";
+                    <_XTab CssClass='@($"{@tab.CssClass} {isActiveCss}")' IsLoading="@IsLoading">
+                        <ChildContent>
+                            @tab.ChildContent
+                        </ChildContent>
+                        <LoadingContent>
+                            @tab.LoadingContent
+                        </LoadingContent>
+                    </_XTab>
                 }
             }
             else
@@ -40,15 +46,25 @@
                 {
                     @if (IsActive(tab))
                     {
-                        <div class="xtabs-tab-content card-body tab-pane fade @tab.CssClass show active">
-                            @tab.ChildContent
-                        </div>
+                        <_XTab CssClass='@($"{@tab.CssClass} show active")' IsLoading="@IsLoading">
+                            <ChildContent>
+                                @tab.ChildContent
+                            </ChildContent>
+                            <LoadingContent>
+                                @tab.LoadingContent
+                            </LoadingContent>
+                        </_XTab>
                     }
                     else if (tab.InactiveRender)
                     {
-                        <div class="xtabs-tab-content card-body tab-pane fade @tab.CssClass">
-                            @tab.ChildContent
-                        </div>
+                        <_XTab CssClass='@($"{@tab.CssClass}")' IsLoading="@IsLoading">
+                            <ChildContent>
+                                @tab.ChildContent
+                            </ChildContent>
+                            <LoadingContent>
+                                @tab.LoadingContent
+                            </LoadingContent>
+                        </_XTab>
                     }
                 }
             }

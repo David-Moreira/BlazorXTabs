@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using BlazorXTabs.Configuration;
 
@@ -14,11 +15,19 @@ namespace BlazorXTabs
         /// <summary>
         /// All the tabs contained in this XTabs instance.
         /// </summary>
-        private List<XTab> TabContent = new List<XTab>();
+        private IList<XTab> _tabContent = new List<XTab>();
+
+        /// <summary>
+        /// All the tabs contained in this XTabs instance.
+        /// </summary>
+        public IEnumerable<XTab> TabContent => _tabContent.AsEnumerable();
 
         #endregion Private Fields
 
         #region Public Properties
+
+        [Inject]
+        private NavigationManager _navigationManager { get; set; }
 
         /// <summary>
         /// Sets the XTabs RenderMode.
@@ -36,6 +45,10 @@ namespace BlazorXTabs
         /// </summary>
         [Parameter] public bool NewTabSetActive { get; set; }
 
+        /// <summary>
+        /// Sets the XTabs ChildContent.
+        /// XTab should be inserted here.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
@@ -78,8 +91,11 @@ namespace BlazorXTabs
         /// </summary>
         [Parameter] public EventCallback OnNextSteps { get; set; }
 
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        /// <summary>
+        /// Sets the active tab's loading state.
+        /// </summary>
+        [Parameter]
+        public bool IsLoading { get; set; }
 
         #endregion Public Properties
 
@@ -95,10 +111,13 @@ namespace BlazorXTabs
         /// Notifies XTabs that there have been changes.
         /// <para>If there are children that depend on each other's state, you should notify this parent component that the state has changed.</para>
         /// </summary>
-        public void NotifyStateHasChanged()
-        {
-            StateHasChanged();
-        }
+        public Task NotifyStateHasChangedAsync() => InvokeAsync(() => StateHasChanged());
+
+        /// <summary>
+        /// Notifies XTabs that there have been changes.
+        /// <para>If there are children that depend on each other's state, you should notify this parent component that the state has changed.</para>
+        /// </summary>
+        public void NotifyStateHasChanged() => StateHasChanged();
 
         #endregion Public Methods
 
@@ -107,12 +126,12 @@ namespace BlazorXTabs
         internal void AddPage(XTab tab)
         {
             ///TODO: Using Titles for now. Probably should use an ID.
-            if (RenderMode == RenderMode.Full && TabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+            if (RenderMode == RenderMode.Full && _tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
                 SetActive(existingTab);
             else
             {
-                TabContent.Add(tab);
-                if (TabContent.Count == 1 || NewTabSetActive)
+                _tabContent.Add(tab);
+                if (_tabContent.Count == 1 || NewTabSetActive)
                     SetActive(tab);
                 if (OnTabAdded.HasDelegate)
                     OnTabAdded.InvokeAsync(tab);
@@ -131,31 +150,28 @@ namespace BlazorXTabs
                 OnActiveTabChanged.InvokeAsync(tab);
         }
 
-        private bool IsActive(XTab tab)
-        {
-            return tab == Active;
-        }
+        private bool IsActive(XTab tab) => tab == Active;
 
         private void CloseTab(XTab tab)
         {
             var nextSelected = Active;
-            if (Active == tab && TabContent.Count > 1)
-                for (int i = 0; i < TabContent.Count; i++)
+            if (Active == tab && _tabContent.Count > 1)
+                for (int i = 0; i < _tabContent.Count; i++)
                 {
-                    if (i > 0 && TabContent[i] == Active)
-                        nextSelected = TabContent[i - 1];
-                    if (i > 0 && TabContent[i - 1] == Active)
-                        nextSelected = TabContent[i];
+                    if (i > 0 && _tabContent[i] == Active)
+                        nextSelected = _tabContent[i - 1];
+                    if (i > 0 && _tabContent[i - 1] == Active)
+                        nextSelected = _tabContent[i];
                 }
 
-            TabContent.Remove(tab);
+            _tabContent.Remove(tab);
             if (OnTabRemoved.HasDelegate)
                 OnTabRemoved.InvokeAsync();
 
             SetActive(nextSelected);
 
-            if (TabContent.Count == 0)
-                NavigationManager.NavigateTo("");
+            if (_tabContent.Count == 0)
+                _navigationManager.NavigateTo("");
 
             StateHasChanged();
         }
@@ -165,22 +181,22 @@ namespace BlazorXTabs
         #region Steps
 
         private bool IsTabHeaderDisabled => RenderMode == RenderMode.Steps;
-        private bool IsPreviousDisabled => (TabContent?.Count > 0 && TabContent.IndexOf(Active) == 0);
+        private bool IsPreviousDisabled => (_tabContent?.Count > 0 && _tabContent.IndexOf(Active) == 0);
 
-        private bool IsNextDisabled => (TabContent?.Count > 0 && TabContent.IndexOf(Active) == TabContent.IndexOf(TabContent.Last()));
+        private bool IsNextDisabled => (_tabContent?.Count > 0 && _tabContent.IndexOf(Active) == _tabContent.IndexOf(_tabContent.Last()));
 
         private void NextTab()
         {
-            var next = TabContent.IndexOf(Active) + 1;
-            SetActive(TabContent[next]);
+            var next = _tabContent.IndexOf(Active) + 1;
+            SetActive(_tabContent[next]);
             if (OnNextSteps.HasDelegate)
                 OnNextSteps.InvokeAsync();
         }
 
         private void PreviousTab()
         {
-            var previous = TabContent.IndexOf(Active) - 1;
-            SetActive(TabContent[previous]);
+            var previous = _tabContent.IndexOf(Active) - 1;
+            SetActive(_tabContent[previous]);
             if (OnPreviousSteps.HasDelegate)
                 OnPreviousSteps.InvokeAsync();
         }

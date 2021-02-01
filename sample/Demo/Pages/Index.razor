@@ -1,5 +1,4 @@
 ﻿@page "/"
-<XTab Title="Home">
     <h1>XTabs</h1>
     <p>Try Navigating to other pages, XTabs will make your other pages a tab!</p>
     <p>It will also keep track of tabs already opened, therefore not opening them again.</p>
@@ -120,7 +119,6 @@
             <input class=" input-group input-group-text" disabled type="text" @bind-value="StepsEvent" />
         </div>
     </div>
-</XTab>
 @code{
 
     [CascadingParameter] public XTabs XTabs { get; set; }
@@ -143,34 +141,29 @@
     private async Task ActiveTabChange(XTab tab)
     {
         SelectedTab = tab;
-        await XTabs.NotifyStateHasChangedAsync();
+        //await XTabs.NotifyStateHasChangedAsync();
         if (ReferenceEquals(tab, _loadingTab))
         {
             _isTabLoading = true;
             await Task.Delay(1000);
             _isTabLoading = false;
-            await XTabs.NotifyStateHasChangedAsync();
         }
 
-        await XTabs.NotifyStateHasChangedAsync();
 
     }
 
     private void TabAdd(XTab tab)
     {
         TabAdded = tab;
-        XTabs.NotifyStateHasChangedAsync();
     }
 
     private void NextSteps()
     {
         StepsEvent = "Next";
-        XTabs.NotifyStateHasChangedAsync();
     }
 
     private void PreviousSteps()
     {
         StepsEvent = "Previous";
-        XTabs.NotifyStateHasChangedAsync();
     }
 }

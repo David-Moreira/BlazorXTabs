@@ -15,7 +15,10 @@ namespace BlazorXTabs
         /// <summary>
         /// All the tabs contained in this XTabs instance.
         /// </summary>
-        private IList<XTab> _tabContent = new List<XTab>();
+        //public IList<XTab> _tabContent = new List<XTab>();
+
+        [Parameter]
+        public IList<XTab> _tabContent { get; set; } = new List<XTab>();
 
         #endregion Private Fields
 
@@ -133,7 +136,7 @@ namespace BlazorXTabs
 
         #region Internal Methods
 
-        internal void AddPage(XTab tab)
+        public void AddPage(XTab tab)
         {
             ///TODO: Using Titles for now. Probably should use an ID.
             if (RenderMode == RenderMode.Full && _tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)

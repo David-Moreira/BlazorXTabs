@@ -1,10 +1,15 @@
-<Router AppAssembly="@typeof(Program).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(XTabsLayout)" />
-    </Found>
-    <NotFound>
-        <LayoutView Layout="@typeof(XTabsLayout)">
-            <p>Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
+
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <XTabsRouteView RouteData="@routeData" DefaultLayout="@typeof(XTabsLayout)" />
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(XTabsLayout)">
+                <p>Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+
+@code{
+    
+}

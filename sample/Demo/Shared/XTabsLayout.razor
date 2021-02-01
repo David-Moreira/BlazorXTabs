@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -11,9 +12,14 @@
         </div>
 
         <div class="content px-4">
-            <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Full" CloseTabs="true" NewTabSetActive="true">
-                @Body
+           <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Full" CloseTabs="true" NewTabSetActive="true">
+             @Body
             </XTabs>
         </div>
     </div>
 </div>
+
+@code{
+
+    public XTabs XTabs { get; set; }
+}

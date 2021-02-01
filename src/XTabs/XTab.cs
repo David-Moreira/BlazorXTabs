@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
@@ -6,6 +7,18 @@ namespace BlazorXTabs
 {
     public class XTab : ComponentBase
     {
+
+        public XTab()
+        {
+
+        }
+        public XTab(XTabs parent, RenderFragment renderFragment)
+        {
+            _parent = parent;
+            ChildContent = renderFragment;
+            CssClass = string.Empty;
+            InactiveRender = false;
+        }
         #region Private Properties
 
         [CascadingParameter]
@@ -52,6 +65,10 @@ namespace BlazorXTabs
                 throw new ArgumentNullException(nameof(_parent), "XTabs must exist!");
             base.OnInitialized();
             _parent.AddPage(this);
+        }
+
+        protected override async Task OnParametersSetAsync() {
+            base.OnParametersSetAsync(); 
         }
 
         #endregion

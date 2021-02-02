@@ -68,10 +68,6 @@ namespace BlazorXTabs
             _parent.AddPage(this);
         }
 
-        protected override async Task OnParametersSetAsync() {
-            base.OnParametersSetAsync(); 
-        }
-
         #endregion
     }
 }

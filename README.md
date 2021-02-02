@@ -23,12 +23,29 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
   - Possibility to set the active tab to Loading
 - **v1.3.0**
   - Able to drag & drop tabs
+- **v1.4.0**
+  - Able to replace the standard RouteView component with a XTabsRouteView component that automatically renders the pages as tabs
 
 ## Examples:
 #### Using as wrapper to render pages as tabs:
       <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Full" CloseTabs="true" NewTabSetActive="true">
           @Body
       </XTabs>
+
+#### Using the XTabsRouteView to render pages as tabs:
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <XTabsRouteView CloseTabs="true" NewTabSetActive="true" RenderMode="BlazorXTabs.Configuration.RenderMode.Full" RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p>Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+##### Use the XTabPageAttribute to set the page's tab title
+     @attribute [XTabPageAttribute("Home")]
+
 #### Using as a wizard:
         <XTab Title="Steps example">
             <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Steps">

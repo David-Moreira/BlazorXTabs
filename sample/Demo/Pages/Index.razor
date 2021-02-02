@@ -1,7 +1,13 @@
-﻿@page "/"
+﻿@attribute [XTabPageAttribute("Home")]
+@page "/"
     <h1>XTabs</h1>
-    <p>Try Navigating to other pages, XTabs will make your other pages a tab!</p>
+    <p>Try navigating to other pages, XTabs will make your other pages a tab!</p>
     <p>It will also keep track of tabs already opened, therefore not opening them again.</p>
+
+    <p>
+        This functionality is activated by replacing the standard RouteView by the XTabsRouteView.
+        You can then additionally set the Page's tabs properties by applying the XTabPageAttribute to the page.
+    </p>    
 
     <h2>You can also nest XTabs:</h2>
     <XTabs OnActiveTabChanged="ActiveTabChange" IsLoading="_isTabLoading">
@@ -104,15 +110,6 @@
 
     <div class="row">
         <div class="col-12 mt-2">
-            <h4 class="text-center"><strong>Last Added Tab</strong></h4>
-        </div>
-        <div class="col-12">
-            <input class=" input-group input-group-text" disabled type="text" @bind-value="TabAdded.Title" />
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12 mt-2">
             <h4 class="text-center"><strong>Last Steps Event</strong></h4>
         </div>
         <div class="col-12">
@@ -121,27 +118,16 @@
     </div>
 @code{
 
-    [CascadingParameter] public XTabs XTabs { get; set; }
-
     public XTab SelectedTab { get; set; } = new XTab();
-    public XTab TabAdded { get; set; } = new XTab();
 
     private bool _isTabLoading;
     private XTab _loadingTab;
 
     private string StepsEvent { get; set; }
 
-    protected override Task OnInitializedAsync()
-    {
-        //DEMO PURPOSES -- THIS SHOULD NOT BE DONE LIKE THIS
-        XTabs.OnTabAdded = EventCallback.Factory.Create<XTab>(XTabs, TabAdd);
-        return base.OnInitializedAsync();
-    }
-
     private async Task ActiveTabChange(XTab tab)
     {
         SelectedTab = tab;
-        //await XTabs.NotifyStateHasChangedAsync();
         if (ReferenceEquals(tab, _loadingTab))
         {
             _isTabLoading = true;
@@ -150,11 +136,6 @@
         }
 
 
-    }
-
-    private void TabAdd(XTab tab)
-    {
-        TabAdded = tab;
     }
 
     private void NextSteps()

@@ -1,8 +1,8 @@
-﻿@page "/fetchdata"
+﻿@attribute [XTabPageAttribute("Fetch Data")]
+@page "/fetchdata"
 @inject HttpClient Http
 
     <h1>Weather forecast</h1>
-
     <p>This component demonstrates fetching data from the server.</p>
 
     @if (forecasts == null)
@@ -35,6 +35,7 @@
     }
 
 @code {
+
     private WeatherForecast[] forecasts;
 
     protected override async Task OnInitializedAsync()

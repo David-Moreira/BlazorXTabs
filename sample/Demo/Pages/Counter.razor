@@ -1,4 +1,6 @@
 ﻿@page "/counter"
+@attribute [XTabPageAttribute("Counter")]
+
 <h1>Counter</h1>
 
 <p>Current count: @currentCount</p>
@@ -8,10 +10,12 @@
 
 @code {
 
-    [CascadingParameter]
-    public XTabs XTabs { get; set; }
-    private int currentCount = 0;
+    //[Parameter]
+    //public override string Title { get; set; } = "Counter";
+    //[Parameter]
+    //public override string CssClass { get; set; }
 
+    private int currentCount = 0;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

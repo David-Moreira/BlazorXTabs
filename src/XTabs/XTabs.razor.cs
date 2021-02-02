@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BlazorXTabs.Configuration;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace BlazorXTabs
 {
@@ -15,10 +16,7 @@ namespace BlazorXTabs
         /// <summary>
         /// All the tabs contained in this XTabs instance.
         /// </summary>
-        //public IList<XTab> _tabContent = new List<XTab>();
-
-        [Parameter]
-        public IList<XTab> _tabContent { get; set; } = new List<XTab>();
+        private IList<XTab> _tabContent = new List<XTab>();
 
         #endregion Private Fields
 
@@ -121,14 +119,12 @@ namespace BlazorXTabs
         #region Public Methods
 
         /// <summary>
-        /// Notifies XTabs that there have been changes.
-        /// <para>If there are children that depend on each other's state, you should notify this parent component that the state has changed.</para>
+        /// If for some reason you need to notify XTabs that there have been changes.
         /// </summary>
         public Task NotifyStateHasChangedAsync() => InvokeAsync(() => StateHasChanged());
 
         /// <summary>
-        /// Notifies XTabs that there have been changes.
-        /// <para>If there are children that depend on each other's state, you should notify this parent component that the state has changed.</para>
+        /// If for some reason you need to notify XTabs that there have been changes.
         /// </summary>
         public void NotifyStateHasChanged() => StateHasChanged();
 
@@ -247,5 +243,6 @@ namespace BlazorXTabs
         }
 
         #endregion Drag Feature
+
     }
 }

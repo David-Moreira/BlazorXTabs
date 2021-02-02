@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
@@ -7,11 +6,12 @@ namespace BlazorXTabs
 {
     public class XTab : ComponentBase
     {
+        #region Public Constructors
 
         public XTab()
         {
-
         }
+
         public XTab(XTabs parent, string title, RenderFragment renderFragment)
         {
             _parent = parent;
@@ -20,6 +20,9 @@ namespace BlazorXTabs
             CssClass = string.Empty;
             InactiveRender = false;
         }
+
+        #endregion
+
         #region Private Properties
 
         [CascadingParameter]

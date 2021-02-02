@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 using BlazorXTabs.Configuration;
@@ -12,9 +9,10 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace BlazorXTabs
 {
-
     public class XTabsRouteView : IComponent
     {
+        #region Private Fields
+
         private readonly RenderFragment _renderDelegate;
         private readonly RenderFragment _renderPageWithParametersDelegate;
         private RenderHandle _renderHandle;
@@ -22,7 +20,23 @@ namespace BlazorXTabs
         private XTabs _xTabs;
         private RenderFragment _xTabsRenderFragment;
 
-        private Dictionary<string, RenderFragment> _renderDelegates;
+        #endregion
+
+        #region Public Constructors
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="RouteView"/>.
+        /// </summary>
+        public XTabsRouteView()
+        {
+            // Cache the delegate instances
+            _renderDelegate = Render;
+            _renderPageWithParametersDelegate = RenderPageWithParameters;
+        }
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the route data. This determines the page that will be
@@ -55,49 +69,9 @@ namespace BlazorXTabs
         /// </summary>
         [Parameter] public bool NewTabSetActive { get; set; }
 
+        #endregion
 
-        /// <summary>
-        /// Initializes a new instance of <see cref="RouteView"/>.
-        /// </summary>
-        public XTabsRouteView()
-        {
-            // Cache the delegate instances
-            _renderDelegate = Render;
-            _renderPageWithParametersDelegate = RenderPageWithParameters;
-        }
-
-        /// <inheritdoc />
-        public void Attach(RenderHandle renderHandle)
-            => _renderHandle = renderHandle;
-
-        /// <inheritdoc />
-        public Task SetParametersAsync(ParameterView parameters)
-        {
-            parameters.SetParameterProperties(this);
-
-            if (RouteData == null)
-            {
-                throw new InvalidOperationException($"The {nameof(RouteView)} component requires a non-null value for the parameter {nameof(RouteData)}.");
-            }
-
-            _renderHandle.Render(_renderDelegate);
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// Renders the component.
-        /// </summary>
-        /// <param name="builder">The <see cref="RenderTreeBuilder"/>.</param>
-        protected virtual void Render(RenderTreeBuilder builder)
-        {
-            var pageLayoutType = RouteData.PageType.GetCustomAttribute<LayoutAttribute>()?.LayoutType
-                ?? DefaultLayout;
-
-            builder.OpenComponent<LayoutView>(0);
-            builder.AddAttribute(1, nameof(LayoutView.Layout), pageLayoutType);
-            builder.AddAttribute(2, nameof(LayoutView.ChildContent), _renderPageWithParametersDelegate);
-            builder.CloseComponent();
-        }
+        #region Private Methods
 
         private RenderFragment RenderNewPage(out string xTabTitle)
         {
@@ -117,6 +91,7 @@ namespace BlazorXTabs
                 rBuilder.CloseComponent();
             });
         }
+
         private void RenderPageWithParameters(RenderTreeBuilder builder)
         {
             var pageFragment = RenderNewPage(out var xTabTitle);
@@ -142,7 +117,6 @@ namespace BlazorXTabs
 
                     rBuilder.AddComponentReferenceCapture(5, compRef => _xTabs = (XTabs)compRef);
                     rBuilder.CloseComponent();
-
                 });
             }
             else
@@ -155,5 +129,48 @@ namespace BlazorXTabs
             builder.AddContent(1, _xTabsRenderFragment);
             builder.CloseElement();
         }
+
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Renders the component.
+        /// </summary>
+        /// <param name="builder">The <see cref="RenderTreeBuilder"/>.</param>
+        protected virtual void Render(RenderTreeBuilder builder)
+        {
+            var pageLayoutType = RouteData.PageType.GetCustomAttribute<LayoutAttribute>()?.LayoutType
+                ?? DefaultLayout;
+
+            builder.OpenComponent<LayoutView>(0);
+            builder.AddAttribute(1, nameof(LayoutView.Layout), pageLayoutType);
+            builder.AddAttribute(2, nameof(LayoutView.ChildContent), _renderPageWithParametersDelegate);
+            builder.CloseComponent();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <inheritdoc />
+        public void Attach(RenderHandle renderHandle)
+            => _renderHandle = renderHandle;
+
+        /// <inheritdoc />
+        public Task SetParametersAsync(ParameterView parameters)
+        {
+            parameters.SetParameterProperties(this);
+
+            if (RouteData == null)
+            {
+                throw new InvalidOperationException($"The {nameof(RouteView)} component requires a non-null value for the parameter {nameof(RouteData)}.");
+            }
+
+            _renderHandle.Render(_renderDelegate);
+            return Task.CompletedTask;
+        }
+
+        #endregion
     }
 }

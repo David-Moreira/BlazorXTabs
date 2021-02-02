@@ -1,15 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorXTabs
 {
     public class XTabPageAttribute : Attribute
     {
+        #region Public Fields
+
         public readonly string Title;
-        public XTabPageAttribute(string title) 
+
+        #endregion
+
+        #region Public Constructors
+
+        public XTabPageAttribute(string title)
             => Title = title;
+
+        #endregion
     }
 }

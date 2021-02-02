@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using BlazorXTabs.Configuration;
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
 
 namespace BlazorXTabs
 {
@@ -243,6 +242,5 @@ namespace BlazorXTabs
         }
 
         #endregion Drag Feature
-
     }
 }

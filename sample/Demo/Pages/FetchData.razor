@@ -1,6 +1,5 @@
 ﻿@attribute [XTabPageAttribute("Fetch Data")]
 @page "/fetchdata"
-@inject HttpClient Http
 
 <h1>Weather forecast</h1>
 <p>This component demonstrates fetching data from the server.</p>
@@ -40,7 +39,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        var service = new WeatherForecastService();
+        forecasts = await service.GetForecastAsync(DateTime.Now);
     }
 
     public class WeatherForecast
@@ -52,5 +52,24 @@ else
         public string Summary { get; set; }
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+
+        public class WeatherForecastService
+    {
+        private static readonly string[] Summaries = new[]
+        {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
+
+        public Task<WeatherForecast[]> GetForecastAsync(DateTime startDate)
+        {
+            var rng = new Random();
+            return Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = startDate.AddDays(index),
+                TemperatureC = rng.Next(-20, 55),
+                Summary = Summaries[rng.Next(Summaries.Length)]
+            }).ToArray());
+        }
     }
 }

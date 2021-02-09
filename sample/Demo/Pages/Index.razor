@@ -1,130 +1,156 @@
 ﻿@attribute [XTabPageAttribute("Home")]
 @page "/"
-    <h1>XTabs</h1>
-    <p>Try navigating to other pages, XTabs will make your other pages a tab!</p>
-    <p>It will also keep track of tabs already opened, therefore not opening them again.</p>
+<h1>XTabs</h1>
+<p>Try navigating to other pages, XTabs will make your other pages a tab!</p>
+<p>It will also keep track of tabs already opened, therefore not opening them again.</p>
 
-    <p>
-        This functionality is activated by replacing the standard RouteView by the XTabsRouteView.
-        You can then additionally set the Page's tabs properties by applying the XTabPageAttribute to the page.
-    </p>
+<p>
+    This functionality is activated by replacing the standard RouteView by the XTabsRouteView.
+    You can then additionally set the Page's tabs properties by applying the XTabPageAttribute to the page.
+</p>
 
-    <h2>You can also nest XTabs:</h2>
-    <XTabs OnActiveTabChanged="ActiveTabChange" IsLoading="_isTabLoading">
-        <XTab Title="Render Modes">
-            <h3>Partial</h3>
-            <p>You can set the RenderMode to Partial, this is the default behaviour to only render the active tab.</p>
+<h2>You can also nest XTabs:</h2>
+<XTabs OnActiveTabChanged="ActiveTabChange" IsLoading="_isTabLoading">
+    <XTab Title="Render Modes">
+        <h3>Partial</h3>
+        <p>You can set the RenderMode to Partial, this is the default behaviour to only render the active tab.</p>
 
-            <h3>Full</h3>
-            <p>
-                You can set the RenderMode to Full to always keep the tabs rendered(but hidden if not active), as this will keep their state.
-                Try navigating to the Form Page, typing values, out and back again, the values should be preserved.
-            </p>
+        <h3>Full</h3>
+        <p>
+            You can set the RenderMode to Full to always keep the tabs rendered(but hidden if not active), as this will keep their state.
+            Try navigating to the Form Page, typing values, out and back again, the values should be preserved.
+        </p>
 
-            <h3>Steps</h3>
-            <p>You can set the RenderMode to Steps to generate a wizard like tabs component.</p>
-        </XTab>
-        <XTab Title="Events">
-            <h3>OnActiveTabChanged</h3>
-            <p>
-                Whenever you switch a tab, XTabs will trigger the OnActiveTabChanged event.
-            </p>
-            <h3>OnTabAdded</h3>
-            <p>
-                Whenever a tab is added, XTabs will trigger the OnTabAdded event.
-            </p>
+        <h3>Steps</h3>
+        <p>You can set the RenderMode to Steps to generate a wizard like tabs component.</p>
+    </XTab>
+    <XTab Title="Events">
+        <h3>OnActiveTabChanged</h3>
+        <p>
+            Whenever you switch a tab, XTabs will trigger the OnActiveTabChanged event.
+        </p>
+        <h3>OnTabAdded</h3>
+        <p>
+            Whenever a tab is added, XTabs will trigger the OnTabAdded event.
+        </p>
 
-            <h3>OnTabRemoved</h3>
-            <p>
-                Whenever a tab is removed, XTabs will trigger the OnTabRemoved event.
-                This is applicable when CloseTabs is set to true.
-            </p>
-        </XTab>
-        <XTab Title="Closeable Tabs">
-            <h3>Closeable Tabs</h3>
-            <p>You can set CloseTabs="true" and you're able to close the tabs.</p>
-        </XTab>
-        <XTab Title="Customizable css">
-            <h3>Customizable css</h3>
-            <p>
-                XTabs supports bootstrap by default, by providing bootstrap classes that provides a nice starting layout.
-            </p>
-            <p>
-                However XTabs is independent of a css framework layout, every html element created by XTabs has a XTabs based class that provides a starting look and enables you to further style the XTabs look.
-            </p>
-        </XTab>
-        <XTab Title="Steps example">
-            <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Steps" OnNextSteps="NextSteps" OnPreviousSteps="PreviousSteps">
-                <PreviousStepsContent>
-                    <button type="button" class="btn btn-info  mr-1" disabled="@context.IsDisabled" @onclick="@context.Clicked">Previous</button>
-                </PreviousStepsContent>
-                <NextStepsContent>
-                    <button type="button" class="btn btn-success" disabled="@context.IsDisabled" @onclick="@context.Clicked">Next</button>
-                </NextStepsContent>
-                <ChildContent>
-                    <XTab Title="Step1">
-                        This is step 1!
-                        <p>You can either use the default provided step buttons or you can define your previous and next step buttons by using the PreviousStepsContent and NextStepsContent.</p>
-                    </XTab>
-                    <XTab Title="Step2">
-                        This is step 2!
-                    </XTab>
-                    <XTab Title="Step3">
-                        This is the last step. Step 3!
-                    </XTab>
-                </ChildContent>
-            </XTabs>
-        </XTab>
-        <XTab @ref="@_loadingTab" Title="Loading Example">
+        <h3>OnTabRemoved</h3>
+        <p>
+            Whenever a tab is removed, XTabs will trigger the OnTabRemoved event.
+            This is applicable when CloseTabs is set to true.
+        </p>
+    </XTab>
+    <XTab Title="Closeable Tabs">
+        <h3>Closeable Tabs</h3>
+        <p>You can set CloseTabs="true" and you're able to close the tabs.</p>
+    </XTab>
+    <XTab Title="Customizable css">
+        <h3>Customizable css</h3>
+        <p>
+            XTabs supports bootstrap by default, by providing bootstrap classes that provides a nice starting layout.
+        </p>
+        <p>
+            However XTabs is independent of a css framework layout, every html element created by XTabs has a XTabs based class that provides a starting look and enables you to further style the XTabs look.
+        </p>
+    </XTab>
+    <XTab Title="Steps example">
+        <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Steps" OnNextSteps="NextSteps" OnPreviousSteps="PreviousSteps">
+            <PreviousStepsContent>
+                <button type="button" class="btn btn-info  mr-1" disabled="@context.IsDisabled" @onclick="@context.Clicked">Previous</button>
+            </PreviousStepsContent>
+            <NextStepsContent>
+                <button type="button" class="btn btn-success" disabled="@context.IsDisabled" @onclick="@context.Clicked">Next</button>
+            </NextStepsContent>
             <ChildContent>
-                Loaded tab successfully!
+                <XTab Title="Step1">
+                    This is step 1!
+                    <p>You can either use the default provided step buttons or you can define your previous and next step buttons by using the PreviousStepsContent and NextStepsContent.</p>
+                </XTab>
+                <XTab Title="Step2">
+                    This is step 2!
+                </XTab>
+                <XTab Title="Step3">
+                    This is the last step. Step 3!
+                </XTab>
             </ChildContent>
-            <LoadingContent>
-                Custom loading...
-                This tab will load soon... Please wait... :)
-            </LoadingContent>
-        </XTab>
-        <XTab Title="Drag Example">
-            <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Partial" IsDraggable="true">
-                    <XTab Title="1. I can be dragged!!">
-                        <p>I can be dragged!!</p>
-                    </XTab>
-                    <XTab Title="2. Drag me!">
-                        <p>Drag me!</p>
-                    </XTab>
-                    <XTab Title="3. Please drag me!! I hate being last place!">
-                        <p>Please drag me!! I hate being last place!</p>
-                    </XTab>
-            </XTabs>
-        </XTab>
-    </XTabs>
+        </XTabs>
+    </XTab>
+    <XTab @ref="@_loadingTab" Title="Loading Example">
+        <ChildContent>
+            Loaded tab successfully!
+        </ChildContent>
+        <LoadingContent>
+            Custom loading...
+            This tab will load soon... Please wait... :)
+        </LoadingContent>
+    </XTab>
+    <XTab Title="Drag Example">
+        <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Partial" IsDraggable="true">
+            <XTab Title="1. I can be dragged!!">
+                <p>I can be dragged!!</p>
+            </XTab>
+            <XTab Title="2. Drag me!">
+                <p>Drag me!</p>
+            </XTab>
+            <XTab Title="3. Please drag me!! I hate being last place!">
+                <p>Please drag me!! I hate being last place!</p>
+            </XTab>
+        </XTabs>
+    </XTab>
+</XTabs>
 
-    <div class="row">
-        <div class="col-12 mt-2">
-            <h4 class="text-center"><strong>Active Tab Event</strong></h4>
-        </div>
-        <div class="col-12">
-            <input class=" input-group input-group-text" disabled type="text" @bind-value="SelectedTab.Title" />
-        </div>
+<div class="row">
+    <div class="col-12 mt-2">
+        <h4 class="text-center"><strong>Active Tab Event</strong></h4>
     </div>
+    <div class="col-12">
+        <input class=" input-group input-group-text" disabled type="text" @bind-value="SelectedTab.Title" />
+    </div>
+</div>
 
-    <div class="row">
-        <div class="col-12 mt-2">
-            <h4 class="text-center"><strong>Last Steps Event</strong></h4>
-        </div>
-        <div class="col-12">
-            <input class=" input-group input-group-text" disabled type="text" @bind-value="StepsEvent" />
-        </div>
+<div class="row">
+    <div class="col-12 mt-2">
+        <h4 class="text-center"><strong>Last Added Tab</strong></h4>
     </div>
+    <div class="col-12">
+        <input class=" input-group input-group-text" disabled type="text" @bind-value="TabAdded.Title" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mt-2">
+        <h4 class="text-center"><strong>Last Steps Event</strong></h4>
+    </div>
+    <div class="col-12">
+        <input class=" input-group input-group-text" disabled type="text" @bind-value="StepsEvent" />
+    </div>
+</div>
 @code{
 
+    [CascadingParameter]
+    public XTabs XTabs { get; set; }
+
     public XTab SelectedTab { get; set; } = new XTab();
+    public XTab TabAdded { get; set; } = new XTab();
 
     private bool _isTabLoading;
     private XTab _loadingTab;
 
     private string StepsEvent { get; set; }
 
+    protected override Task OnInitializedAsync()
+    {
+        //DEMO PURPOSES -- THIS SHOULD NOT BE DONE LIKE THIS
+        XTabs.OnTabAdded = EventCallback.Factory.Create<XTab>(XTabs, TabAdd);
+        return base.OnInitializedAsync();
+
+    }
+
+    private void TabAdd(XTab tab)
+    {
+        TabAdded = tab;
+        XTabs.NotifyStateHasChangedAsync();
+    }
     private async Task ActiveTabChange(XTab tab)
     {
         SelectedTab = tab;

@@ -124,7 +124,7 @@ namespace BlazorXTabs
                 var xtab = new XTab(_xTabs, xTabTitle, pageFragment);
                 _xTabs.AddPage(xtab);
             }
-            //Need to figure out how to Cascade XTabs using the RenderTreeBuilder API
+
             builder.OpenElement(0, "XTabs");
             builder.AddContent(1, _xTabsRenderFragment);
             builder.CloseElement();

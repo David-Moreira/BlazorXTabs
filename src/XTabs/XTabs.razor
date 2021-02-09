@@ -1,84 +1,84 @@
 ﻿@using Configuration
 <CascadingValue Value="this">
     @ChildContent
-</CascadingValue>
 
-<div class="xtabs card @CssClass">
-    <div class="xtabs-header card-header">
-        <ul class='xtabs-header-tabs nav nav-tabs card-header-tabs @(_isDragging ? "drag": "")'>
-            @foreach (var tab in TabContent)
-            {
-                <_XTabHeader XTab="@tab" CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@CloseTabs" OnCloseTab="@CloseTab" OnSetActive="@SetActive" IsActive="@IsActive(tab)" OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />
-            }
-        </ul>
-    </div>
-    @{
-        <div class="xtabs-content tab-content">
-            @if (RenderMode == RenderMode.Full)
-            {
+    <div class="xtabs card @CssClass">
+        <div class="xtabs-header card-header">
+            <ul class='xtabs-header-tabs nav nav-tabs card-header-tabs @(_isDragging ? "drag": "")'>
                 @foreach (var tab in TabContent)
                 {
-                    var isActiveCss = IsActive(tab) ? "show active" : "";
-                    <_XTab CssClass='@($"{@tab.CssClass} {isActiveCss}")' IsLoading="@IsLoading">
-                        <ChildContent>
-                            @tab.ChildContent
-                        </ChildContent>
-                        <LoadingContent>
-                            @tab.LoadingContent
-                        </LoadingContent>
-                    </_XTab>
+                    <_XTabHeader XTab="@tab" CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@CloseTabs" OnCloseTab="@CloseTab" OnSetActive="@SetActive" IsActive="@IsActive(tab)" OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />
                 }
-            }
-            else
-            {
-                @foreach (var tab in TabContent)
-                {
-                    @if (IsActive(tab))
-                    {
-                        <_XTab CssClass='@($"{@tab.CssClass} show active")' IsLoading="@IsLoading">
-                            <ChildContent>
-                                @tab.ChildContent
-                            </ChildContent>
-                            <LoadingContent>
-                                @tab.LoadingContent
-                            </LoadingContent>
-                        </_XTab>
-                    }
-                    else if (tab.InactiveRender)
-                    {
-                        <_XTab CssClass='@($"{@tab.CssClass}")' IsLoading="@IsLoading">
-                            <ChildContent>
-                                @tab.ChildContent
-                            </ChildContent>
-                            <LoadingContent>
-                                @tab.LoadingContent
-                            </LoadingContent>
-                        </_XTab>
-                    }
-                }
-            }
-
-            @if (RenderMode == RenderMode.Steps)
-            {
-                <div class="xtabs-steps-buttons d-flex justify-content-center mb-1">
-                    @if (PreviousStepsContent is object)
-                    {
-                        @PreviousStepsContent(new PreviousStepsContext(EventCallback.Factory.Create(this, this.PreviousTab), IsPreviousDisabled));
-                    }
-                    else
-                    {
-                        <button type="button" class="xtabs-steps-btn-previous btn btn-info mr-1" disabled="@IsPreviousDisabled" @onclick="PreviousTab">Previous</button>
-                    }
-                    @if (NextStepsContent is object)
-                    {
-                        @NextStepsContent(new NextStepsContext(EventCallback.Factory.Create(this, this.NextTab), IsNextDisabled));
-                    }
-                    else
-                    {
-                        <button type="button" class="xtabs-steps-btn-next btn btn-success" disabled="@(IsNextDisabled)" @onclick="NextTab">Next</button>
-                    }
-                </div>
-            }
+            </ul>
         </div>
-    }
-</div>
+        @{
+            <div class="xtabs-content tab-content">
+                @if (RenderMode == RenderMode.Full)
+                {
+                    @foreach (var tab in TabContent)
+                    {
+                        var isActiveCss = IsActive(tab) ? "show active" : "";
+                        <_XTab CssClass='@($"{@tab.CssClass} {isActiveCss}")' IsLoading="@IsLoading">
+                            <ChildContent>
+                                @tab.ChildContent
+                            </ChildContent>
+                            <LoadingContent>
+                                @tab.LoadingContent
+                            </LoadingContent>
+                        </_XTab>
+                    }
+                }
+                else
+                {
+                    @foreach (var tab in TabContent)
+                    {
+                        @if (IsActive(tab))
+                        {
+                            <_XTab CssClass='@($"{@tab.CssClass} show active")' IsLoading="@IsLoading">
+                                <ChildContent>
+                                    @tab.ChildContent
+                                </ChildContent>
+                                <LoadingContent>
+                                    @tab.LoadingContent
+                                </LoadingContent>
+                            </_XTab>
+                        }
+                        else if (tab.InactiveRender)
+                        {
+                            <_XTab CssClass='@($"{@tab.CssClass}")' IsLoading="@IsLoading">
+                                <ChildContent>
+                                    @tab.ChildContent
+                                </ChildContent>
+                                <LoadingContent>
+                                    @tab.LoadingContent
+                                </LoadingContent>
+                            </_XTab>
+                        }
+                    }
+                }
+
+                @if (RenderMode == RenderMode.Steps)
+                {
+                    <div class="xtabs-steps-buttons d-flex justify-content-center mb-1">
+                        @if (PreviousStepsContent is object)
+                        {
+                            @PreviousStepsContent(new PreviousStepsContext(EventCallback.Factory.Create(this, this.PreviousTab), IsPreviousDisabled));
+                        }
+                        else
+                        {
+                            <button type="button" class="xtabs-steps-btn-previous btn btn-info mr-1" disabled="@IsPreviousDisabled" @onclick="PreviousTab">Previous</button>
+                        }
+                        @if (NextStepsContent is object)
+                        {
+                            @NextStepsContent(new NextStepsContext(EventCallback.Factory.Create(this, this.NextTab), IsNextDisabled));
+                        }
+                        else
+                        {
+                            <button type="button" class="xtabs-steps-btn-next btn btn-success" disabled="@(IsNextDisabled)" @onclick="NextTab">Next</button>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</CascadingValue>

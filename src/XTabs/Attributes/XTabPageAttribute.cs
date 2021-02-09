@@ -2,6 +2,7 @@
 
 namespace BlazorXTabs
 {
+    [AttributeUsage(AttributeTargets.Class)]
     public class XTabPageAttribute : Attribute
     {
         #region Public Fields

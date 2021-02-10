@@ -135,6 +135,18 @@ namespace BlazorXTabs
         public bool CloseAllTabs { get; set; }
 
         /// <summary>
+        /// Gets or sets if a button to close all tabs will be displayed.
+        /// </summary>
+        [Parameter]
+        public bool ShowCloseAllTabsButton { get; set; }
+
+        /// <summary>
+        /// Gets or sets the threshold to display the button to close all tabs.
+        /// </summary>
+        [Parameter]
+        public int CloseAllTabsButtonThreshold { get; set; }
+
+        /// <summary>
         /// Gets or sets if XTabs navigates to homepage if all tabs are closed.
         /// </summary>
         [Parameter]
@@ -196,7 +208,9 @@ namespace BlazorXTabs
                     rBuilder.AddAttribute(13, nameof(XTabs.IsLoading), IsLoading);
                     rBuilder.AddAttribute(14, nameof(XTabs.IsDraggable), IsDraggable);
                     rBuilder.AddAttribute(15, nameof(XTabs.CloseAllTabs), CloseAllTabs);
-                    rBuilder.AddAttribute(16, nameof(XTabs.NoTabsNavigatesToHomepage), NoTabsNavigatesToHomepage);
+                    rBuilder.AddAttribute(16, nameof(XTabs.ShowCloseAllTabsButton), ShowCloseAllTabsButton);
+                    rBuilder.AddAttribute(17, nameof(XTabs.CloseAllTabsButtonThreshold), CloseAllTabsButtonThreshold);
+                    rBuilder.AddAttribute(18, nameof(XTabs.NoTabsNavigatesToHomepage), NoTabsNavigatesToHomepage);
 
                     rBuilder.AddComponentReferenceCapture(13, compRef => _xTabs = (XTabs)compRef);
                     rBuilder.CloseComponent();

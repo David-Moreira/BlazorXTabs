@@ -123,6 +123,18 @@ namespace BlazorXTabs
         public bool CloseAllTabs { get; set; }
 
         /// <summary>
+        /// Gets or sets if a button to CloseAllTabs will be displayed
+        /// </summary>
+        [Parameter]
+        public bool ShowCloseAllTabsButton { get; set; }
+
+        /// <summary>
+        /// Gets or sets the threshold to display the button to close all tabs.
+        /// </summary>
+        [Parameter]
+        public int CloseAllTabsButtonThreshold { get; set; }
+
+        /// <summary>
         /// Gets or sets if XTabs navigates to homepage if all tabs are closed.
         /// </summary>
         [Parameter]
@@ -224,6 +236,15 @@ namespace BlazorXTabs
         #region Private Methods
         private bool CannotCloseLastTab()
             => !CloseAllTabs && _tabContent.Count == 1;
+
+        private bool CloseAllTabsButton() 
+            => this.ShowCloseAllTabsButton && ((_tabContent?.Count ?? 0) >= CloseAllTabsButtonThreshold) && !CannotCloseLastTab();
+
+        private void CloseAllOpenTabs()
+        {
+            for (var i = _tabContent.Count - 1; i >= 0; i--)
+                CloseTab(_tabContent[i]);
+        }
 
         #endregion Private Methods
 

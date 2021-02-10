@@ -4,6 +4,12 @@
 
     <div class="xtabs card @CssClass">
         <div class="xtabs-header card-header">
+            @if(CloseAllTabsButton())
+            {
+                <button type="button" @onclick="CloseAllOpenTabs" class="xtabs-close-all close" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            }
             <ul class='xtabs-header-tabs nav nav-tabs card-header-tabs @(_isDragging ? "drag": "")'>
                 @foreach (var tab in TabContent)
                 {

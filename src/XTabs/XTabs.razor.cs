@@ -115,6 +115,19 @@ namespace BlazorXTabs
         [Parameter]
         public bool IsDraggable { get; set; }
 
+        /// <summary>
+        /// Gets or sets if all tabs can be closed. 
+        /// If this is false. One tab will always be open.
+        /// </summary>
+        [Parameter]
+        public bool CloseAllTabs { get; set; }
+
+        /// <summary>
+        /// Gets or sets if XTabs navigates to homepage if all tabs are closed.
+        /// </summary>
+        [Parameter]
+        public bool NoTabsNavigatesToHomepage { get; set; }
+
         #endregion Public Properties
 
         #region Private Properties
@@ -126,12 +139,12 @@ namespace BlazorXTabs
         #region Public Methods
 
         /// <summary>
-        /// If for some reason you need to notify XTabs that there have been changes.
+        /// Call this method, if for some reason you need to notify XTabs that there have been changes.
         /// </summary>
         public Task NotifyStateHasChangedAsync() => InvokeAsync(() => StateHasChanged());
 
         /// <summary>
-        /// If for some reason you need to notify XTabs that there have been changes.
+        /// Call this method, if for some reason you need to notify XTabs that there have been changes.
         /// </summary>
         public void NotifyStateHasChanged() => StateHasChanged();
 
@@ -159,6 +172,9 @@ namespace BlazorXTabs
         /// <param name="tab"></param>
         public void CloseTab(XTab tab)
         {
+            if (CannotCloseLastTab())
+                return;
+
             var nextSelected = Active;
             if (Active == tab && _tabContent.Count > 1)
                 for (int i = 0; i < _tabContent.Count; i++)
@@ -175,13 +191,15 @@ namespace BlazorXTabs
 
             SetActive(nextSelected);
 
-            if (_tabContent.Count == 0)
+            if (_tabContent.Count == 0 && NoTabsNavigatesToHomepage)
                 _navigationManager.NavigateTo("");
 
             StateHasChanged();
         }
 
         #endregion Public Methods
+
+
 
         #region Internal Methods
 
@@ -203,17 +221,16 @@ namespace BlazorXTabs
 
         #endregion Internal Methods
 
-        #region Public Methods
+        #region Private Methods
+        private bool CannotCloseLastTab()
+            => !CloseAllTabs && _tabContent.Count == 1;
 
-
-
-        #endregion Public Methods
+        #endregion Private Methods
 
         #region Steps Feature
 
         private bool IsTabHeaderDisabled => RenderMode == RenderMode.Steps;
         private bool IsPreviousDisabled => (_tabContent?.Count > 0 && _tabContent.IndexOf(Active) == 0);
-
         private bool IsNextDisabled => (_tabContent?.Count > 0 && _tabContent.IndexOf(Active) == _tabContent.IndexOf(_tabContent.Last()));
 
         private void NextTab()

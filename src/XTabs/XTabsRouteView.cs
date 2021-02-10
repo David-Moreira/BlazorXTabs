@@ -127,6 +127,19 @@ namespace BlazorXTabs
         [Parameter]
         public bool IsDraggable { get; set; }
 
+        /// <summary>
+        /// Gets or sets if all tabs can be closed. 
+        /// If this is false. One tab will always remain open.
+        /// </summary>
+        [Parameter]
+        public bool CloseAllTabs { get; set; }
+
+        /// <summary>
+        /// Gets or sets if XTabs navigates to homepage if all tabs are closed.
+        /// </summary>
+        [Parameter]
+        public bool NoTabsNavigatesToHomepage { get; set; }
+
         #endregion
 
         #region Private Methods
@@ -182,6 +195,8 @@ namespace BlazorXTabs
                     rBuilder.AddAttribute(12, nameof(XTabs.OnNextSteps), OnNextSteps);
                     rBuilder.AddAttribute(13, nameof(XTabs.IsLoading), IsLoading);
                     rBuilder.AddAttribute(14, nameof(XTabs.IsDraggable), IsDraggable);
+                    rBuilder.AddAttribute(15, nameof(XTabs.CloseAllTabs), CloseAllTabs);
+                    rBuilder.AddAttribute(16, nameof(XTabs.NoTabsNavigatesToHomepage), NoTabsNavigatesToHomepage);
 
                     rBuilder.AddComponentReferenceCapture(13, compRef => _xTabs = (XTabs)compRef);
                     rBuilder.CloseComponent();

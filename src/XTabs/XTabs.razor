@@ -7,7 +7,7 @@
             <ul class='xtabs-header-tabs nav nav-tabs card-header-tabs @(_isDragging ? "drag": "")'>
                 @foreach (var tab in TabContent)
                 {
-                    <_XTabHeader XTab="@tab" CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@CloseTabs" OnCloseTab="@CloseTab" OnSetActive="@SetActive" IsActive="@IsActive(tab)" OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />
+                    <_XTabHeader XTab="@tab" CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@(CloseTabs && !CannotCloseLastTab())" OnCloseTab="@CloseTab" OnSetActive="@SetActive" IsActive="@IsActive(tab)" OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />
                 }
             </ul>
         </div>

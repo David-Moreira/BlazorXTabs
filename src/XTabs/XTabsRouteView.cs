@@ -69,6 +69,64 @@ namespace BlazorXTabs
         /// </summary>
         [Parameter] public bool NewTabSetActive { get; set; }
 
+        /// <summary>
+        /// Gets or sets the XTabs ChildContent.
+        /// XTab should be inserted here.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template that handles the previous click handler.
+        /// </summary>
+        [Parameter] public RenderFragment<PreviousStepsContext> PreviousStepsContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the template that handles the next click handler.
+        /// </summary>
+        [Parameter] public RenderFragment<NextStepsContext> NextStepsContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the wrapping container css class
+        /// </summary>
+        [Parameter] public string CssClass { get; set; }
+
+        /// <summary>
+        /// Event: When a tab is added to XTabs.
+        /// </summary>
+        [Parameter] public EventCallback<XTab> OnTabAdded { get; set; }
+
+        /// <summary>
+        /// Event: When the active tab is changed on XTabs.
+        /// </summary>
+        [Parameter] public EventCallback<XTab> OnActiveTabChanged { get; set; }
+
+        /// <summary>
+        /// Event: When a tab is removed from XTabs.
+        /// </summary>
+        [Parameter] public EventCallback<XTab> OnTabRemoved { get; set; }
+
+        /// <summary>
+        /// Event: When on XTabs Steps Mode, triggers on previous click.
+        /// </summary>
+        [Parameter] public EventCallback OnPreviousSteps { get; set; }
+
+        /// <summary>
+        /// Event: When on XTabs Steps Mode, triggers on next click.
+        /// </summary>
+        [Parameter] public EventCallback OnNextSteps { get; set; }
+
+        /// <summary>
+        /// Sets the active tab's loading state.
+        /// </summary>
+        [Parameter]
+        public bool IsLoading { get; set; }
+
+        /// <summary>
+        /// Gets or sets the XTabs's drag feature.
+        /// </summary>
+        [Parameter]
+        public bool IsDraggable { get; set; }
+
         #endregion
 
         #region Private Methods
@@ -114,8 +172,18 @@ namespace BlazorXTabs
                     rBuilder.AddAttribute(2, nameof(XTabs.CloseTabs), CloseTabs);
                     rBuilder.AddAttribute(3, nameof(XTabs.NewTabSetActive), NewTabSetActive);
                     rBuilder.AddAttribute(4, nameof(XTabs.ChildContent), xTabFragment);
+                    rBuilder.AddAttribute(5, nameof(XTabs.PreviousStepsContent), PreviousStepsContent);
+                    rBuilder.AddAttribute(6, nameof(XTabs.NextStepsContent), NextStepsContent);
+                    rBuilder.AddAttribute(7, nameof(XTabs.CssClass), CssClass);
+                    rBuilder.AddAttribute(8, nameof(XTabs.OnTabAdded), OnTabAdded);
+                    rBuilder.AddAttribute(9, nameof(XTabs.OnActiveTabChanged), OnActiveTabChanged);
+                    rBuilder.AddAttribute(10, nameof(XTabs.OnTabRemoved), OnTabRemoved);
+                    rBuilder.AddAttribute(11, nameof(XTabs.OnPreviousSteps), OnPreviousSteps);
+                    rBuilder.AddAttribute(12, nameof(XTabs.OnNextSteps), OnNextSteps);
+                    rBuilder.AddAttribute(13, nameof(XTabs.IsLoading), IsLoading);
+                    rBuilder.AddAttribute(14, nameof(XTabs.IsDraggable), IsDraggable);
 
-                    rBuilder.AddComponentReferenceCapture(5, compRef => _xTabs = (XTabs)compRef);
+                    rBuilder.AddComponentReferenceCapture(13, compRef => _xTabs = (XTabs)compRef);
                     rBuilder.CloseComponent();
                 });
             }

@@ -28,6 +28,14 @@ namespace BlazorXTabs
 
         #endregion
 
+        #region Private Properties
+
+        #endregion
+
+        #region Public Methods
+
+        #endregion
+
         #region Public Properties
 
         [Inject]
@@ -127,40 +135,29 @@ namespace BlazorXTabs
         /// </summary>
         public void NotifyStateHasChanged() => StateHasChanged();
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
-        public void AddPage(XTab tab)
-        {
-            ///TODO: Using Titles for now. Probably should use an ID.
-            if (RenderMode == RenderMode.Full && _tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
-                SetActive(existingTab);
-            else
-            {
-                _tabContent.Add(tab);
-                if (_tabContent.Count == 1 || NewTabSetActive)
-                    SetActive(tab);
-                if (OnTabAdded.HasDelegate)
-                    OnTabAdded.InvokeAsync(tab);
-            }
-            StateHasChanged();
-        }
-
-        #endregion Internal Methods
-
-        #region Private Methods
-
-        private void SetActive(XTab tab)
+        /// <summary>
+        /// Sets tab to active.
+        /// </summary>
+        /// <param name="tab"></param>
+        public void SetActive(XTab tab)
         {
             Active = tab;
             if (OnActiveTabChanged.HasDelegate)
                 OnActiveTabChanged.InvokeAsync(tab);
         }
 
-        private bool IsActive(XTab tab) => tab == Active;
+        /// <summary>
+        /// Checks if tab is active.
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        public bool IsActive(XTab tab) => tab == Active;
 
-        private void CloseTab(XTab tab)
+        /// <summary>
+        /// Closes tab.
+        /// </summary>
+        /// <param name="tab"></param>
+        public void CloseTab(XTab tab)
         {
             var nextSelected = Active;
             if (Active == tab && _tabContent.Count > 1)
@@ -184,7 +181,33 @@ namespace BlazorXTabs
             StateHasChanged();
         }
 
-        #endregion Private Methods
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        public void AddPage(XTab tab)
+        {
+            ///TODO: Using Titles for now. Probably should use an ID.
+            if (RenderMode == RenderMode.Full && _tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+                SetActive(existingTab);
+            else
+            {
+                _tabContent.Add(tab);
+                if (_tabContent.Count == 1 || NewTabSetActive)
+                    SetActive(tab);
+                if (OnTabAdded.HasDelegate)
+                    OnTabAdded.InvokeAsync(tab);
+            }
+            StateHasChanged();
+        }
+
+        #endregion Internal Methods
+
+        #region Public Methods
+
+
+
+        #endregion Public Methods
 
         #region Steps Feature
 

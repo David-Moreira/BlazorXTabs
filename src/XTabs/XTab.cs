@@ -12,13 +12,13 @@ namespace BlazorXTabs
         {
         }
 
-        public XTab(XTabs parent, string title, RenderFragment renderFragment)
+        public XTab(XTabs parent, string title, RenderFragment renderFragment, string cssClass, bool inactiveRender)
         {
             _parent = parent;
             Title = title;
             ChildContent = renderFragment;
-            CssClass = string.Empty;
-            InactiveRender = false;
+            CssClass = cssClass;
+            InactiveRender = inactiveRender;
         }
 
         #endregion

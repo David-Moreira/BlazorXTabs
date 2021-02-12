@@ -156,15 +156,12 @@ namespace BlazorXTabs
 
         #region Private Methods
 
-        private RenderFragment RenderNewPage(out string xTabTitle)
+        private RenderFragment RenderNewPage()
         {
             //Let's make sure not to capture the RouteData reference in the delegate.
             var pageType = RouteData.PageType;
             var values = RouteData.RouteValues;
-            xTabTitle = pageType.Name;
-            var pageAttr = pageType.GetCustomAttribute<XTabPageAttribute>();
-            if (pageAttr is not null)
-                xTabTitle = pageAttr.Title;
+
 
             return new RenderFragment(rBuilder =>
             {
@@ -177,7 +174,19 @@ namespace BlazorXTabs
 
         private void RenderPageWithParameters(RenderTreeBuilder builder)
         {
-            var pageFragment = RenderNewPage(out var xTabTitle);
+            var pageFragment = RenderNewPage();
+
+            var xTabTitle = RouteData.PageType.Name;
+            var xTabCssClass = string.Empty;
+            var xTabInactiveRender = false;
+            
+            var pageAttr = RouteData.PageType.GetCustomAttribute<XTabPageAttribute>();
+            if (pageAttr is not null)
+            { 
+                xTabTitle = pageAttr.Title;
+                xTabCssClass = pageAttr.CssClass;
+                xTabInactiveRender = pageAttr.InactiveRender;
+            }
 
             if (_xTabs is null)
             {
@@ -186,6 +195,8 @@ namespace BlazorXTabs
                     rBuilder.OpenComponent(0, typeof(XTab));
                     rBuilder.AddAttribute(1, nameof(XTab.ChildContent), pageFragment);
                     rBuilder.AddAttribute(2, nameof(XTab.Title), xTabTitle);
+                    rBuilder.AddAttribute(3, nameof(XTab.CssClass), xTabCssClass);
+                    rBuilder.AddAttribute(4, nameof(XTab.InactiveRender), xTabInactiveRender);
                     rBuilder.CloseComponent();
                 });
 
@@ -212,13 +223,13 @@ namespace BlazorXTabs
                     rBuilder.AddAttribute(17, nameof(XTabs.CloseAllTabsButtonThreshold), CloseAllTabsButtonThreshold);
                     rBuilder.AddAttribute(18, nameof(XTabs.NoTabsNavigatesToHomepage), NoTabsNavigatesToHomepage);
 
-                    rBuilder.AddComponentReferenceCapture(13, compRef => _xTabs = (XTabs)compRef);
+                    rBuilder.AddComponentReferenceCapture(100, compRef => _xTabs = (XTabs)compRef);
                     rBuilder.CloseComponent();
                 });
             }
             else
             {
-                var xtab = new XTab(_xTabs, xTabTitle, pageFragment);
+                var xtab = new XTab(_xTabs, xTabTitle, pageFragment, xTabCssClass, xTabInactiveRender);
                 _xTabs.AddPage(xtab);
             }
 

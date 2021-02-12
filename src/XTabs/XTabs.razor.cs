@@ -26,18 +26,6 @@ namespace BlazorXTabs
         /// </summary>
         public IEnumerable<XTab> TabContent => _tabContent.AsEnumerable();
 
-        #endregion
-
-        #region Private Properties
-
-        #endregion
-
-        #region Public Methods
-
-        #endregion
-
-        #region Public Properties
-
         [Inject]
         private NavigationManager _navigationManager { get; set; }
 
@@ -207,6 +195,21 @@ namespace BlazorXTabs
                 _navigationManager.NavigateTo("");
 
             StateHasChanged();
+        }
+
+        /// <summary>
+        /// Closes tab by title
+        /// </summary>
+        /// <param name="tabName"></param>
+        public void CloseTabByTitle(string tabName)
+        {
+            foreach (var tab in TabContent)
+            {
+                if (!tab.Title.Equals(tabName))
+                    continue;
+                CloseTab(tab);
+                break;
+            }
         }
 
         #endregion Public Methods

@@ -1,4 +1,4 @@
-﻿<li class="xtabs-item nav-item @_dropClass" draggable="@IsDraggable.ToString()" ondragover="event.preventDefault();" @ondragstart="@DragStart" @ondragenter="DragEnter" @ondrop="@DragDrop" @ondragleave="DragLeave" @ondragend="DragEnd">
+﻿<li class="xtabs-item nav-item @_dropClass" draggable="@IsDraggable.ToString()" ondragover="event.preventDefault();" @ondragstart="@DragStart" @ondragenter="DragEnter" @ondrop="@DragDrop" @ondragleave="DragLeave" @ondragend="DragEnd" @onmousedown="(e) => CloseTabOnMouseWheel(XTab, e)">
     @if (CloseTabs)
     {
         <button type="button" @onclick="() => OnCloseTab.InvokeAsync(XTab)" class="xtabs-close close" aria-label="Close">
@@ -109,5 +109,10 @@
             return;
         _dropClass = string.Empty;
         return;
+    }
+
+    private async void CloseTabOnMouseWheel(XTab xTab, MouseEventArgs e)
+    {
+        if (e.Button == 1) await OnCloseTab.InvokeAsync(xTab);
     }
 }

@@ -1,5 +1,6 @@
 ﻿@attribute [XTabPageAttribute("Home")]
 @page "/"
+
 <h1>XTabs</h1>
 <p>Try navigating to other pages, XTabs will make your other pages a tab!</p>
 <p>It will also keep track of tabs already opened, therefore not opening them again.</p>
@@ -10,7 +11,7 @@
 </p>
 
 <h2>You can also nest XTabs:</h2>
-<XTabs OnActiveTabChanged="ActiveTabChange" IsLoading="_isTabLoading">
+<XTabs @ref="_innerXTabs" OnActiveTabChanged="ActiveTabChange" IsLoading="_isTabLoading">
     <XTab Title="Render Modes">
         <h3>Partial</h3>
         <p>You can set the RenderMode to Partial, this is the default behaviour to only render the active tab.</p>
@@ -43,6 +44,7 @@
     <XTab Title="Closeable Tabs">
         <h3>Closeable Tabs</h3>
         <p>You can set CloseTabs="true" and you're able to close the tabs.</p>
+        <p>You are also able to click the middle button of your mouse to close the tabs just like you can do it in your browser tabs. Try it!</p>
     </XTab>
     <XTab Title="Customizable css">
         <h3>Customizable css</h3>
@@ -82,6 +84,8 @@
         <LoadingContent>
             Custom loading...
             This tab will load soon... Please wait... :)
+
+            <img src="/loading.gif" />
         </LoadingContent>
     </XTab>
     <XTab Title="Drag Example">
@@ -97,10 +101,16 @@
             </XTab>
         </XTabs>
     </XTab>
+    <XTab Title="Close Tab By Title Example">
+        Type the name of any open tab to close it.
+        <input @bind-value="_tabToCloseTitle" placeholder="name of open tab..." />
+        <button class="btn btn-primary" @onclick="ButtonCloseTabAsync">Close Tab</button>
+        @_tabToCloseResult
+    </XTab>
 </XTabs>
 
-<div class="row">
-    <div class="col-12 mt-2">
+<div class="row mt-2">
+    <div class="col-12">
         <h4 class="text-center"><strong>Active Tab Event</strong></h4>
     </div>
     <div class="col-12">
@@ -108,8 +118,8 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12 mt-2">
+<div class="row mt-2">
+    <div class="col-12">
         <h4 class="text-center"><strong>Last Added Tab</strong></h4>
     </div>
     <div class="col-12">
@@ -117,24 +127,30 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12 mt-2">
+<div class="row mt-2">
+    <div class="col-12">
         <h4 class="text-center"><strong>Last Steps Event</strong></h4>
     </div>
     <div class="col-12">
         <input class=" input-group input-group-text" disabled type="text" @bind-value="StepsEvent" />
     </div>
 </div>
+
+
 @code{
 
     [CascadingParameter]
     public XTabs XTabs { get; set; }
+
 
     public XTab SelectedTab { get; set; } = new XTab();
     public XTab TabAdded { get; set; } = new XTab();
 
     private bool _isTabLoading;
     private XTab _loadingTab;
+    private XTabs _innerXTabs { get; set; }
+    private string _tabToCloseTitle;
+    private string _tabToCloseResult;
 
     private string StepsEvent { get; set; }
 
@@ -147,29 +163,44 @@
     }
 
     private void TabAdd(XTab tab)
-    {
-        TabAdded = tab;
-        XTabs.NotifyStateHasChangedAsync();
-    }
+       => TabAdded = tab;
+
     private async Task ActiveTabChange(XTab tab)
     {
         SelectedTab = tab;
         if (ReferenceEquals(tab, _loadingTab))
         {
             _isTabLoading = true;
-            await Task.Delay(1000);
+            await Task.Delay(2500);
             _isTabLoading = false;
         }
 
     }
 
     private void NextSteps()
-    {
-        StepsEvent = "Next";
-    }
+       => StepsEvent = "Next";
 
     private void PreviousSteps()
+      => StepsEvent = "Previous";
+
+    private async Task ButtonCloseTabAsync()
     {
-        StepsEvent = "Previous";
+        var findTab = XTabs.GetTabByTitle(_tabToCloseTitle);
+        if(findTab is null)
+        {
+            findTab = _innerXTabs.GetTabByTitle(_tabToCloseTitle);
+            if (findTab is null)
+                _tabToCloseResult = $"Could not find an open tab with the name {_tabToCloseTitle}";
+            else
+            { 
+                await _innerXTabs.CloseTabByTitleAsync(_tabToCloseTitle);
+                _tabToCloseResult = $"Closed tab {_tabToCloseTitle} successfully!";
+            }
+        }
+        else
+        {
+            await XTabs.CloseTabByTitleAsync(_tabToCloseTitle);
+            _tabToCloseResult = $"Closed tab {_tabToCloseTitle} successfully!";
+        }
     }
 }

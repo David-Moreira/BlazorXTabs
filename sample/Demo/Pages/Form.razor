@@ -1,15 +1,34 @@
 ﻿@attribute [XTabPageAttribute("Formulary")]
 @page "/form"
-<input type="text" />
-<input type="text" />
-<button class="btn btn-primary" @onclick="ButtonCloseTab">Close Tab</button>
+<div class="row mb-2">
+    <div class="col-12">
+        <div class="form-group">
+            <label>Just an example</label>
+            <input class="form-control" placeholder="type anything...">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <label>Type Anything</label>
+            <input class="form-control" placeholder="type anything...">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary" @onclick="ButtonCloseTabAsync">Close Tab</button>
+    </div>
+</div>
+
+
 @code {
     [CascadingParameter]
     public XTabs XTabs { get; set; }
 
-    private void ButtonCloseTab()
-    {
-        var tabName = "Formulary";
-        XTabs.CloseTabByTitle(tabName);
-    }
+    private Task ButtonCloseTabAsync()
+       => XTabs.CloseTabByTitleAsync("Formulary");
 }

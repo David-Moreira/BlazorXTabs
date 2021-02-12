@@ -33,7 +33,15 @@ else
     </table>
 }
 
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary" @onclick="ButtonCloseTabAsync">Close Tab</button>
+    </div>
+</div>
+
 @code {
+    [CascadingParameter]
+    public XTabs XTabs { get; set; }
 
     private WeatherForecast[] forecasts;
 
@@ -72,4 +80,7 @@ else
             }).ToArray());
         }
     }
+
+    private Task ButtonCloseTabAsync()
+       => XTabs.CloseTabByTitleAsync("Fetch Data");
 }

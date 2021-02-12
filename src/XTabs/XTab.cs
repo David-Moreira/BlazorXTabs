@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
@@ -63,12 +64,14 @@ namespace BlazorXTabs
 
         #region Protected Methods
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
+            await base.OnInitializedAsync();
+
             if (_parent == null)
                 throw new ArgumentNullException(nameof(_parent), "XTabs must exist!");
-            base.OnInitialized();
-            _parent.AddPage(this);
+
+            await _parent.AddPageAsync(this);
         }
 
         #endregion

@@ -6,14 +6,14 @@
         <div class="xtabs-header card-header">
             @if(CloseAllTabsButton())
             {
-                <button type="button" @onclick="CloseAllOpenTabs" class="xtabs-close-all close" aria-label="Close">
+                <button type="button" @onclick="CloseAllOpenTabsAsync" class="xtabs-close-all close" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             }
             <ul class='xtabs-header-tabs nav nav-tabs card-header-tabs @(_isDragging ? "drag": "")'>
                 @foreach (var tab in TabContent)
                 {
-                    <_XTabHeader XTab="@tab" CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@(CloseTabs && !CannotCloseLastTab())" OnCloseTab="@CloseTab" OnSetActive="@SetActive" IsActive="@IsActive(tab)" OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />
+                    <_XTabHeader XTab="@tab" CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@(CloseTabs && !CannotCloseLastTab())" OnCloseTab="@CloseTabAsync" OnSetActive="@SetActiveAsync" IsActive="@IsActive(tab)" OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />
                 }
             </ul>
         </div>
@@ -68,19 +68,19 @@
                     <div class="xtabs-steps-buttons d-flex justify-content-center mb-1">
                         @if (PreviousStepsContent is object)
                         {
-                            @PreviousStepsContent(new PreviousStepsContext(EventCallback.Factory.Create(this, this.PreviousTab), IsPreviousDisabled));
+                            @PreviousStepsContent(new PreviousStepsContext(EventCallback.Factory.Create(this, this.PreviousTabAsync), IsPreviousDisabled));
                         }
                         else
                         {
-                            <button type="button" class="xtabs-steps-btn-previous btn btn-info mr-1" disabled="@IsPreviousDisabled" @onclick="PreviousTab">Previous</button>
+                            <button type="button" class="xtabs-steps-btn-previous btn btn-info mr-1" disabled="@IsPreviousDisabled" @onclick="PreviousTabAsync">Previous</button>
                         }
                         @if (NextStepsContent is object)
                         {
-                            @NextStepsContent(new NextStepsContext(EventCallback.Factory.Create(this, this.NextTab), IsNextDisabled));
+                            @NextStepsContent(new NextStepsContext(EventCallback.Factory.Create(this, this.NextTabAsync), IsNextDisabled));
                         }
                         else
                         {
-                            <button type="button" class="xtabs-steps-btn-next btn btn-success" disabled="@(IsNextDisabled)" @onclick="NextTab">Next</button>
+                            <button type="button" class="xtabs-steps-btn-next btn btn-success" disabled="@(IsNextDisabled)" @onclick="NextTabAsync">Next</button>
                         }
                     </div>
                 }

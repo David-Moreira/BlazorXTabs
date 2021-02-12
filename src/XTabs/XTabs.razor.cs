@@ -152,11 +152,11 @@ namespace BlazorXTabs
         /// Sets tab to active.
         /// </summary>
         /// <param name="tab"></param>
-        public void SetActive(XTab tab)
+        public async Task SetActiveAsync(XTab tab)
         {
             Active = tab;
             if (OnActiveTabChanged.HasDelegate)
-                OnActiveTabChanged.InvokeAsync(tab);
+                await OnActiveTabChanged.InvokeAsync(tab);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace BlazorXTabs
         /// Closes tab.
         /// </summary>
         /// <param name="tab"></param>
-        public void CloseTab(XTab tab)
+        public async Task CloseTabAsync(XTab tab)
         {
             if (CannotCloseLastTab())
                 return;
@@ -187,51 +187,61 @@ namespace BlazorXTabs
 
             _tabContent.Remove(tab);
             if (OnTabRemoved.HasDelegate)
-                OnTabRemoved.InvokeAsync();
+                await OnTabRemoved.InvokeAsync();
 
-            SetActive(nextSelected);
+            await SetActiveAsync(nextSelected);
 
             if (_tabContent.Count == 0 && NoTabsNavigatesToHomepage)
                 _navigationManager.NavigateTo("");
 
-            StateHasChanged();
+            await NotifyStateHasChangedAsync();
         }
 
         /// <summary>
-        /// Closes tab by title
+        /// Closes tab by title.
         /// </summary>
         /// <param name="tabName"></param>
-        public void CloseTabByTitle(string tabName)
+        public async Task CloseTabByTitleAsync(string tabTitle)
         {
             foreach (var tab in TabContent)
-            {
-                if (!tab.Title.Equals(tabName))
-                    continue;
-                CloseTab(tab);
-                break;
-            }
+                if (tab.Title.Equals(tabTitle))
+                { 
+                    await CloseTabAsync(tab);
+                    break;
+                }
+        }
+
+        /// <summary>
+        /// Gets tab by title.
+        /// </summary>
+        /// <param name="tabName"></param>
+        public XTab GetTabByTitle(string tabTitle)
+        {
+            foreach (var tab in TabContent)
+                if (tab.Title.Equals(tabTitle))
+                    return tab;
+
+            return null;
         }
 
         #endregion Public Methods
 
-
-
         #region Internal Methods
 
-        public void AddPage(XTab tab)
+        public async Task AddPageAsync(XTab tab)
         {
             ///TODO: Using Titles for now. Probably should use an ID.
             if (RenderMode == RenderMode.Full && _tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
-                SetActive(existingTab);
+                await SetActiveAsync(existingTab);
             else
             {
                 _tabContent.Add(tab);
                 if (_tabContent.Count == 1 || NewTabSetActive)
-                    SetActive(tab);
+                    await SetActiveAsync(tab);
                 if (OnTabAdded.HasDelegate)
-                    OnTabAdded.InvokeAsync(tab);
+                    await OnTabAdded.InvokeAsync(tab);
             }
-            StateHasChanged();
+            await NotifyStateHasChangedAsync();
         }
 
         #endregion Internal Methods
@@ -243,10 +253,10 @@ namespace BlazorXTabs
         private bool CloseAllTabsButton() 
             => this.ShowCloseAllTabsButton && ((_tabContent?.Count ?? 0) >= CloseAllTabsButtonThreshold) && !CannotCloseLastTab();
 
-        private void CloseAllOpenTabs()
+        private async Task CloseAllOpenTabsAsync()
         {
             for (var i = _tabContent.Count - 1; i >= 0; i--)
-                CloseTab(_tabContent[i]);
+                await CloseTabAsync(_tabContent[i]);
         }
 
         #endregion Private Methods
@@ -257,20 +267,20 @@ namespace BlazorXTabs
         private bool IsPreviousDisabled => (_tabContent?.Count > 0 && _tabContent.IndexOf(Active) == 0);
         private bool IsNextDisabled => (_tabContent?.Count > 0 && _tabContent.IndexOf(Active) == _tabContent.IndexOf(_tabContent.Last()));
 
-        private void NextTab()
+        private async Task NextTabAsync()
         {
             var next = _tabContent.IndexOf(Active) + 1;
-            SetActive(_tabContent[next]);
+            await SetActiveAsync(_tabContent[next]);
             if (OnNextSteps.HasDelegate)
-                OnNextSteps.InvokeAsync();
+                await OnNextSteps.InvokeAsync();
         }
 
-        private void PreviousTab()
+        private async Task PreviousTabAsync()
         {
             var previous = _tabContent.IndexOf(Active) - 1;
-            SetActive(_tabContent[previous]);
+            await SetActiveAsync(_tabContent[previous]);
             if (OnPreviousSteps.HasDelegate)
-                OnPreviousSteps.InvokeAsync();
+                await OnPreviousSteps.InvokeAsync();
         }
 
         #endregion Steps Feature

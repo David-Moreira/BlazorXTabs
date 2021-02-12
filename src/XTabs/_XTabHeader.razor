@@ -111,9 +111,8 @@
         return;
     }
 
-    private void CloseTabOnMouseWheel(XTab xTab, MouseEventArgs e)
+    private async void CloseTabOnMouseWheel(XTab xTab, MouseEventArgs e)
     {
-        if (e.Button != 1) return;
-        OnCloseTab.InvokeAsync(xTab);
+        if (e.Button == 1) await OnCloseTab.InvokeAsync(xTab);
     }
 }

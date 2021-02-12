@@ -2,14 +2,14 @@
 @page "/form"
 <input type="text" />
 <input type="text" />
-<button class="btn btn-primary" @onclick="() => ButtonCloseTab()">Close Tab</button>
+<button class="btn btn-primary" @onclick="ButtonCloseTab">Close Tab</button>
 @code {
     [CascadingParameter]
     public XTabs XTabs { get; set; }
 
-    private void ButtonCloseTab(string tabName = "")
+    private void ButtonCloseTab()
     {
-        tabName = "Formulary";
+        var tabName = "Formulary";
         XTabs.CloseTabByTitle(tabName);
     }
 }

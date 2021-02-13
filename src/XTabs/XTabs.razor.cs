@@ -141,7 +141,7 @@ namespace BlazorXTabs
         /// <summary>
         /// Call this method, if for some reason you need to notify XTabs that there have been changes.
         /// </summary>
-        public Task NotifyStateHasChangedAsync() => InvokeAsync(() => StateHasChanged());
+        public Task NotifyStateHasChangedAsync() => InvokeAsync(StateHasChanged);
 
         /// <summary>
         /// Call this method, if for some reason you need to notify XTabs that there have been changes.

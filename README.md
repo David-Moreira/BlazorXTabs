@@ -25,12 +25,23 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
   - Able to drag & drop tabs
 - **v1.4.0**
   - Able to replace the standard RouteView component with a XTabsRouteView component that automatically renders the pages as tabs
+- **v1.5.0**
+  - When CloseTabs is enabled. Able to close all tabs and configure a threshold to display the close all tabs button.
+  - When CloseTabs is enabled. Able to use mouse middle button click to close the tab.
+  - When CloseTabs is enabled. Able to limit closeable tabs to 1.
+
 
 ## Examples:
-#### Using as wrapper to render pages as tabs:
-      <XTabs RenderMode="BlazorXTabs.Configuration.RenderMode.Full" CloseTabs="true" NewTabSetActive="true">
-          @Body
-      </XTabs>
+
+#### Standard usage:
+    <XTabs>
+        <XTab Title="Tab1">
+            Content 1
+        </XTab>
+        <XTab Title="Tab2">
+            Content 2
+        </XTab>
+    </XTabs>
 
 #### Using the XTabsRouteView to render pages as tabs:
     <Router AppAssembly="@typeof(Program).Assembly">
@@ -43,7 +54,7 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
             </LayoutView>
         </NotFound>
     </Router>
-##### Use the XTabPageAttribute to set the page's tab title
+##### Use the XTabPageAttribute to set the page's tab title & other relevant parameters
      @attribute [XTabPageAttribute("Home")]
 
 #### Using as a wizard:

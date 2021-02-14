@@ -7,12 +7,16 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+<div class="row mt-2">
+    <div class="col-12">
+        <button class="btn btn-primary" @onclick="ButtonCloseTabAsync">Close Tab</button>
+    </div>
+</div>
+
 @code {
 
-    //[Parameter]
-    //public override string Title { get; set; } = "Counter";
-    //[Parameter]
-    //public override string CssClass { get; set; }
+    [CascadingParameter]
+    public XTabs XTabs { get; set; }
 
     private int currentCount = 0;
 
@@ -24,4 +28,7 @@
     {
         currentCount++;
     }
+
+    private Task ButtonCloseTabAsync()
+       => XTabs.CloseTabByTitleAsync("Counter");
 }

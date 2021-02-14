@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Components;
 
@@ -12,13 +13,13 @@ namespace BlazorXTabs
         {
         }
 
-        public XTab(XTabs parent, string title, RenderFragment renderFragment)
+        public XTab(XTabs parent, string title, RenderFragment renderFragment, string cssClass, bool inactiveRender)
         {
             _parent = parent;
             Title = title;
             ChildContent = renderFragment;
-            CssClass = string.Empty;
-            InactiveRender = false;
+            CssClass = cssClass;
+            InactiveRender = inactiveRender;
         }
 
         #endregion
@@ -63,12 +64,14 @@ namespace BlazorXTabs
 
         #region Protected Methods
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
+            await base.OnInitializedAsync();
+
             if (_parent == null)
                 throw new ArgumentNullException(nameof(_parent), "XTabs must exist!");
-            base.OnInitialized();
-            _parent.AddPage(this);
+
+            await _parent.AddPageAsync(this);
         }
 
         #endregion

@@ -26,10 +26,6 @@ namespace BlazorXTabs
         /// </summary>
         public IEnumerable<XTab> TabContent => _tabContent.AsEnumerable();
 
-        #endregion
-
-        #region Public Properties
-
         [Inject]
         private NavigationManager _navigationManager { get; set; }
 
@@ -107,6 +103,31 @@ namespace BlazorXTabs
         [Parameter]
         public bool IsDraggable { get; set; }
 
+        /// <summary>
+        /// Gets or sets if all tabs can be closed. 
+        /// If this is false. One tab will always be open.
+        /// </summary>
+        [Parameter]
+        public bool CloseAllTabs { get; set; }
+
+        /// <summary>
+        /// Gets or sets if a button to CloseAllTabs will be displayed
+        /// </summary>
+        [Parameter]
+        public bool ShowCloseAllTabsButton { get; set; }
+
+        /// <summary>
+        /// Gets or sets the threshold to display the button to close all tabs.
+        /// </summary>
+        [Parameter]
+        public int CloseAllTabsButtonThreshold { get; set; }
+
+        /// <summary>
+        /// Gets or sets if XTabs navigates to homepage if all tabs are closed.
+        /// </summary>
+        [Parameter]
+        public bool NoTabsNavigatesToHomepage { get; set; }
+
         #endregion Public Properties
 
         #region Private Properties
@@ -118,50 +139,42 @@ namespace BlazorXTabs
         #region Public Methods
 
         /// <summary>
-        /// If for some reason you need to notify XTabs that there have been changes.
+        /// Call this method, if for some reason you need to notify XTabs that there have been changes.
         /// </summary>
-        public Task NotifyStateHasChangedAsync() => InvokeAsync(() => StateHasChanged());
+        public Task NotifyStateHasChangedAsync() => InvokeAsync(StateHasChanged);
 
         /// <summary>
-        /// If for some reason you need to notify XTabs that there have been changes.
+        /// Call this method, if for some reason you need to notify XTabs that there have been changes.
         /// </summary>
         public void NotifyStateHasChanged() => StateHasChanged();
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
-        public void AddPage(XTab tab)
-        {
-            ///TODO: Using Titles for now. Probably should use an ID.
-            if (RenderMode == RenderMode.Full && _tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
-                SetActive(existingTab);
-            else
-            {
-                _tabContent.Add(tab);
-                if (_tabContent.Count == 1 || NewTabSetActive)
-                    SetActive(tab);
-                if (OnTabAdded.HasDelegate)
-                    OnTabAdded.InvokeAsync(tab);
-            }
-            StateHasChanged();
-        }
-
-        #endregion Internal Methods
-
-        #region Private Methods
-
-        private void SetActive(XTab tab)
+        /// <summary>
+        /// Sets tab to active.
+        /// </summary>
+        /// <param name="tab"></param>
+        public async Task SetActiveAsync(XTab tab)
         {
             Active = tab;
             if (OnActiveTabChanged.HasDelegate)
-                OnActiveTabChanged.InvokeAsync(tab);
+                await OnActiveTabChanged.InvokeAsync(tab);
         }
 
-        private bool IsActive(XTab tab) => tab == Active;
+        /// <summary>
+        /// Checks if tab is active.
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        public bool IsActive(XTab tab) => tab == Active;
 
-        private void CloseTab(XTab tab)
+        /// <summary>
+        /// Closes tab.
+        /// </summary>
+        /// <param name="tab"></param>
+        public async Task CloseTabAsync(XTab tab)
         {
+            if (CannotCloseLastTab())
+                return;
+
             var nextSelected = Active;
             if (Active == tab && _tabContent.Count > 1)
                 for (int i = 0; i < _tabContent.Count; i++)
@@ -174,14 +187,76 @@ namespace BlazorXTabs
 
             _tabContent.Remove(tab);
             if (OnTabRemoved.HasDelegate)
-                OnTabRemoved.InvokeAsync();
+                await OnTabRemoved.InvokeAsync();
 
-            SetActive(nextSelected);
+            await SetActiveAsync(nextSelected);
 
-            if (_tabContent.Count == 0)
+            if (_tabContent.Count == 0 && NoTabsNavigatesToHomepage)
                 _navigationManager.NavigateTo("");
 
-            StateHasChanged();
+            await NotifyStateHasChangedAsync();
+        }
+
+        /// <summary>
+        /// Closes tab by title.
+        /// </summary>
+        /// <param name="tabName"></param>
+        public async Task CloseTabByTitleAsync(string tabTitle)
+        {
+            foreach (var tab in TabContent)
+                if (tab.Title.Equals(tabTitle))
+                { 
+                    await CloseTabAsync(tab);
+                    break;
+                }
+        }
+
+        /// <summary>
+        /// Gets tab by title.
+        /// </summary>
+        /// <param name="tabName"></param>
+        public XTab GetTabByTitle(string tabTitle)
+        {
+            foreach (var tab in TabContent)
+                if (tab.Title.Equals(tabTitle))
+                    return tab;
+
+            return null;
+        }
+
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        public async Task AddPageAsync(XTab tab)
+        {
+            ///TODO: Using Titles for now. Probably should use an ID.
+            if (RenderMode == RenderMode.Full && _tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+                await SetActiveAsync(existingTab);
+            else
+            {
+                _tabContent.Add(tab);
+                if (_tabContent.Count == 1 || NewTabSetActive)
+                    await SetActiveAsync(tab);
+                if (OnTabAdded.HasDelegate)
+                    await OnTabAdded.InvokeAsync(tab);
+            }
+            await NotifyStateHasChangedAsync();
+        }
+
+        #endregion Internal Methods
+
+        #region Private Methods
+        private bool CannotCloseLastTab()
+            => !CloseAllTabs && _tabContent.Count == 1;
+
+        private bool CloseAllTabsButton() 
+            => this.ShowCloseAllTabsButton && ((_tabContent?.Count ?? 0) >= CloseAllTabsButtonThreshold) && !CannotCloseLastTab();
+
+        private async Task CloseAllOpenTabsAsync()
+        {
+            for (var i = _tabContent.Count - 1; i >= 0; i--)
+                await CloseTabAsync(_tabContent[i]);
         }
 
         #endregion Private Methods
@@ -190,23 +265,22 @@ namespace BlazorXTabs
 
         private bool IsTabHeaderDisabled => RenderMode == RenderMode.Steps;
         private bool IsPreviousDisabled => (_tabContent?.Count > 0 && _tabContent.IndexOf(Active) == 0);
-
         private bool IsNextDisabled => (_tabContent?.Count > 0 && _tabContent.IndexOf(Active) == _tabContent.IndexOf(_tabContent.Last()));
 
-        private void NextTab()
+        private async Task NextTabAsync()
         {
             var next = _tabContent.IndexOf(Active) + 1;
-            SetActive(_tabContent[next]);
+            await SetActiveAsync(_tabContent[next]);
             if (OnNextSteps.HasDelegate)
-                OnNextSteps.InvokeAsync();
+                await OnNextSteps.InvokeAsync();
         }
 
-        private void PreviousTab()
+        private async Task PreviousTabAsync()
         {
             var previous = _tabContent.IndexOf(Active) - 1;
-            SetActive(_tabContent[previous]);
+            await SetActiveAsync(_tabContent[previous]);
             if (OnPreviousSteps.HasDelegate)
-                OnPreviousSteps.InvokeAsync();
+                await OnPreviousSteps.InvokeAsync();
         }
 
         #endregion Steps Feature

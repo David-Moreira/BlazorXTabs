@@ -105,13 +105,13 @@ namespace BlazorXTabs
 
         /// <summary>
         /// Gets or sets if all tabs can be closed. 
-        /// If this is false. One tab will always be open.
+        /// If this is false, one tab will always be open.
         /// </summary>
         [Parameter]
         public bool CloseAllTabs { get; set; }
 
         /// <summary>
-        /// Gets or sets if a button to CloseAllTabs will be displayed
+        /// Gets or sets if a button to CloseAllTabs will be displayed.
         /// </summary>
         [Parameter]
         public bool ShowCloseAllTabsButton { get; set; }
@@ -157,6 +157,7 @@ namespace BlazorXTabs
             Active = tab;
             if (OnActiveTabChanged.HasDelegate)
                 await OnActiveTabChanged.InvokeAsync(tab);
+            await NotifyStateHasChangedAsync();
         }
 
         /// <summary>
@@ -187,7 +188,7 @@ namespace BlazorXTabs
 
             _tabContent.Remove(tab);
             if (OnTabRemoved.HasDelegate)
-                await OnTabRemoved.InvokeAsync();
+                await OnTabRemoved.InvokeAsync(tab);
 
             await SetActiveAsync(nextSelected);
 
@@ -205,7 +206,7 @@ namespace BlazorXTabs
         {
             foreach (var tab in TabContent)
                 if (tab.Title.Equals(tabTitle))
-                { 
+                {
                     await CloseTabAsync(tab);
                     break;
                 }
@@ -224,10 +225,6 @@ namespace BlazorXTabs
             return null;
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         public async Task AddPageAsync(XTab tab)
         {
             ///TODO: Using Titles for now. Probably should use an ID.
@@ -244,13 +241,13 @@ namespace BlazorXTabs
             await NotifyStateHasChangedAsync();
         }
 
-        #endregion Internal Methods
+        #endregion Public Methods
 
         #region Private Methods
         private bool CannotCloseLastTab()
             => !CloseAllTabs && _tabContent.Count == 1;
 
-        private bool CloseAllTabsButton() 
+        private bool CloseAllTabsButton()
             => this.ShowCloseAllTabsButton && ((_tabContent?.Count ?? 0) >= CloseAllTabsButtonThreshold) && !CannotCloseLastTab();
 
         private async Task CloseAllOpenTabsAsync()

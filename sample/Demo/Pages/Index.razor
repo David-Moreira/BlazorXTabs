@@ -11,7 +11,7 @@
 </p>
 
 <h2>You can also nest XTabs:</h2>
-<XTabs @ref="_innerXTabs" OnActiveTabChanged="ActiveTabChange" IsLoading="_isTabLoading">
+<XTabs @ref="_innerXTabs" OnActiveTabChanged="ActiveTabChange" IsLoading="_isTabLoading" OnTabRemoved="TabRemove">
     <XTab Title="Render Modes">
         <h3>Partial</h3>
         <p>You can set the RenderMode to Partial, this is the default behaviour to only render the active tab.</p>
@@ -129,6 +129,15 @@
 
 <div class="row mt-2">
     <div class="col-12">
+        <h4 class="text-center"><strong>Last Removed Tab</strong></h4>
+    </div>
+    <div class="col-12">
+        <input class=" input-group input-group-text" disabled type="text" @bind-value="TabRemoved.Title" />
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-12">
         <h4 class="text-center"><strong>Last Steps Event</strong></h4>
     </div>
     <div class="col-12">
@@ -144,6 +153,7 @@
 
 
     public XTab SelectedTab { get; set; } = new XTab();
+    public XTab TabRemoved { get; set; } = new XTab();
     public XTab TabAdded { get; set; } = new XTab();
 
     private bool _isTabLoading;
@@ -154,16 +164,27 @@
 
     private string StepsEvent { get; set; }
 
+
     protected override Task OnInitializedAsync()
     {
-        //DEMO PURPOSES -- THIS SHOULD NOT BE DONE LIKE THIS
-        XTabs.OnTabAdded = EventCallback.Factory.Create<XTab>(XTabs, TabAdd);
+        //Demo purposes
+        App.TabRemoved = TabRemove;
+        App.TabAdded = TabAdd;
         return base.OnInitializedAsync();
-
     }
 
-    private void TabAdd(XTab tab)
-       => TabAdded = tab;
+
+    private Task TabAdd(XTab tab)
+    {
+        TabAdded = tab;
+        return XTabs.NotifyStateHasChangedAsync();
+    }
+
+    private Task TabRemove(XTab tab)
+    {
+        TabRemoved = tab;
+        return XTabs.NotifyStateHasChangedAsync();
+    }
 
     private async Task ActiveTabChange(XTab tab)
     {
@@ -192,7 +213,7 @@
             if (findTab is null)
                 _tabToCloseResult = $"Could not find an open tab with the name {_tabToCloseTitle}";
             else
-            { 
+            {
                 await _innerXTabs.CloseTabByTitleAsync(_tabToCloseTitle);
                 _tabToCloseResult = $"Closed tab {_tabToCloseTitle} successfully!";
             }

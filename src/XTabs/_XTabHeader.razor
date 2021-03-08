@@ -76,7 +76,6 @@
         if (!IsDraggable)
             return;
         await OnDragStart.InvokeAsync(XTab);
-        return;
     }
 
     private async Task DragDropAsync(DragEventArgs dragEventArgs)
@@ -85,7 +84,6 @@
             return;
         await OnDragDrop.InvokeAsync(XTab);
         _dropClass = string.Empty;
-        return;
     }
 
     private async Task DragEndAsync(DragEventArgs dragEventArgs)
@@ -93,7 +91,6 @@
         if (!IsDraggable)
             return;
         await OnDragEnd.InvokeAsync(XTab);
-        return;
     }
 
     private void DragEnter()

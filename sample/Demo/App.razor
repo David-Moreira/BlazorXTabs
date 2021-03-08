@@ -9,7 +9,9 @@
                             NewTabSetActive="true" 
                             RenderMode="BlazorXTabs.Configuration.RenderMode.Full" 
                             RouteData="@routeData" 
-                            DefaultLayout="@typeof(MainLayout)" />
+                            DefaultLayout="@typeof(MainLayout)"
+                            OnTabRemoved="TabRemoved"
+                            OnTabAdded="TabAdded"/>
         </Found>
         <NotFound>
             <LayoutView Layout="@typeof(MainLayout)">
@@ -17,3 +19,8 @@
             </LayoutView>
         </NotFound>
     </Router>
+
+@code{
+    public static Func<XTab, Task> TabRemoved { get; set; }
+    public static Func<XTab, Task> TabAdded { get; set; }
+}

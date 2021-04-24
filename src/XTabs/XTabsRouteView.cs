@@ -152,6 +152,11 @@ namespace BlazorXTabs
         [Parameter]
         public bool NoTabsNavigatesToHomepage { get; set; }
 
+        /// <summary>
+        /// Gets or Sets whether the tabs header is justified taking up the whole available header space
+        /// </summary>
+        [Parameter] public bool JustifiedHeader { get; set; }
+
         #endregion
 
         #region Private Methods
@@ -222,6 +227,7 @@ namespace BlazorXTabs
                     rBuilder.AddAttribute(16, nameof(XTabs.ShowCloseAllTabsButton), ShowCloseAllTabsButton);
                     rBuilder.AddAttribute(17, nameof(XTabs.CloseAllTabsButtonThreshold), CloseAllTabsButtonThreshold);
                     rBuilder.AddAttribute(18, nameof(XTabs.NoTabsNavigatesToHomepage), NoTabsNavigatesToHomepage);
+                    rBuilder.AddAttribute(19, nameof(XTabs.JustifiedHeader), JustifiedHeader);
 
                     rBuilder.AddComponentReferenceCapture(100, compRef => _xTabs = (XTabs)compRef);
                     rBuilder.CloseComponent();

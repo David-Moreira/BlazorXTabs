@@ -33,25 +33,24 @@
         list-style: none;
     }
 
-
-.xtabs h6{
-    margin: 0.75rem;
-}
+    .xtabs h6 {
+        margin: 0.75rem;
+    }
 
     .xtabs .xtabs-header .xtabs-close-all {
-        color:red;
-        font-weight:bold;
+        color: red;
+        font-weight: bold;
     }
 
-    button.close {
-        padding: 0;
-        background-color: transparent;
-        border: 0;
-        float: right;
-        font-size: 1.5rem;
-        font-weight: 700;
-        line-height: 1;
-        color: #000;
-        text-shadow: 0 1px 0 #fff;
-        opacity: .5;
-    }
+button.close {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}

@@ -10,7 +10,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             }
-            <ul class='xtabs-header-tabs nav nav-tabs card-header-tabs @(_isDragging ? "drag": "")'>
+            <ul class='xtabs-header-tabs nav nav-tabs card-header-tabs @BuildHeaderClasses()'>
                 @foreach (var tab in TabContent)
                 {
                     <_XTabHeader XTab="@tab" CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@(CloseTabs && !CannotCloseLastTab())" OnCloseTab="@CloseTabAsync" OnSetActive="@SetActiveAsync" IsActive="@IsActive(tab)" OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />

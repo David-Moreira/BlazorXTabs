@@ -25,6 +25,14 @@
         cursor: pointer;
     }
 
+.xtabs-header-tabs.nav-justified .xtabs-item {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    text-align: center;
+}
+
 .drag a {
     pointer-events: none !important;
 }

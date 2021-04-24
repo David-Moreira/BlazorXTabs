@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 using BlazorXTabs.Configuration;
@@ -128,6 +129,11 @@ namespace BlazorXTabs
         [Parameter]
         public bool NoTabsNavigatesToHomepage { get; set; }
 
+        /// <summary>
+        /// Gets or Sets whether the tabs header is justified taking up the whole available header space
+        /// </summary>
+        [Parameter] public bool JustifiedHeader { get; set; }
+
         #endregion Public Properties
 
         #region Private Properties
@@ -254,6 +260,16 @@ namespace BlazorXTabs
         {
             for (var i = _tabContent.Count - 1; i >= 0; i--)
                 await CloseTabAsync(_tabContent[i]);
+        }
+
+        private string BuildHeaderClasses()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (JustifiedHeader)
+                sb.Append(" nav-justified");
+            if (_isDragging)
+                sb.Append(" drag");
+            return sb.ToString();
         }
 
         #endregion Private Methods

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 using BlazorXTabs.Configuration;
@@ -62,7 +63,7 @@ namespace BlazorXTabs
         [Parameter] public RenderFragment<NextStepsContext> NextStepsContent { get; set; }
 
         /// <summary>
-        /// Gets or sets the wrapping container css class
+        /// Gets or sets the wrapping container css class.
         /// </summary>
         [Parameter] public string CssClass { get; set; }
 
@@ -128,6 +129,11 @@ namespace BlazorXTabs
         [Parameter]
         public bool NoTabsNavigatesToHomepage { get; set; }
 
+        /// <summary>
+        /// Gets or Sets whether the tabs header is justified taking up the whole available header space.
+        /// </summary>
+        [Parameter] public bool JustifiedHeader { get; set; }
+
         #endregion Public Properties
 
         #region Private Properties
@@ -168,7 +174,7 @@ namespace BlazorXTabs
         public bool IsActive(XTab tab) => tab == Active;
 
         /// <summary>
-        /// Closes tab.
+        /// Closes tab while still complying to the existing configuration => CloseAllTabs.
         /// </summary>
         /// <param name="tab"></param>
         public async Task CloseTabAsync(XTab tab)
@@ -225,6 +231,11 @@ namespace BlazorXTabs
             return null;
         }
 
+        /// <summary>
+        /// Adds a new tab to the XTabs content
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
         public async Task AddPageAsync(XTab tab)
         {
             ///TODO: Using Titles for now. Probably should use an ID.
@@ -241,6 +252,17 @@ namespace BlazorXTabs
             await NotifyStateHasChangedAsync();
         }
 
+
+        /// <summary>
+        /// Closes all open tabs while still complying to the existing configuration => CloseAllTabs.
+        /// </summary>
+        /// <returns></returns>
+        public async Task CloseAllOpenTabsAsync()
+        {
+            for (var i = _tabContent.Count - 1; i >= 0; i--)
+                await CloseTabAsync(_tabContent[i]);
+        }
+
         #endregion Public Methods
 
         #region Private Methods
@@ -248,12 +270,18 @@ namespace BlazorXTabs
             => !CloseAllTabs && _tabContent.Count == 1;
 
         private bool CloseAllTabsButton()
-            => this.ShowCloseAllTabsButton && ((_tabContent?.Count ?? 0) >= CloseAllTabsButtonThreshold) && !CannotCloseLastTab();
+            => this.ShowCloseAllTabsButton && CanCloseOpenTabs();
 
-        private async Task CloseAllOpenTabsAsync()
+        private bool CanCloseOpenTabs() => ((_tabContent?.Count ?? 0) >= CloseAllTabsButtonThreshold) && !CannotCloseLastTab();
+
+        private string BuildHeaderClasses()
         {
-            for (var i = _tabContent.Count - 1; i >= 0; i--)
-                await CloseTabAsync(_tabContent[i]);
+            StringBuilder sb = new StringBuilder();
+            if (JustifiedHeader)
+                sb.Append(" nav-justified");
+            if (_isDragging)
+                sb.Append(" drag");
+            return sb.ToString();
         }
 
         #endregion Private Methods

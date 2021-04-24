@@ -36,28 +36,27 @@
         list-style: none;
     }
 
-
-.xtabs h6[b-mlpxtvpz0w]{
-    margin: 0.75rem;
-}
+    .xtabs h6[b-mlpxtvpz0w] {
+        margin: 0.75rem;
+    }
 
     .xtabs .xtabs-header .xtabs-close-all[b-mlpxtvpz0w] {
-        color:red;
-        font-weight:bold;
+        color: red;
+        font-weight: bold;
     }
 
-    button.close[b-mlpxtvpz0w] {
-        padding: 0;
-        background-color: transparent;
-        border: 0;
-        float: right;
-        font-size: 1.5rem;
-        font-weight: 700;
-        line-height: 1;
-        color: #000;
-        text-shadow: 0 1px 0 #fff;
-        opacity: .5;
-    }
+button.close[b-mlpxtvpz0w] {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}
 /* _content/BlazorXTabs/_XTab.razor.rz.scp.css */
 .xtabs-content[b-v3bceqm99j] {
 }
@@ -98,6 +97,14 @@
     .xtabs-item:hover[b-21c0qposjk] {
         cursor: pointer;
     }
+
+.xtabs-header-tabs.nav-justified .xtabs-item[b-21c0qposjk] {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    text-align: center;
+}
 
 .drag a[b-21c0qposjk] {
     pointer-events: none !important;

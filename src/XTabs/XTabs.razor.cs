@@ -239,7 +239,7 @@ namespace BlazorXTabs
         public async Task AddPageAsync(XTab tab)
         {
             ///TODO: Using Titles for now. Probably should use an ID.
-            if (RenderMode == RenderMode.Full && _tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+            if (_tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
                 await SetActiveAsync(existingTab);
             else
             {

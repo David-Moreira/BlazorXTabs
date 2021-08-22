@@ -29,7 +29,9 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
   - When CloseTabs is enabled. Able to close all tabs and configure a threshold to display the close all tabs button.
   - When CloseTabs is enabled. Able to use mouse middle button click to close the tab.
   - When CloseTabs is enabled. Able to limit closeable tabs to 1.
-
+- **v1.6.0**
+  - Fixed RenderMode.Partial duplicating tabs
+  - Introduced XTabsAuthorizeRouteView to allow tabs integration with Authentication
 
 ## Examples:
 
@@ -43,7 +45,7 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
         </XTab>
     </XTabs>
 
-#### Using the XTabsRouteView to render pages as tabs:
+#### Using the XTabsRouteView or XTabsAuthorizeRouteView to render pages as tabs:
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">
             <XTabsRouteView CloseTabs="true" NewTabSetActive="true" RenderMode="BlazorXTabs.Configuration.RenderMode.Full" RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />

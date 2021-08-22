@@ -180,14 +180,32 @@ namespace BlazorXTabs
         private void RenderPageWithParameters(RenderTreeBuilder builder)
         {
             var pageFragment = RenderNewPage();
+            RenderXTabs(pageFragment);
 
+            builder.OpenElement(0, "XTabs");
+            builder.AddContent(1, _xTabsRenderFragment);
+            builder.CloseElement();
+        }
+
+        protected void RenderPageWithContent(RenderTreeBuilder builder, RenderFragment content)
+        {
+            var pageFragment = content ?? RenderNewPage();
+            RenderXTabs(pageFragment);
+
+            builder.OpenElement(0, "XTabs");
+            builder.AddContent(1, _xTabsRenderFragment);
+            builder.CloseElement();
+        }
+
+        private void RenderXTabs(RenderFragment pageFragment)
+        {
             var xTabTitle = RouteData.PageType.Name;
             var xTabCssClass = string.Empty;
             var xTabInactiveRender = false;
-            
+
             var pageAttr = RouteData.PageType.GetCustomAttribute<XTabPageAttribute>();
             if (pageAttr is not null)
-            { 
+            {
                 xTabTitle = pageAttr.Title;
                 xTabCssClass = pageAttr.CssClass;
                 xTabInactiveRender = pageAttr.InactiveRender;
@@ -238,10 +256,6 @@ namespace BlazorXTabs
                 var xtab = new XTab(_xTabs, xTabTitle, pageFragment, xTabCssClass, xTabInactiveRender);
                 _xTabs.AddPageAsync(xtab).Wait();
             }
-
-            builder.OpenElement(0, "XTabs");
-            builder.AddContent(1, _xTabsRenderFragment);
-            builder.CloseElement();
         }
 
         #endregion

@@ -242,13 +242,33 @@ namespace BlazorXTabs
             if (_tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
                 await SetActiveAsync(existingTab);
             else
+                await AddTabAsync(tab);
+
+            await NotifyStateHasChangedAsync();
+        }
+
+
+
+        /// <summary>
+        /// Adds or replaces a tab to the XTabs content
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        public async Task AddOrReplacePageAsync(XTab tab)
+        {
+            ///TODO: Using Titles for now. Probably should use an ID.
+            if (_tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
             {
-                _tabContent.Add(tab);
-                if (_tabContent.Count == 1 || NewTabSetActive)
-                    await SetActiveAsync(tab);
-                if (OnTabAdded.HasDelegate)
-                    await OnTabAdded.InvokeAsync(tab);
+                var idx = _tabContent.IndexOf(existingTab);
+                _tabContent.Remove(existingTab);
+                _tabContent.Insert(idx, tab);
+                await SetActiveAsync(tab);
             }
+            else
+            { 
+                await AddTabAsync(tab);
+            }
+
             await NotifyStateHasChangedAsync();
         }
 
@@ -266,6 +286,16 @@ namespace BlazorXTabs
         #endregion Public Methods
 
         #region Private Methods
+
+        private async Task AddTabAsync(XTab tab)
+        {
+            _tabContent.Add(tab);
+            if (_tabContent.Count == 1 || NewTabSetActive)
+                await SetActiveAsync(tab);
+            if (OnTabAdded.HasDelegate)
+                await OnTabAdded.InvokeAsync(tab);
+        }
+
         private bool CannotCloseLastTab()
             => !CloseAllTabs && _tabContent.Count == 1;
 

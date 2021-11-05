@@ -36,6 +36,8 @@ namespace BlazorXTabs
         [Parameter]
         public RenderFragment ChildContent { get; set; }
 
+        private bool _shouldRefresh;
+
         /// <summary>
         /// Sets the tab's loading content.
         /// </summary>

@@ -31,7 +31,7 @@ namespace BlazorXTabs
         {
             // Cache the delegate instances
             _renderDelegate = Render;
-            _renderPageWithParametersDelegate = RenderPageWithParameters;
+            _renderPageWithParametersDelegate = RenderPage;
         }
 
         #endregion
@@ -177,7 +177,7 @@ namespace BlazorXTabs
             });
         }
 
-        private void RenderPageWithParameters(RenderTreeBuilder builder)
+        private void RenderPage(RenderTreeBuilder builder)
         {
             var pageFragment = RenderNewPage();
             RenderXTabs(pageFragment);
@@ -187,17 +187,17 @@ namespace BlazorXTabs
             builder.CloseElement();
         }
 
-        protected void RenderPageWithContent(RenderTreeBuilder builder, RenderFragment content)
+        protected void RenderPageWithCustomContent(RenderTreeBuilder builder, RenderFragment content, bool resetXTabs = false)
         {
             var pageFragment = content ?? RenderNewPage();
-            RenderXTabs(pageFragment);
+            RenderXTabs(pageFragment, resetXTabs);
 
             builder.OpenElement(0, "XTabs");
             builder.AddContent(1, _xTabsRenderFragment);
             builder.CloseElement();
         }
 
-        private void RenderXTabs(RenderFragment pageFragment)
+        private void RenderXTabs(RenderFragment pageFragment, bool resetXTabs = false)
         {
             var xTabTitle = RouteData.PageType.Name;
             var xTabCssClass = string.Empty;
@@ -254,7 +254,10 @@ namespace BlazorXTabs
             else
             {
                 var xtab = new XTab(_xTabs, xTabTitle, pageFragment, xTabCssClass, xTabInactiveRender);
-                _xTabs.AddPageAsync(xtab).Wait();
+                if (resetXTabs)
+                    _xTabs.AddOrReplacePageAsync(xtab).Wait();
+                else
+                    _xTabs.AddPageAsync(xtab).Wait();
             }
         }
 

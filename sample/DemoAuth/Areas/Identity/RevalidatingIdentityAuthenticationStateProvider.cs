@@ -29,11 +29,18 @@ namespace DemoAuth.Areas.Identity
             _options = optionsAccessor.Value;
         }
 
+        public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
+
+            await Task.Delay(2500);
+            return await base.GetAuthenticationStateAsync();
+        }
         protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes( 30 );
 
         protected override async Task<bool> ValidateAuthenticationStateAsync(
             AuthenticationState authenticationState, CancellationToken cancellationToken )
         {
+            
+
             // Get the user manager from a new scope to ensure it fetches fresh data
             var scope = _scopeFactory.CreateScope();
             try

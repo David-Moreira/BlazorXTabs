@@ -37,6 +37,15 @@ namespace BlazorXTabs
         private readonly RenderFragment<AuthenticationState> _renderNotAuthorizedDelegate;
         private readonly RenderFragment _renderAuthorizingDelegate;
 
+        private XTabs _xTabsAuthorization;
+        private RenderFragment _xTabsAuthorizationRenderFragment;
+
+        /// <summary>
+        /// Tracks whether the component has been authorized by tracking the calls to the Authorized Delegate.
+        /// This serves as an instruction to XTabs to know when to reset.
+        /// </summary>
+        private bool _isAuthorized;
+
         /// <summary>
         /// Initialize a new instance of a <see cref="AuthorizeRouteView"/>.
         /// </summary>
@@ -45,8 +54,7 @@ namespace BlazorXTabs
             // Cache the rendering delegates so that we only construct new closure instances
             // when they are actually used (e.g., we never prepare a RenderFragment bound to
             // the NotAuthorized content except when you are displaying that particular state)
-            RenderFragment renderBaseRouteViewDelegate = builder => base.Render(builder);
-            _renderAuthorizedDelegate = authenticateState => renderBaseRouteViewDelegate;
+            _renderAuthorizedDelegate = authenticationState => RenderAuthorizedInDefaultLayout;
             _renderNotAuthorizedDelegate = authenticationState => builder => RenderNotAuthorizedInDefaultLayout(builder, authenticationState);
             _renderAuthorizingDelegate = RenderAuthorizingInDefaultLayout;
             _renderAuthorizeRouteViewCoreDelegate = RenderAuthorizeRouteViewCore;
@@ -106,18 +114,30 @@ namespace BlazorXTabs
         {
             builder.OpenComponent<LayoutView>(0);
             builder.AddAttribute(1, nameof(LayoutView.Layout), DefaultLayout);
-            builder.AddAttribute(2, nameof(LayoutView.ChildContent), new RenderFragment(builder => RenderPageWithContent(builder, content)));
+            builder.AddAttribute(2, nameof(LayoutView.ChildContent), new RenderFragment(builder => RenderPageWithCustomContent(builder, content, true)));
             builder.CloseComponent();
+        }
+
+        private void RenderAuthorizedInDefaultLayout(RenderTreeBuilder builder)
+        {
+            var toReset = !_isAuthorized;
+            builder.OpenComponent<LayoutView>(0);
+            builder.AddAttribute(1, nameof(LayoutView.Layout), DefaultLayout);
+            builder.AddAttribute(2, nameof(LayoutView.ChildContent), new RenderFragment(builder => RenderPageWithCustomContent(builder, null, toReset)));
+            builder.CloseComponent();
+            _isAuthorized = true;
         }
 
         private void RenderNotAuthorizedInDefaultLayout(RenderTreeBuilder builder, AuthenticationState authenticationState)
         {
+            _isAuthorized = false;
             var content = NotAuthorized ?? _defaultNotAuthorizedContent;
             RenderContentInDefaultLayout(builder, content(authenticationState));
         }
 
         private void RenderAuthorizingInDefaultLayout(RenderTreeBuilder builder)
         {
+            _isAuthorized = false;
             var content = Authorizing ?? _defaultAuthorizingContent;
             RenderContentInDefaultLayout(builder, content);
         }

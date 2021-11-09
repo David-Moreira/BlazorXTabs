@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorXTabs
 {
-    public partial class XTabs
+    public partial class XTabs : ComponentBase
     {
         #region Private Fields
 
@@ -172,6 +173,19 @@ namespace BlazorXTabs
         }
 
         /// <summary>
+        /// Sets tab to active.
+        /// Internal use... RouteView
+        /// </summary>
+        /// <param name="tab"></param>
+        internal async Task SetActiveOnAfterRenderAsync(XTab tab)
+        {
+            Active = tab;
+            //TODO: This is not working quite right once listened to on RouteView.
+            //if (OnActiveTabChanged.HasDelegate)
+            //    await OnActiveTabChanged.InvokeAsync(tab);
+        }
+
+        /// <summary>
         /// Checks if tab is active.
         /// </summary>
         /// <param name="tab"></param>
@@ -252,6 +266,22 @@ namespace BlazorXTabs
             await NotifyStateHasChangedAsync();
         }
 
+        /// <summary>
+        /// Adds a new tab to the XTabs content.
+        /// For internal usage on XTabsRouteView
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        internal void AddPage(XTab tab)
+        {
+            if (_tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+                SetActiveOnAfterRenderAsync(existingTab).ConfigureAwait(false).GetAwaiter().GetResult();
+            else
+                AddTabAsync(tab).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            NotifyStateHasChanged();
+        }
+
 
 
         /// <summary>
@@ -275,6 +305,30 @@ namespace BlazorXTabs
             }
 
             await NotifyStateHasChangedAsync();
+        }
+
+        /// <summary>
+        /// Adds or replaces a tab to the XTabs content
+        /// For internal usage on XTabsRouteView
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns></returns>
+        internal void AddOrReplacePage(XTab tab)
+        {
+            ///TODO: Using Titles for now. Probably should use an ID.
+            if (_tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+            {
+                var idx = _tabContent.IndexOf(existingTab);
+                _tabContent.Remove(existingTab);
+                _tabContent.Insert(idx, tab);
+                SetActiveOnAfterRenderAsync(tab).ConfigureAwait(false).GetAwaiter().GetResult();
+            }
+            else
+            {
+                AddTabAsync(tab).ConfigureAwait(false).GetAwaiter().GetResult();
+            }
+
+            NotifyStateHasChanged();
         }
 
 

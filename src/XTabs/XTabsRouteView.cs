@@ -255,9 +255,9 @@ namespace BlazorXTabs
             {
                 var xtab = new XTab(_xTabs, xTabTitle, pageFragment, xTabCssClass, xTabInactiveRender);
                 if (resetXTabs)
-                    _xTabs.AddOrReplacePageAsync(xtab).Wait();
+                    _xTabs.AddOrReplacePage(xtab);
                 else
-                    _xTabs.AddPageAsync(xtab).Wait();
+                    _xTabs.AddPage(xtab);
             }
         }
 

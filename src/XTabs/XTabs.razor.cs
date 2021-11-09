@@ -177,7 +177,7 @@ namespace BlazorXTabs
         /// Internal use... RouteView
         /// </summary>
         /// <param name="tab"></param>
-        internal async Task SetActiveOnAfterRenderAsync(XTab tab)
+        internal void SetActive(XTab tab)
         {
             Active = tab;
             //TODO: This is not working quite right once listened to on RouteView.
@@ -275,7 +275,7 @@ namespace BlazorXTabs
         internal void AddPage(XTab tab)
         {
             if (_tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
-                SetActiveOnAfterRenderAsync(existingTab).ConfigureAwait(false).GetAwaiter().GetResult();
+                SetActive(existingTab);
             else
                 AddTabAsync(tab).ConfigureAwait(false).GetAwaiter().GetResult();
 
@@ -321,7 +321,7 @@ namespace BlazorXTabs
                 var idx = _tabContent.IndexOf(existingTab);
                 _tabContent.Remove(existingTab);
                 _tabContent.Insert(idx, tab);
-                SetActiveOnAfterRenderAsync(tab).ConfigureAwait(false).GetAwaiter().GetResult();
+                SetActive(tab);
             }
             else
             {

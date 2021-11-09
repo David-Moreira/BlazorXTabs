@@ -37,9 +37,6 @@ namespace BlazorXTabs
         private readonly RenderFragment<AuthenticationState> _renderNotAuthorizedDelegate;
         private readonly RenderFragment _renderAuthorizingDelegate;
 
-        private XTabs _xTabsAuthorization;
-        private RenderFragment _xTabsAuthorizationRenderFragment;
-
         /// <summary>
         /// Tracks whether the component has been authorized by tracking the calls to the Authorized Delegate.
         /// This serves as an instruction to XTabs to know when to reset.

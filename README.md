@@ -32,6 +32,8 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
 - **v1.6.0**
   - Fixed RenderMode.Partial duplicating tabs
   - Introduced XTabsAuthorizeRouteView to allow tabs integration with Authentication
+- **v1.7.0**
+  - NET6 Support
 
 ## Examples:
 

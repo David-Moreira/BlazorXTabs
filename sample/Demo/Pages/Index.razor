@@ -173,17 +173,22 @@
         return base.OnInitializedAsync();
     }
 
+    protected override Task OnAfterRenderAsync(bool firstRender) { 
+        return base.OnAfterRenderAsync(firstRender); }
+
+    protected override Task OnParametersSetAsync() { 
+        return base.OnParametersSetAsync(); }
 
     private Task TabAdd(XTab tab)
     {
         TabAdded = tab;
-        return XTabs.NotifyStateHasChangedAsync();
+        return Task.CompletedTask;
     }
 
     private Task TabRemove(XTab tab)
     {
         TabRemoved = tab;
-        return XTabs.NotifyStateHasChangedAsync();
+        return Task.CompletedTask;
     }
 
     private async Task ActiveTabChange(XTab tab)

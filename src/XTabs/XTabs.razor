@@ -1,10 +1,9 @@
 ﻿@using Configuration
-<CascadingValue Value="this" IsFixed="true">
-    @ChildContent
+<CascadingValue Value="this">
 
-    <div class="xtabs card @CssClass">
+    <div class="xtabs card @CssClass" style="@Style">
         <div class="xtabs-header card-header">
-            @if(CloseAllTabsButton())
+            @if (CloseAllTabsButton())
             {
                 <button type="button" @onclick="CloseAllOpenTabsAsync" class="xtabs-close-all close" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -17,14 +16,41 @@
                 }
             </ul>
         </div>
-        @{
-            <div class="xtabs-content tab-content">
-                @if (RenderMode == RenderMode.Full)
+
+        <div class="xtabs-content tab-content">
+            @if (RenderMode == RenderMode.Full)
+            {
+                @foreach (var tab in TabContent)
                 {
-                    @foreach (var tab in TabContent)
+                    var isActiveCss = IsActive(tab) ? "show active" : "";
+                    <_XTab CssClass='@($"{@tab.CssClass} {isActiveCss}")' IsLoading="@IsLoading">
+                        <ChildContent>
+                            @tab.ChildContent
+                        </ChildContent>
+                        <LoadingContent>
+                            @tab.LoadingContent
+                        </LoadingContent>
+                    </_XTab>
+                }
+            }
+            else
+            {
+                @foreach (var tab in TabContent)
+                {
+                    @if (IsActive(tab))
                     {
-                        var isActiveCss = IsActive(tab) ? "show active" : "";
-                        <_XTab CssClass='@($"{@tab.CssClass} {isActiveCss}")' IsLoading="@IsLoading">
+                        <_XTab CssClass='@($"{@tab.CssClass} show active")' IsLoading="@IsLoading">
+                            <ChildContent>
+                                @tab.ChildContent
+                            </ChildContent>
+                            <LoadingContent>
+                                @tab.LoadingContent
+                            </LoadingContent>
+                        </_XTab>
+                    }
+                    else if (tab.InactiveRender)
+                    {
+                        <_XTab CssClass='@($"{@tab.CssClass}")' IsLoading="@IsLoading">
                             <ChildContent>
                                 @tab.ChildContent
                             </ChildContent>
@@ -34,57 +60,31 @@
                         </_XTab>
                     }
                 }
-                else
-                {
-                    @foreach (var tab in TabContent)
-                    {
-                        @if (IsActive(tab))
-                        {
-                            <_XTab CssClass='@($"{@tab.CssClass} show active")' IsLoading="@IsLoading">
-                                <ChildContent>
-                                    @tab.ChildContent
-                                </ChildContent>
-                                <LoadingContent>
-                                    @tab.LoadingContent
-                                </LoadingContent>
-                            </_XTab>
-                        }
-                        else if (tab.InactiveRender)
-                        {
-                            <_XTab CssClass='@($"{@tab.CssClass}")' IsLoading="@IsLoading">
-                                <ChildContent>
-                                    @tab.ChildContent
-                                </ChildContent>
-                                <LoadingContent>
-                                    @tab.LoadingContent
-                                </LoadingContent>
-                            </_XTab>
-                        }
-                    }
-                }
+            }
 
-                @if (RenderMode == RenderMode.Steps)
-                {
-                    <div class="xtabs-steps-buttons d-flex justify-content-center mb-1">
-                        @if (PreviousStepsContent is object)
-                        {
-                            @PreviousStepsContent(new PreviousStepsContext(EventCallback.Factory.Create(this, this.PreviousTabAsync), IsPreviousDisabled));
-                        }
-                        else
-                        {
-                            <button type="button" class="xtabs-steps-btn-previous btn btn-info mr-1" disabled="@IsPreviousDisabled" @onclick="PreviousTabAsync">Previous</button>
-                        }
-                        @if (NextStepsContent is object)
-                        {
-                            @NextStepsContent(new NextStepsContext(EventCallback.Factory.Create(this, this.NextTabAsync), IsNextDisabled));
-                        }
-                        else
-                        {
-                            <button type="button" class="xtabs-steps-btn-next btn btn-success" disabled="@(IsNextDisabled)" @onclick="NextTabAsync">Next</button>
-                        }
-                    </div>
-                }
-            </div>
-        }
+            @if (RenderMode == RenderMode.Steps)
+            {
+                <div class="xtabs-steps-buttons d-flex justify-content-center mb-1">
+                    @if (PreviousStepsContent is object)
+                    {
+                        @PreviousStepsContent(new PreviousStepsContext(EventCallback.Factory.Create(this, this.PreviousTabAsync), IsPreviousDisabled))
+                    }
+                    else
+                    {
+                        <button type="button" class="xtabs-steps-btn-previous btn btn-info mr-1" disabled="@IsPreviousDisabled" @onclick="PreviousTabAsync">Previous</button>
+                    }
+                    @if (NextStepsContent is object)
+                    {
+                        @NextStepsContent(new NextStepsContext(EventCallback.Factory.Create(this, this.NextTabAsync), IsNextDisabled))
+                    }
+                    else
+                    {
+                        <button type="button" class="xtabs-steps-btn-next btn btn-success" disabled="@(IsNextDisabled)" @onclick="NextTabAsync">Next</button>
+                    }
+                </div>
+            }
+        </div>
+
+        @ChildContent
     </div>
 </CascadingValue>

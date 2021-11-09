@@ -68,6 +68,11 @@ namespace BlazorXTabs
         [Parameter] public string CssClass { get; set; }
 
         /// <summary>
+        /// Gets or sets the wrapping container style.
+        /// </summary>
+        [Parameter] public string Style { get; set; }
+
+        /// <summary>
         /// Event: When a tab is added to XTabs.
         /// </summary>
         [Parameter] public EventCallback<XTab> OnTabAdded { get; set; }

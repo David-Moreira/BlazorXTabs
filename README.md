@@ -106,3 +106,4 @@ dotnet add package BlazorXTabs
 ```    
 <link href="{YOUR-PROJECT-NAME}.styles.css" rel="stylesheet" />
 ```
+

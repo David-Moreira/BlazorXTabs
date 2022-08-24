@@ -6,6 +6,7 @@ using BlazorXTabs.Configuration;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorXTabs
 {
@@ -157,6 +158,13 @@ namespace BlazorXTabs
         /// </summary>
         [Parameter] public bool JustifiedHeader { get; set; }
 
+        /// <summary>
+        /// Func : Provides a way to evaluate an XTab and provide a title.
+        /// Specially usefull to evaluate tabs added through the route view and translate the titles.
+        /// <para>This is only evaluated when the component is adding the tab for the first time.</para>
+        /// </summary>
+        [Parameter] public Func<XTab, string> TitleFunc { get; set; }
+
         #endregion
 
         #region Private Methods
@@ -220,6 +228,7 @@ namespace BlazorXTabs
                     rBuilder.AddAttribute(2, nameof(XTab.Title), xTabTitle);
                     rBuilder.AddAttribute(3, nameof(XTab.CssClass), xTabCssClass);
                     rBuilder.AddAttribute(4, nameof(XTab.InactiveRender), xTabInactiveRender);
+                    rBuilder.AddAttribute(5, nameof(XTab.TitleChanged),EventCallback.Factory.Create<string>(this, (title) => xTabTitle = title));
                     rBuilder.CloseComponent();
                 });
 
@@ -246,6 +255,7 @@ namespace BlazorXTabs
                     rBuilder.AddAttribute(17, nameof(XTabs.CloseAllTabsButtonThreshold), CloseAllTabsButtonThreshold);
                     rBuilder.AddAttribute(18, nameof(XTabs.NoTabsNavigatesToHomepage), NoTabsNavigatesToHomepage);
                     rBuilder.AddAttribute(19, nameof(XTabs.JustifiedHeader), JustifiedHeader);
+                    rBuilder.AddAttribute(20, nameof(XTabs.TitleFunc), TitleFunc);
 
                     rBuilder.AddComponentReferenceCapture(100, compRef => _xTabs = (XTabs)compRef);
                     rBuilder.CloseComponent();

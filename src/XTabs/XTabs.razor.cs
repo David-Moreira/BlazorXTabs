@@ -28,8 +28,7 @@ namespace BlazorXTabs
         /// </summary>
         public IEnumerable<XTab> TabContent => _tabContent.AsEnumerable();
 
-        [Inject]
-        private NavigationManager _navigationManager { get; set; }
+        [Inject] private NavigationManager _navigationManager { get; set; }
 
         /// <summary>
         /// Gets or sets the XTabs RenderMode.
@@ -101,44 +100,45 @@ namespace BlazorXTabs
         /// <summary>
         /// Sets the active tab's loading state.
         /// </summary>
-        [Parameter]
-        public bool IsLoading { get; set; }
+        [Parameter] public bool IsLoading { get; set; }
 
         /// <summary>
         /// Gets or sets the XTabs's drag feature.
         /// </summary>
-        [Parameter]
-        public bool IsDraggable { get; set; }
+        [Parameter] public bool IsDraggable { get; set; }
 
         /// <summary>
         /// Gets or sets if all tabs can be closed. 
         /// If this is false, one tab will always be open.
         /// </summary>
-        [Parameter]
-        public bool CloseAllTabs { get; set; }
+        [Parameter] public bool CloseAllTabs { get; set; }
 
         /// <summary>
         /// Gets or sets if a button to CloseAllTabs will be displayed.
         /// </summary>
-        [Parameter]
-        public bool ShowCloseAllTabsButton { get; set; }
+        [Parameter] public bool ShowCloseAllTabsButton { get; set; }
 
         /// <summary>
         /// Gets or sets the threshold to display the button to close all tabs.
         /// </summary>
-        [Parameter]
-        public int CloseAllTabsButtonThreshold { get; set; }
+        [Parameter] public int CloseAllTabsButtonThreshold { get; set; }
 
         /// <summary>
         /// Gets or sets if XTabs navigates to homepage if all tabs are closed.
         /// </summary>
-        [Parameter]
-        public bool NoTabsNavigatesToHomepage { get; set; }
+        [Parameter] public bool NoTabsNavigatesToHomepage { get; set; }
 
         /// <summary>
         /// Gets or Sets whether the tabs header is justified taking up the whole available header space.
         /// </summary>
         [Parameter] public bool JustifiedHeader { get; set; }
+
+        /// <summary>
+        /// Func : Provides a way to evaluate an XTab and provide a title.
+        /// Specially usefull to evaluate tabs added through the route view and translate the titles.
+        /// <para>This is only evaluated when the component is adding the tab for the first time.</para>
+        /// </summary>
+        [Parameter] public Func<XTab, string> TitleFunc { get; set; }
 
         #endregion Public Properties
 
@@ -229,12 +229,20 @@ namespace BlazorXTabs
         /// <param name="tabName"></param>
         public async Task CloseTabByTitleAsync(string tabTitle)
         {
-            foreach (var tab in TabContent)
-                if (tab.Title.Equals(tabTitle))
-                {
-                    await CloseTabAsync(tab);
-                    break;
-                }
+            var tab = GetTabByTitle(tabTitle);
+            if (tab is not null)
+                await CloseTabAsync(tab);
+        }
+
+        /// <summary>
+        /// Closes tab by id.
+        /// </summary>
+        /// <param name="tabName"></param>
+        public async Task CloseTabByIdAsync(string id)
+        {
+            var tab = GetTabById(id);
+            if (tab is not null)
+                await CloseTabAsync(tab);
         }
 
         /// <summary>
@@ -244,7 +252,20 @@ namespace BlazorXTabs
         public XTab GetTabByTitle(string tabTitle)
         {
             foreach (var tab in TabContent)
-                if (tab.Title.Equals(tabTitle))
+                if (tab.Title?.Equals(tabTitle) ?? false)
+                    return tab;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets tab by id.
+        /// </summary>
+        /// <param name="id"></param>
+        public XTab GetTabById(string id)
+        {
+            foreach (var tab in TabContent)
+                if (tab.Id?.Equals(id) ?? false)
                     return tab;
 
             return null;
@@ -257,8 +278,7 @@ namespace BlazorXTabs
         /// <returns></returns>
         public async Task AddPageAsync(XTab tab)
         {
-            ///TODO: Using Titles for now. Probably should use an ID.
-            if (_tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+            if (GetTabById(tab.Id) is XTab existingTab)
                 await SetActiveAsync(existingTab);
             else
                 await AddTabAsync(tab);
@@ -274,10 +294,10 @@ namespace BlazorXTabs
         /// <returns></returns>
         internal void AddPage(XTab tab)
         {
-            if (_tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+            if (GetTabById(tab.Id) is XTab existingTab)
                 SetActive(existingTab);
             else
-                AddTabAsync(tab).ConfigureAwait(false).GetAwaiter().GetResult();
+                InvokeAsync(() => AddTabAsync(tab));
 
             NotifyStateHasChanged();
         }
@@ -291,8 +311,7 @@ namespace BlazorXTabs
         /// <returns></returns>
         public async Task AddOrReplacePageAsync(XTab tab)
         {
-            ///TODO: Using Titles for now. Probably should use an ID.
-            if (_tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+            if (GetTabById(tab.Id) is XTab existingTab)
             {
                 var idx = _tabContent.IndexOf(existingTab);
                 _tabContent.Remove(existingTab);
@@ -300,7 +319,7 @@ namespace BlazorXTabs
                 await SetActiveAsync(tab);
             }
             else
-            { 
+            {
                 await AddTabAsync(tab);
             }
 
@@ -315,8 +334,7 @@ namespace BlazorXTabs
         /// <returns></returns>
         internal void AddOrReplacePage(XTab tab)
         {
-            ///TODO: Using Titles for now. Probably should use an ID.
-            if (_tabContent.FirstOrDefault(x => x.Title == tab.Title) is XTab existingTab)
+            if (GetTabById(tab.Id) is XTab existingTab)
             {
                 var idx = _tabContent.IndexOf(existingTab);
                 _tabContent.Remove(existingTab);
@@ -330,7 +348,6 @@ namespace BlazorXTabs
 
             NotifyStateHasChanged();
         }
-
 
         /// <summary>
         /// Closes all open tabs while still complying to the existing configuration => CloseAllTabs.

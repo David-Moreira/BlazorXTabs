@@ -1,28 +1,38 @@
-    <Router AppAssembly="@typeof(Program).Assembly">
-        <Found Context="routeData">
-            <XTabsRouteView 
-                            CloseTabs
-                            CloseAllTabs
-                            NoTabsNavigatesToHomepage
-                            ShowCloseAllTabsButton
-                            CloseAllTabsButtonThreshold="2"
-                            NewTabSetActive 
-                            RenderMode="BlazorXTabs.Configuration.RenderMode.Full" 
-                            RouteData="@routeData" 
-                            DefaultLayout="@typeof(MainLayout)"
-                            OnTabRemoved="TabRemoved"
-                            OnTabAdded="TabAdded"
-                            JustifiedHeader
-                            />
-        </Found>
-        <NotFound>
-            <LayoutView Layout="@typeof(MainLayout)">
-                <p>Sorry, there's nothing at this address.</p>
-            </LayoutView>
-        </NotFound>
-    </Router>
+<Router AppAssembly="@typeof(Program).Assembly">
+    <Found Context="routeData">
+        <XTabsRouteView CloseTabs
+                        CloseAllTabs
+                        NoTabsNavigatesToHomepage
+                        ShowCloseAllTabsButton
+                        CloseAllTabsButtonThreshold="2"
+                        NewTabSetActive
+                        RenderMode="BlazorXTabs.Configuration.RenderMode.Full"
+                        RouteData="@routeData"
+                        DefaultLayout="@typeof(MainLayout)"
+                        OnTabAdded="TabAdd"
+                        OnTabRemoved="TabRemove"
+                        JustifiedHeader />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p>Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
 
-@code{
+@code {
     public static Func<XTab, Task> TabRemoved { get; set; }
     public static Func<XTab, Task> TabAdded { get; set; }
+
+    private async Task TabAdd( XTab tab )
+    {
+        if ( TabAdded is not null )
+            await InvokeAsync( async () => await TabAdded( tab ) );
+    }
+
+    private async Task TabRemove( XTab tab )
+    {
+        if ( TabRemoved is not null )
+            await InvokeAsync( async () => await TabRemoved( tab ) );
+    }
 }

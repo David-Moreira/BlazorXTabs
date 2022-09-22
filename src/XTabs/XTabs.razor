@@ -1,5 +1,5 @@
 ﻿@using Configuration
-<CascadingValue Value="this">
+<CascadingValue Value="this" IsFixed>
 
     <div class="xtabs card @CssClass" style="@Style">
         <div class="xtabs-header card-header">
@@ -12,7 +12,7 @@
             <ul class='xtabs-header-tabs nav nav-tabs card-header-tabs @BuildHeaderClasses()'>
                 @foreach (var tab in TabContent)
                 {
-                    <_XTabHeader XTab="@tab" CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@(CloseTabs && !CannotCloseLastTab())" OnCloseTab="@CloseTabAsync" OnSetActive="@SetActiveAsync" IsActive="@IsActive(tab)" OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />
+                    <_XTabHeader @key="tab.Id" XTab="@tab" CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@(CloseTabs && !CannotCloseLastTab())" OnCloseTab="@CloseTabAsync" OnSetActive="@SetActiveAsync" IsActive="@IsActive(tab)" OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />
                 }
             </ul>
         </div>
@@ -23,7 +23,7 @@
                 @foreach (var tab in TabContent)
                 {
                     var isActiveCss = IsActive(tab) ? "show active" : "";
-                    <_XTab CssClass='@($"{@tab.CssClass} {isActiveCss}")' IsLoading="@IsLoading">
+                    <_XTab @key="tab.Id" CssClass='@($"{@tab.CssClass} {isActiveCss}")' IsLoading="@IsLoading">
                         <ChildContent>
                             @tab.ChildContent
                         </ChildContent>
@@ -39,7 +39,7 @@
                 {
                     @if (IsActive(tab))
                     {
-                        <_XTab CssClass='@($"{@tab.CssClass} show active")' IsLoading="@IsLoading">
+                        <_XTab @key="tab.Id" CssClass='@($"{@tab.CssClass} show active")' IsLoading="@IsLoading">
                             <ChildContent>
                                 @tab.ChildContent
                             </ChildContent>
@@ -50,7 +50,7 @@
                     }
                     else if (tab.InactiveRender)
                     {
-                        <_XTab CssClass='@($"{@tab.CssClass}")' IsLoading="@IsLoading">
+                        <_XTab @key="tab.Id" CssClass='@($"{@tab.CssClass}")' IsLoading="@IsLoading">
                             <ChildContent>
                                 @tab.ChildContent
                             </ChildContent>

@@ -19,6 +19,12 @@ namespace BlazorXTabs
         /// </summary>
         private IList<XTab> _tabContent = new List<XTab>();
 
+        /// <summary>
+        /// The page tabs that has been removed. 
+        /// This is to make sure to track it and that it does not get re-added by the re-rendering.
+        /// </summary>
+        internal XTab _tabPageRemoved;
+
         #endregion Private Fields
 
         #region Public Properties
@@ -213,7 +219,11 @@ namespace BlazorXTabs
 
             _tabContent.Remove(tab);
             if (OnTabRemoved.HasDelegate)
+            {
+                if (tab.PageTab)
+                    _tabPageRemoved = tab;
                 await OnTabRemoved.InvokeAsync(tab);
+            }
 
             await SetActiveAsync(nextSelected);
 

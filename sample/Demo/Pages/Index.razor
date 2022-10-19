@@ -85,7 +85,7 @@
             Custom loading...
             This tab will load soon... Please wait... :)
 
-            <img src="/loading.gif" />
+            <div class="loading loading-block">Loading...</div>
         </LoadingContent>
     </XTab>
     <XTab Title="Drag Example">
@@ -146,7 +146,7 @@
 </div>
 
 
-@code{
+@code {
 
     [CascadingParameter]
     public XTabs XTabs { get; set; }
@@ -173,11 +173,15 @@
         return base.OnInitializedAsync();
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender) { 
-        return base.OnAfterRenderAsync(firstRender); }
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return base.OnAfterRenderAsync(firstRender);
+    }
 
-    protected override Task OnParametersSetAsync() { 
-        return base.OnParametersSetAsync(); }
+    protected override Task OnParametersSetAsync()
+    {
+        return base.OnParametersSetAsync();
+    }
 
     private Task TabAdd(XTab tab)
     {
@@ -214,7 +218,7 @@
     private async Task ButtonCloseTabAsync()
     {
         var findTab = XTabs.GetTabByTitle(_tabToCloseTitle);
-        if(findTab is null)
+        if (findTab is null)
         {
             findTab = _innerXTabs.GetTabByTitle(_tabToCloseTitle);
             if (findTab is null)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -228,7 +229,9 @@ namespace BlazorXTabs
                     rBuilder.AddAttribute(2, nameof(XTab.Title), xTabTitle);
                     rBuilder.AddAttribute(3, nameof(XTab.CssClass), xTabCssClass);
                     rBuilder.AddAttribute(4, nameof(XTab.InactiveRender), xTabInactiveRender);
-                    rBuilder.AddAttribute(5, nameof(XTab.TitleChanged),EventCallback.Factory.Create<string>(this, (title) => xTabTitle = title));
+                    rBuilder.AddAttribute(5, nameof(XTab.TitleChanged), EventCallback.Factory.Create<string>(this, (title) => xTabTitle = title));
+
+                    rBuilder.AddComponentReferenceCapture(100, compRef => ((XTab)compRef).PageTab = true);
                     rBuilder.CloseComponent();
                 });
 
@@ -263,7 +266,16 @@ namespace BlazorXTabs
             }
             else
             {
+                //Off case. For when TabRemoved is bound and triggers a current page reload.
+                //Which would try to re-add the page/tab being closed.
+                if (_xTabs._tabPageRemoved is not null)
+                {
+                    _xTabs._tabPageRemoved = null;
+                    return;
+                }
+
                 var xtab = new XTab(_xTabs, xTabTitle, pageFragment, xTabCssClass, xTabInactiveRender);
+
                 if (resetXTabs)
                     _xTabs.AddOrReplacePage(xtab);
                 else

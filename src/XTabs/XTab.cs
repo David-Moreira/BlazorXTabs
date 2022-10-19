@@ -15,6 +15,7 @@ namespace BlazorXTabs
 
         public XTab(XTabs parent, string title, RenderFragment renderFragment, string cssClass, bool inactiveRender)
         {
+            PageTab = true;
             _parent = parent;
             Id = title;
             Title = title;
@@ -28,6 +29,9 @@ namespace BlazorXTabs
         #endregion
 
         #region Private Properties
+
+
+        internal bool PageTab;
 
         [CascadingParameter]
         private XTabs _parent { get; set; }

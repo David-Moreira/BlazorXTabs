@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,12 +27,17 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
 	</ItemGroup>
 
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0" />
+	</ItemGroup>
+
   <PropertyGroup>
   </PropertyGroup>
 
   <PropertyGroup>
     <PackageId>BlazorXTabs</PackageId>
-    <Version>1.8.1-rc</Version>
+    <Version>1.8.1</Version>
     <Authors>David Moreira</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <ProjectUrl>https://github.com/David-Moreira/XTabs</ProjectUrl>

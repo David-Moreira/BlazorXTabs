@@ -34,6 +34,8 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
   - Introduced XTabsAuthorizeRouteView to allow tabs integration with Authentication
 - **v1.7.0**
   - NET6 Support
+- **v1.8.0**
+  - NET7 Support
 
 ## Examples:
 

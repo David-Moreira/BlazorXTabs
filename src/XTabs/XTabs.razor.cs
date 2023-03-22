@@ -184,7 +184,12 @@ namespace BlazorXTabs
                 await OnActiveTabChanged.InvokeAsync(tab);
 
             if (NavigationMode == NavigationMode.Navigable && !string.IsNullOrWhiteSpace(tab.RouteUrl))
-                _navigationManager.NavigateTo(tab.RouteUrl);
+            {
+                if (tab.RouteUrl.StartsWith('\\'))
+                    _navigationManager.NavigateTo(tab.RouteUrl[1..]);
+                else
+                    _navigationManager.NavigateTo(tab.RouteUrl);
+            }
 
             await NotifyStateHasChangedAsync();
         }

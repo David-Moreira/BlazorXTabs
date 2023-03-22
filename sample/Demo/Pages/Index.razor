@@ -7,11 +7,22 @@
 
 <p>
     This functionality is activated by replacing the standard RouteView by the XTabsRouteView.
-    You can then additionally set the Page's tabs properties by applying the XTabPageAttribute to the page.
+    You can then additionally set the Page's tabs properties by applying the XTabPageAttribute to each page.
 </p>
 
 <h2>You can also nest XTabs:</h2>
 <XTabs @ref="_innerXTabs" OnActiveTabChanged="ActiveTabChange" IsLoading="_isTabLoading" OnTabRemoved="TabRemove">
+    <XTab Title="Navigation Modes">
+        <strong>This is a XTabsRouteView only setting.</strong>
+
+        <h3>Standard</h3>
+        <p>You can set the Navigation to Standard, this is the default behaviour where clicking a tab will set it as active.</p>
+
+        <h3>Navigable</h3>
+        <p>You can set the Navigation to Navigable, clicking a tab will set it as active and trigger navigation. This is specially usefull if you want to keep the browser url synced up to the active tab.</p>
+        <p>Note that navigating the Page's tabs on this demo, will sync up the browser url.</p>
+    </XTab>
+
     <XTab Title="Render Modes">
         <h3>Partial</h3>
         <p>You can set the RenderMode to Partial, this is the default behaviour to only render the active tab.</p>

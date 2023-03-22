@@ -174,6 +174,7 @@ namespace BlazorXTabs
 
         /// <summary>
         /// Sets tab to active.
+        /// This will trigger navigation if appropriate. <see cref="XTabsRouteView.NavigationMode"/>
         /// </summary>
         /// <param name="tab"></param>
         public async Task SetActiveAsync(XTab tab)
@@ -181,6 +182,10 @@ namespace BlazorXTabs
             Active = tab;
             if (OnActiveTabChanged.HasDelegate)
                 await OnActiveTabChanged.InvokeAsync(tab);
+
+            if (NavigationMode == NavigationMode.Navigable && !string.IsNullOrWhiteSpace(tab.RouteUrl))
+                _navigationManager.NavigateTo(tab.RouteUrl);
+
             await NotifyStateHasChangedAsync();
         }
 

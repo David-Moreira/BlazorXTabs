@@ -14,7 +14,6 @@
                 {
                     <_XTabHeader @key="tab.Id" XTab="@tab"
                              CanSetActive="@(!IsTabHeaderDisabled)" CloseTabs="@(CloseTabs && !CannotCloseLastTab())"
-                             Navigable="@(NavigationMode == NavigationMode.Navigable)"
                              OnCloseTab="@CloseTabAsync" OnSetActive="@SetActiveAsync" IsActive="@IsActive(tab)"
                              OnDragStart="@DragStart" OnDragEnd="@DragEnd" OnDragDrop="@DragDrop" IsDraggable="@IsDraggable" />
                 }

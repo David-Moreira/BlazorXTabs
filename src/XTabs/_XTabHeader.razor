@@ -14,11 +14,6 @@
     [Inject] private NavigationManager _navigationManager { get; set; }
 
     /// <summary>
-    /// Gets or sets whether clicking this will navigate.
-    /// </summary>
-    [Parameter] public bool Navigable { get; set; }
-
-    /// <summary>
     /// Can close tabs.
     /// </summary>
     [Parameter] public bool CloseTabs { get; set; }
@@ -123,9 +118,5 @@
     private async Task ClickAsync()
     {
         if ( CanSetActive ) { await OnSetActive.InvokeAsync( XTab ); }
-        if ( Navigable && !string.IsNullOrWhiteSpace( XTab.RouteUrl ) )
-        {
-            _navigationManager.NavigateTo( XTab.RouteUrl );
-        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -7,7 +6,6 @@ using BlazorXTabs.Configuration;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorXTabs
 {
@@ -54,6 +52,13 @@ namespace BlazorXTabs
         /// </summary>
         [Parameter]
         public Type DefaultLayout { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets the XTabs NavigationMode.
+        /// <code>Defaults to: <see cref="NavigationMode.Standard" /></code>
+        /// </summary>
+        [Parameter] public NavigationMode NavigationMode { get; set; } = NavigationMode.Standard;
 
         /// <summary>
         /// Gets or sets the XTabs RenderMode.
@@ -231,7 +236,12 @@ namespace BlazorXTabs
                     rBuilder.AddAttribute(4, nameof(XTab.InactiveRender), xTabInactiveRender);
                     rBuilder.AddAttribute(5, nameof(XTab.TitleChanged), EventCallback.Factory.Create<string>(this, (title) => xTabTitle = title));
 
-                    rBuilder.AddComponentReferenceCapture(100, compRef => ((XTab)compRef).PageTab = true);
+                    rBuilder.AddComponentReferenceCapture(100, compRef =>
+                    {
+                        var xTabRef = ((XTab)compRef);
+                        xTabRef.PageTab = true;
+                        xTabRef.RouteUrl = GetRouteUrl();
+                    });
                     rBuilder.CloseComponent();
                 });
 
@@ -260,7 +270,11 @@ namespace BlazorXTabs
                     rBuilder.AddAttribute(19, nameof(XTabs.JustifiedHeader), JustifiedHeader);
                     rBuilder.AddAttribute(20, nameof(XTabs.TitleFunc), TitleFunc);
 
-                    rBuilder.AddComponentReferenceCapture(100, compRef => _xTabs = (XTabs)compRef);
+                    rBuilder.AddComponentReferenceCapture(100, compRef =>
+                    {
+                        _xTabs = (XTabs)compRef;
+                        _xTabs.NavigationMode = NavigationMode;
+                    });
                     rBuilder.CloseComponent();
                 });
             }
@@ -274,7 +288,7 @@ namespace BlazorXTabs
                     return;
                 }
 
-                var xtab = new XTab(_xTabs, xTabTitle, pageFragment, xTabCssClass, xTabInactiveRender);
+                var xtab = new XTab(_xTabs, xTabTitle, pageFragment, xTabCssClass, xTabInactiveRender, GetRouteUrl());
 
                 if (resetXTabs)
                     _xTabs.AddOrReplacePage(xtab);
@@ -282,6 +296,9 @@ namespace BlazorXTabs
                     _xTabs.AddPage(xtab);
             }
         }
+
+        private string GetRouteUrl()
+            => RouteData.PageType.GetCustomAttribute<RouteAttribute>()?.Template;
 
         #endregion
 

@@ -13,7 +13,7 @@ namespace BlazorXTabs
         {
         }
 
-        public XTab(XTabs parent, string title, RenderFragment renderFragment, string cssClass, bool inactiveRender)
+        public XTab(XTabs parent, string title, RenderFragment renderFragment, string cssClass, bool inactiveRender, string routeUrl)
         {
             PageTab = true;
             _parent = parent;
@@ -22,7 +22,7 @@ namespace BlazorXTabs
             ChildContent = renderFragment;
             CssClass = cssClass;
             InactiveRender = inactiveRender;
-
+            this.RouteUrl = routeUrl;
             LoadTitle();
         }
 
@@ -32,6 +32,7 @@ namespace BlazorXTabs
 
 
         internal bool PageTab;
+        internal string RouteUrl;
 
         [CascadingParameter]
         private XTabs _parent { get; set; }

@@ -37,6 +37,12 @@ namespace BlazorXTabs
         [Inject] private NavigationManager _navigationManager { get; set; }
 
         /// <summary>
+        /// Gets or sets the XTabs NavigationMode. Please note that this is only applicable to the <see cref="XTabsRouteView"/>.
+        /// <code>Defaults to: <see cref="NavigationMode.Standard" /></code>
+        /// </summary>
+        internal NavigationMode NavigationMode { get; set; } = NavigationMode.Standard;
+
+        /// <summary>
         /// Gets or sets the XTabs RenderMode.
         /// <code>Defaults to: <see cref="RenderMode.Partial" /></code>
         /// </summary>
@@ -168,6 +174,7 @@ namespace BlazorXTabs
 
         /// <summary>
         /// Sets tab to active.
+        /// This will trigger navigation if appropriate. <see cref="XTabsRouteView.NavigationMode"/>
         /// </summary>
         /// <param name="tab"></param>
         public async Task SetActiveAsync(XTab tab)
@@ -175,6 +182,10 @@ namespace BlazorXTabs
             Active = tab;
             if (OnActiveTabChanged.HasDelegate)
                 await OnActiveTabChanged.InvokeAsync(tab);
+
+            if (NavigationMode == NavigationMode.Navigable && !string.IsNullOrWhiteSpace(tab.RouteUrl))
+                _navigationManager.NavigateTo(tab.RouteUrl);
+
             await NotifyStateHasChangedAsync();
         }
 

@@ -1,16 +1,17 @@
 ﻿<li class="xtabs-item nav-item @_dropClass" draggable="@IsDraggable.ToString()" ondragover="event.preventDefault();" @ondragstart="@DragStartAsync" @ondragenter="DragEnter" @ondrop="@DragDropAsync" @ondragleave="DragLeave" @ondragend="DragEndAsync" @onmousedown="async (e) => await CloseTabOnMouseWheelAsync(XTab, e)">
-    @if (CloseTabs)
+    @if ( CloseTabs )
     {
         <button type="button" @onclick="async () => await OnCloseTab.InvokeAsync(XTab)" class="xtabs-close close" aria-label="Close">
             <span aria-hidden="true">×</span>
         </button>
     }
-    <a class='xtabs-link nav-link @(IsActive ? "active" : "")' @onclick="async () => { if (CanSetActive) { await OnSetActive.InvokeAsync(XTab);} }" 
+    <a class='xtabs-link nav-link @(IsActive ? "active" : "")' @onclick="ClickAsync"
        ondragover="event.preventDefault();" draggable="false">
         <h6 class="m-0 font-weight-bold text-primary" draggable="false">@XTab.Title</h6>
     </a>
 </li>
 @code {
+    [Inject] private NavigationManager _navigationManager { get; set; }
 
     /// <summary>
     /// Can close tabs.
@@ -71,31 +72,31 @@
 
     private string _dropClass;
 
-    private async Task DragStartAsync(DragEventArgs dragEventArgs)
+    private async Task DragStartAsync( DragEventArgs dragEventArgs )
     {
-        if (!IsDraggable)
+        if ( !IsDraggable )
             return;
-        await OnDragStart.InvokeAsync(XTab);
+        await OnDragStart.InvokeAsync( XTab );
     }
 
-    private async Task DragDropAsync(DragEventArgs dragEventArgs)
+    private async Task DragDropAsync( DragEventArgs dragEventArgs )
     {
-        if (!IsDraggable)
+        if ( !IsDraggable )
             return;
-        await OnDragDrop.InvokeAsync(XTab);
+        await OnDragDrop.InvokeAsync( XTab );
         _dropClass = string.Empty;
     }
 
-    private async Task DragEndAsync(DragEventArgs dragEventArgs)
+    private async Task DragEndAsync( DragEventArgs dragEventArgs )
     {
-        if (!IsDraggable)
+        if ( !IsDraggable )
             return;
-        await OnDragEnd.InvokeAsync(XTab);
+        await OnDragEnd.InvokeAsync( XTab );
     }
 
     private void DragEnter()
     {
-        if (!IsDraggable)
+        if ( !IsDraggable )
             return;
         _dropClass = "drop";
         return;
@@ -103,14 +104,19 @@
 
     private void DragLeave()
     {
-        if (!IsDraggable)
+        if ( !IsDraggable )
             return;
         _dropClass = string.Empty;
         return;
     }
 
-    private async Task CloseTabOnMouseWheelAsync(XTab xTab, MouseEventArgs e)
+    private async Task CloseTabOnMouseWheelAsync( XTab xTab, MouseEventArgs e )
     {
-        if (e.Button == 1) await OnCloseTab.InvokeAsync(xTab);
+        if ( e.Button == 1 ) await OnCloseTab.InvokeAsync( xTab );
+    }
+
+    private async Task ClickAsync()
+    {
+        if ( CanSetActive ) { await OnSetActive.InvokeAsync( XTab ); }
     }
 }

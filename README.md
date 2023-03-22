@@ -36,6 +36,11 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
   - NET6 Support
 - **v1.8.0**
   - NET7 Support
+- **v1.9.0**
+  - Introduced NavigationMode, this is a XTabsRouteView only setting.
+    - NavigationMode.Standard : This is the default and XTabs will work as it always did. Clicking a Page Tab will set it as active.
+    - NavigationMode.Navigable : This new setting will make it so that whenever a Page Tab is set to active, it additionally triggers navigation. 
+      This is usefull to sync the browser url to the currently active Page Tab.
 
 ## Examples:
 
@@ -52,7 +57,10 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
 #### Using the XTabsRouteView or XTabsAuthorizeRouteView to render pages as tabs:
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">
-            <XTabsRouteView CloseTabs="true" NewTabSetActive="true" RenderMode="BlazorXTabs.Configuration.RenderMode.Full" RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <XTabsRouteView CloseTabs="true" NewTabSetActive="true" 
+            NavigationMode="BlazorXTabs.Configuration.NavigationMode.Navigable"
+            RenderMode="BlazorXTabs.Configuration.RenderMode.Full" 
+            RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         </Found>
         <NotFound>
             <LayoutView Layout="@typeof(MainLayout)">

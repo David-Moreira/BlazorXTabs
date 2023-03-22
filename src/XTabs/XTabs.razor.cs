@@ -37,6 +37,12 @@ namespace BlazorXTabs
         [Inject] private NavigationManager _navigationManager { get; set; }
 
         /// <summary>
+        /// Gets or sets the XTabs NavigationMode. Please note that this is only applicable to the <see cref="XTabsRouteView"/>.
+        /// <code>Defaults to: <see cref="NavigationMode.Standard" /></code>
+        /// </summary>
+        internal NavigationMode NavigationMode { get; set; } = NavigationMode.Standard;
+
+        /// <summary>
         /// Gets or sets the XTabs RenderMode.
         /// <code>Defaults to: <see cref="RenderMode.Partial" /></code>
         /// </summary>

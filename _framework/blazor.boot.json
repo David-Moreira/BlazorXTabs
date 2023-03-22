@@ -7,7 +7,7 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "BlazorXTabs.dll": "sha256-16fepTtVIjM+jbLK\/WnfNgXP7KUPX4bc1s35Yh2Dmko=",
+      "BlazorXTabs.dll": "sha256-3XRKZvhsl4mBCAFndfD+miZiBqO9qv7UJPCB+sosjdU=",
       "Demo.dll": "sha256-\/JrzOnqCfgy9QjXGd9z3A7qYQu+GKtwMkQMTcAvc+6c=",
       "Microsoft.AspNetCore.Authorization.dll": "sha256-Ln3KyFv+tXfAuvb9zAgFu2qQnRxy4N\/Lq5O6hT\/YA1c=",
       "Microsoft.AspNetCore.Components.Authorization.dll": "sha256-aQ1lqhabwzTE+d+wdTaDboz0Q9niMyV02tIDNE+HdJU=",

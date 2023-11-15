@@ -41,6 +41,8 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
     - NavigationMode.Standard : This is the default and XTabs will work as it always did. Clicking a Page Tab will set it as active.
     - NavigationMode.Navigable : This new setting will make it so that whenever a Page Tab is set to active, it additionally triggers navigation. 
       This is usefull to sync the browser url to the currently active Page Tab.
+- **v2.0.0**
+  - NET8 Support
 
 ## Examples:
 

@@ -21,7 +21,7 @@
         </div>
 
         <div class="xtabs-content tab-content">
-            @if ( RenderMode == RenderMode.Full )
+            @if ( RenderMode == BlazorXTabs.Configuration.RenderMode.Full )
             {
                 @foreach ( var tab in TabContent )
                 {
@@ -65,7 +65,7 @@
                 }
             }
 
-            @if ( RenderMode == RenderMode.Steps )
+            @if ( RenderMode == BlazorXTabs.Configuration.RenderMode.Steps )
             {
                 <div class="xtabs-steps-buttons d-flex justify-content-center mb-1">
                     @if ( PreviousStepsContent is object )

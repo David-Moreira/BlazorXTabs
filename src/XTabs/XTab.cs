@@ -11,23 +11,31 @@ namespace BlazorXTabs
 
         public XTab()
         {
-        }
 
-        public XTab(XTabs parent, string title, RenderFragment renderFragment, string cssClass, bool inactiveRender, string routeUrl)
-        {
-            PageTab = true;
-            _parent = parent;
-            Id = title;
-            Title = title;
-            ChildContent = renderFragment;
-            CssClass = cssClass;
-            InactiveRender = inactiveRender;
-            this.RouteUrl = routeUrl;
-            LoadTitle();
         }
 
         #endregion
 
+        #region Public Methods
+
+        public static XTab Create(XTabs parent, string title, RenderFragment renderFragment, string cssClass, bool inactiveRender, string routeUrl)
+        {
+            var xTab = new XTab()
+            {
+                PageTab = true,
+                _parent = parent,
+                Id = title,
+                Title = title,
+                ChildContent = renderFragment,
+                CssClass = cssClass,
+                InactiveRender = inactiveRender,
+                RouteUrl = routeUrl
+            };
+            xTab.LoadTitle();
+            return xTab;
+        }
+
+        #endregion
         #region Private Properties
 
 
@@ -115,7 +123,7 @@ namespace BlazorXTabs
             await _parent.AddPageAsync(this);
         }
 
-        private Task LoadTitle()
+        internal Task LoadTitle()
         {
             if (_parent.TitleFunc is not null)
                 return SetTitle(_parent.TitleFunc(this));

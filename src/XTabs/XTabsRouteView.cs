@@ -288,7 +288,7 @@ namespace BlazorXTabs
                     return;
                 }
 
-                var xtab = new XTab(_xTabs, xTabTitle, pageFragment, xTabCssClass, xTabInactiveRender, GetRouteUrl());
+                var xtab = XTab.Create(_xTabs, xTabTitle, pageFragment, xTabCssClass, xTabInactiveRender, GetRouteUrl());
 
                 if (resetXTabs)
                     _xTabs.AddOrReplacePage(xtab);

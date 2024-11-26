@@ -197,14 +197,14 @@
     private Task TabAdd(XTab tab)
     {
         TabAdded = tab;
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
         return Task.CompletedTask;
     }
 
     private Task TabRemove(XTab tab)
     {
         TabRemoved = tab;
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
         return Task.CompletedTask;
     }
 

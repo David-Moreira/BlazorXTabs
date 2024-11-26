@@ -43,6 +43,8 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
       This is usefull to sync the browser url to the currently active Page Tab.
 - **v2.0.0**
   - NET8 Support
+- **v3.0.0**
+  - NET9 Support
 
 ## Examples:
 

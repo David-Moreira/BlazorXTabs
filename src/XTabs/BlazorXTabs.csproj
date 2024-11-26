@@ -33,7 +33,7 @@
 
 	<PropertyGroup>
 		<PackageId>BlazorXTabs</PackageId>
-		<Version>2.0.0</Version>
+		<Version>3.0.0</Version>
 		<Authors>David Moreira</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<ProjectUrl>https://github.com/David-Moreira/XTabs</ProjectUrl>
@@ -43,7 +43,7 @@
 		<RepositoryType>GitHub</RepositoryType>
 		<Description>An extended tabs component library providing various tab features for Blazor!</Description>
 		<PackageTags>blazorx blazorxtabs blazor tabs components library</PackageTags>
-		<Copyright>Copyright 2023 (c) David Moreira. All rights reserved.</Copyright>
+		<Copyright>Copyright 2024 (c) David Moreira. All rights reserved.</Copyright>
 		<Company />
 	</PropertyGroup>
 </Project>

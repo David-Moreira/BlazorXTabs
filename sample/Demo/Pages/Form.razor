@@ -24,11 +24,38 @@
     </div>
 </div>
 
+<div class="row mt-2">
+    <div class="col-12">
+        <div class="form-group">
+            <label>Define a new title for this tab:</label>
+            <input class="form-control" placeholder="Define this tab's title" @bind-value=@_newTabTitle>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary" @onclick="ChangeTabTitleAsync">Change Tab Title</button>
+    </div>
+</div>
+
+
+
 
 @code {
     [CascadingParameter]
     public XTabs XTabs { get; set; }
+    private string _tabTitle = "Formulary";
+    private string _newTabTitle = "Formulary";
 
     private Task ButtonCloseTabAsync()
-       => XTabs.CloseTabByTitleAsync("Formulary");
+       => XTabs.CloseTabByTitleAsync(_tabTitle);
+
+    private async Task ChangeTabTitleAsync()
+    { 
+        var tab = XTabs.GetTabByTitle(_tabTitle);
+        await tab.SetTitle(_newTabTitle);
+        _tabTitle = _newTabTitle;
+    }
+
 }

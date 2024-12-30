@@ -1,10 +1,10 @@
 {
   "mainAssemblyName": "Demo",
   "resources": {
-    "hash": "sha256-mPdXmJEayNbAzjK04t9ox80mH3dNu66l3vAjfds1zF8=",
+    "hash": "sha256-dq4C1FnIF/c7vGyi67v8m55LkeokcWg91CTlW88NGUE=",
     "fingerprinting": {
-      "BlazorXTabs.qkw6phfmli.wasm": "BlazorXTabs.wasm",
-      "Demo.ahwvcqcpae.wasm": "Demo.wasm",
+      "BlazorXTabs.d8j92zmzri.wasm": "BlazorXTabs.wasm",
+      "Demo.6p1wa9ztwz.wasm": "Demo.wasm",
       "Microsoft.AspNetCore.Authorization.wzn6dlayzv.wasm": "Microsoft.AspNetCore.Authorization.wasm",
       "Microsoft.AspNetCore.Components.Authorization.q0u752jveg.wasm": "Microsoft.AspNetCore.Components.Authorization.wasm",
       "Microsoft.AspNetCore.Components.n089yo9mzg.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -67,8 +67,8 @@
       "System.Runtime.InteropServices.JavaScript.x50649m5t2.wasm": "sha256-VS4CSyZJNRAj+SrJqgbXBFWlGMlNDgM4rbwJ6gTH5qg="
     },
     "assembly": {
-      "BlazorXTabs.qkw6phfmli.wasm": "sha256-lgg9hPr9FfiF4Q5VKjpUBlgUtEjFtcj3KJrGb7WLxFs=",
-      "Demo.ahwvcqcpae.wasm": "sha256-0hWmli+x2pXaBAovW+ON5JpDrh+bXSNHXCKQOvNAqPQ=",
+      "BlazorXTabs.d8j92zmzri.wasm": "sha256-Y2hgMfc7nZ/1tN0JmgSnxf/J23zfj/n+wBhRcKajJa0=",
+      "Demo.6p1wa9ztwz.wasm": "sha256-ZrFwIyjormDOPriRB5t5YyykzYP8BLQklKILCjb6oCQ=",
       "Microsoft.AspNetCore.Authorization.wzn6dlayzv.wasm": "sha256-BIDEA5JqPqT2V1ugIHji51NWBjIxmNMnVbQoc8aIy28=",
       "Microsoft.AspNetCore.Components.Authorization.q0u752jveg.wasm": "sha256-uvBQUjdKqGRwVXPgONqWB6E1lPYUCGpBRtwz/mFVCg0=",
       "Microsoft.AspNetCore.Components.n089yo9mzg.wasm": "sha256-12Ihi0iFx3cUTuu+WYJc+Twri57eKWFV9TEFO+2r68Q=",

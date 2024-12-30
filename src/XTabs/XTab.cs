@@ -96,13 +96,11 @@ namespace BlazorXTabs
 
         #region Protected Methods
 
-        public Task SetTitle(string title)
+        public async Task SetTitle(string title)
         {
-            if (Id == Title)
-                Id = title;
-
             Title = title;
-            return TitleChanged.InvokeAsync(title);
+            await TitleChanged.InvokeAsync(title);
+            await _parent.NotifyStateHasChangedAsync();
         }
 
         public override async Task SetParametersAsync(ParameterView parameters)

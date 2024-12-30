@@ -45,6 +45,8 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
   - NET8 Support
 - **v3.0.0**
   - NET9 Support
+- **v3.0.1**
+  - Fix SetTitle Method to properly set the title without overriding inherent id and automatically refresh tabs
 
 ## Examples:
 

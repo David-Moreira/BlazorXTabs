@@ -1,21 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
-	</ItemGroup>
-
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
@@ -28,12 +18,17 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0" />
 	</ItemGroup>
 
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
+	</ItemGroup>
+
 	<PropertyGroup>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<PackageId>BlazorXTabs</PackageId>
-		<Version>3.0.1</Version>
+		<Version>4.0.0</Version>
 		<Authors>David Moreira</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<ProjectUrl>https://github.com/David-Moreira/XTabs</ProjectUrl>
@@ -43,7 +38,7 @@
 		<RepositoryType>GitHub</RepositoryType>
 		<Description>An extended tabs component library providing various tab features for Blazor!</Description>
 		<PackageTags>blazorx blazorxtabs blazor tabs components library</PackageTags>
-		<Copyright>Copyright 2024 (c) David Moreira. All rights reserved.</Copyright>
+		<Copyright>Copyright 2025 (c) David Moreira. All rights reserved.</Copyright>
 		<Company />
 	</PropertyGroup>
 </Project>

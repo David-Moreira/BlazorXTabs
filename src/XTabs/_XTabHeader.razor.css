@@ -1,4 +1,4 @@
-﻿.xtabs-item {
+.xtabs-item {
     margin-bottom: -1px;
 }
 
@@ -10,6 +10,7 @@
         border-top-right-radius: .25rem;
         display: block;
         padding: .5rem 1rem;
+        isolation: auto;
     }
 
     .xtabs-item.drop .xtabs-link {
@@ -38,7 +39,7 @@
 }
 
 button.close {
-    padding: 0;
+    padding: 0 3px 0 0;
     background-color: transparent;
     border: 0;
     float: right;

@@ -50,6 +50,8 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
 - **v4.0.0**
     - Drop support for .NET6 and .NET7
     - NET10 Support
+- **v4.0.1**
+    - Fixed default css for close button hiding in bootstrap 5
     
 ## Examples:
 

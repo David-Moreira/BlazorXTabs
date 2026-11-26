@@ -1,0 +1,131 @@
+/*
+ * BlazorXTabs default styles.
+ * Reference it with: <link href="_content/BlazorXTabs/blazorxtabs.css" rel="stylesheet" />
+ *
+ * Customize by overriding the --xtabs-* variables below (e.g. on :root or on a .xtabs container),
+ * or skip this file entirely and ship your own.
+ */
+:root {
+    --xtabs-bg: #fff;
+    --xtabs-border-color: rgba(0, 0, 0, .125);
+    --xtabs-border-radius: .25rem;
+    --xtabs-header-bg: rgba(0, 0, 0, .03);
+    --xtabs-header-padding: .75rem 1.25rem;
+    --xtabs-content-padding: 1.25rem;
+    --xtabs-link-color: #495057;
+    --xtabs-link-padding: .5rem 1rem;
+    --xtabs-link-active-bg: #fff;
+    --xtabs-link-active-border-color: #dee2e6 #dee2e6 #fff;
+    --xtabs-drop-border: 1px dashed green;
+    --xtabs-close-color: #000;
+    --xtabs-close-text-shadow: 0 1px 0 #fff;
+    --xtabs-close-opacity: .5;
+    --xtabs-close-all-color: red;
+}
+
+.xtabs {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: var(--xtabs-bg);
+    background-clip: border-box;
+    border: 1px solid var(--xtabs-border-color);
+    border-radius: var(--xtabs-border-radius);
+}
+
+    .xtabs .xtabs-header {
+        padding: var(--xtabs-header-padding);
+        margin-bottom: 0;
+        background-color: var(--xtabs-header-bg);
+        border-bottom: 1px solid var(--xtabs-border-color);
+    }
+
+    .xtabs .xtabs-header-tabs {
+        margin-right: -.625rem;
+        margin-bottom: -.75rem;
+        margin-left: -.625rem;
+        border-bottom: 0;
+        display: flex;
+        flex-wrap: wrap;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .xtabs h6 {
+        margin: 0.75rem;
+    }
+
+    /* Close buttons */
+    .xtabs .xtabs-close,
+    .xtabs .xtabs-close-all {
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+        float: right;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--xtabs-close-color);
+        text-shadow: var(--xtabs-close-text-shadow);
+        opacity: var(--xtabs-close-opacity);
+    }
+
+    .xtabs .xtabs-close {
+        padding: 0 3px 0 0;
+    }
+
+    .xtabs .xtabs-header .xtabs-close-all {
+        color: var(--xtabs-close-all-color);
+        font-weight: bold;
+    }
+
+/* Tab headers */
+.xtabs .xtabs-item {
+    margin-bottom: -1px;
+}
+
+    .xtabs .xtabs-item .xtabs-link {
+        color: var(--xtabs-link-color);
+        border: 1px solid transparent;
+        border-top-left-radius: var(--xtabs-border-radius);
+        border-top-right-radius: var(--xtabs-border-radius);
+        display: block;
+        padding: var(--xtabs-link-padding);
+        isolation: auto;
+    }
+
+    .xtabs .xtabs-item.drop .xtabs-link {
+        border: var(--xtabs-drop-border);
+    }
+
+    .xtabs .xtabs-item .xtabs-link.active {
+        background-color: var(--xtabs-link-active-bg);
+        border-color: var(--xtabs-link-active-border-color);
+    }
+
+    .xtabs .xtabs-item:hover {
+        cursor: pointer;
+    }
+
+.xtabs .xtabs-header-tabs.nav-justified .xtabs-item {
+    flex-basis: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.xtabs .xtabs-header-tabs.drag a {
+    pointer-events: none !important;
+}
+
+/* Tab content */
+.xtabs .xtabs-tab-content {
+    display: none;
+    flex: 1 1 auto;
+    padding: var(--xtabs-content-padding);
+}
+
+    .xtabs .xtabs-tab-content.active {
+        display: block;
+    }

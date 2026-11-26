@@ -58,6 +58,7 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
     - **Breaking:** XTabs styles are no longer shipped as scoped CSS (`{YOUR-PROJECT-NAME}.styles.css`). They now live in a standalone stylesheet, `_content/BlazorXTabs/blazorxtabs.css`, that you reference explicitly (or leave out to use your own styles)
     - Styles are customizable through `--xtabs-*` CSS variables
     - Optional Bootstrap 5 theme, `_content/BlazorXTabs/blazorxtabs.bootstrap.css`, that follows Bootstrap's light/dark color modes
+    - Content Security Policy (CSP) friendly: tab headers no longer use inline event handlers, so drag & drop works under a strict `script-src`
     
 ## Examples:
 
@@ -156,3 +157,8 @@ Available variables: `--xtabs-bg`, `--xtabs-border-color`, `--xtabs-border-radiu
 
 #### Upgrading from v4
 XTabs styles used to come in through `{YOUR-PROJECT-NAME}.styles.css`. From v5 you must add `<link href="_content/BlazorXTabs/blazorxtabs.css" rel="stylesheet" />` to keep the default look.
+
+## Content Security Policy (CSP)
+XTabs renders no inline scripts or inline event handlers, so it works with a strict `script-src` policy (e.g. `script-src 'self'`, plus whatever your Blazor hosting model already requires, such as `'wasm-unsafe-eval'` for WebAssembly).
+
+The default styling ships as a stylesheet, so it works with `style-src 'self'`. The one exception is the `XTabs` `Style` parameter: it renders an inline `style` attribute, which a strict `style-src` without `'unsafe-inline'` will block. Under such a policy, use `CssClass` and the `--xtabs-*` CSS variables from your own stylesheet instead of `Style`.

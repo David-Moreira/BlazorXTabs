@@ -1,4 +1,12 @@
-﻿<li class="xtabs-item nav-item @_dropClass" draggable="@IsDraggable.ToString()" ondragover="event.preventDefault();" @ondragstart="@DragStartAsync" @ondragenter="DragEnter" @ondrop="@DragDropAsync" @ondragleave="DragLeave" @ondragend="DragEndAsync" @onmousedown="async (e) => await CloseTabOnMouseWheelAsync(XTab, e)">
+﻿<li class="xtabs-item nav-item @_dropClass"
+    draggable="@(IsDraggable ? "true" : "false")"
+    @ondragstart="DragStartAsync"
+    @ondragenter="DragEnter"
+    @ondragover:preventDefault
+    @ondragleave="DragLeave"
+    @ondrop="DragDropAsync" @ondrop:preventDefault
+    @ondragend="DragEndAsync"
+    @onmousedown="async (e) => await CloseTabOnMouseWheelAsync(XTab, e)">
     @if ( CloseTabs )
     {
         <button type="button" @onclick="async () => await OnCloseTab.InvokeAsync(XTab)" class="xtabs-close close" aria-label="Close">
@@ -6,7 +14,7 @@
         </button>
     }
     <a class='xtabs-link nav-link @(IsActive ? "active" : "")' @onclick="ClickAsync"
-       ondragover="event.preventDefault();" draggable="false">
+       @ondragover:preventDefault draggable="false">
         <h6 class="m-0 font-weight-bold text-primary" draggable="false">@XTab.Title</h6>
     </a>
 </li>

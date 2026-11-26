@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net11.0</TargetFramework>
+    <!-- This project has no .razor files of its own (they come from Demo), so the SDK
+         would otherwise skip the package that ships _framework/blazor.server.js. -->
+    <RequiresAspNetWebAssets>true</RequiresAspNetWebAssets>
   </PropertyGroup>
 
   <ItemGroup>

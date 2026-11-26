@@ -61,8 +61,6 @@ namespace DemoAuth
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseAuthentication();
@@ -70,6 +68,7 @@ namespace DemoAuth
 
             app.UseEndpoints( endpoints =>
              {
+                 endpoints.MapStaticAssets();
                  endpoints.MapControllers();
                  endpoints.MapBlazorHub();
                  endpoints.MapFallbackToPage( "/_Host" );

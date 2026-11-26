@@ -59,6 +59,7 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
     - Styles are customizable through `--xtabs-*` CSS variables
     - Optional Bootstrap 5 theme, `_content/BlazorXTabs/blazorxtabs.bootstrap.css`, that follows Bootstrap's light/dark color modes
     - Content Security Policy (CSP) friendly: tab headers no longer use inline event handlers, so drag & drop works under a strict `script-src`
+    - The `XTabs` `Style` parameter is kept. It renders an inline `style` attribute, so under a strict `style-src` use `CssClass` and the `--xtabs-*` variables instead (see [Content Security Policy](#content-security-policy-csp))
     
 ## Examples:
 

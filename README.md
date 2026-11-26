@@ -52,6 +52,9 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
     - NET10 Support
 - **v4.0.1**
     - Fixed default css for close button hiding in bootstrap 5
+- **v5.0.0**
+    - Drop support for .NET8 and .NET9
+    - NET11 Support
     
 ## Examples:
 

@@ -55,6 +55,9 @@ Checkout all the examples at: [BlazorXTabs Demo](https://david-moreira.github.io
 - **v5.0.0**
     - Drop support for .NET8 and .NET9
     - NET11 Support
+    - **Breaking:** XTabs styles are no longer shipped as scoped CSS (`{YOUR-PROJECT-NAME}.styles.css`). They now live in a standalone stylesheet, `_content/BlazorXTabs/blazorxtabs.css`, that you reference explicitly (or leave out to use your own styles)
+    - Styles are customizable through `--xtabs-*` CSS variables
+    - Optional Bootstrap 5 theme, `_content/BlazorXTabs/blazorxtabs.bootstrap.css`, that follows Bootstrap's light/dark color modes
     
 ## Examples:
 
@@ -126,7 +129,30 @@ Install-Package BlazorXTabs
 dotnet add package BlazorXTabs
 ```
 
-- If you'd like to bring in XTabs default styling, don't forget to add:
-```    
-<link href="{YOUR-PROJECT-NAME}.styles.css" rel="stylesheet" />
+- If you'd like to bring in XTabs default styling, add the stylesheet to your `App.razor` / `index.html` / `_Host.cshtml`:
+```html
+<link href="_content/BlazorXTabs/blazorxtabs.css" rel="stylesheet" />
 ```
+or, with static asset fingerprinting:
+```razor
+<link href="@Assets["_content/BlazorXTabs/blazorxtabs.css"]" rel="stylesheet" />
+```
+
+- Optionally, add the Bootstrap 5 theme after it so XTabs follows Bootstrap's colors and light/dark mode:
+```html
+<link href="_content/BlazorXTabs/blazorxtabs.bootstrap.css" rel="stylesheet" />
+```
+
+- Customize the look by overriding the CSS variables, for example:
+```css
+:root {
+    --xtabs-bg: transparent;
+    --xtabs-link-active-bg: var(--bs-secondary);
+}
+```
+Available variables: `--xtabs-bg`, `--xtabs-border-color`, `--xtabs-border-radius`, `--xtabs-header-bg`, `--xtabs-header-padding`, `--xtabs-content-padding`, `--xtabs-link-color`, `--xtabs-link-padding`, `--xtabs-link-active-bg`, `--xtabs-link-active-border-color`, `--xtabs-drop-border`, `--xtabs-close-color`, `--xtabs-close-text-shadow`, `--xtabs-close-opacity`, `--xtabs-close-all-color`.
+
+- Don't want the default styling at all? Just don't reference the stylesheet and style the `xtabs-*` classes yourself.
+
+#### Upgrading from v4
+XTabs styles used to come in through `{YOUR-PROJECT-NAME}.styles.css`. From v5 you must add `<link href="_content/BlazorXTabs/blazorxtabs.css" rel="stylesheet" />` to keep the default look.

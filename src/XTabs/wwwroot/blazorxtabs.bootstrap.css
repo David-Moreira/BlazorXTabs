@@ -1,0 +1,23 @@
+/*
+ * BlazorXTabs optional Bootstrap 5 theme.
+ * Maps the --xtabs-* variables to Bootstrap's own variables so XTabs follows
+ * Bootstrap's light and dark color modes (data-bs-theme).
+ *
+ * Load it after the default styles:
+ * <link href="_content/BlazorXTabs/blazorxtabs.css" rel="stylesheet" />
+ * <link href="_content/BlazorXTabs/blazorxtabs.bootstrap.css" rel="stylesheet" />
+ */
+:root,
+[data-bs-theme] {
+    --xtabs-bg: transparent;
+    --xtabs-border-color: var(--bs-border-color-translucent);
+    --xtabs-border-radius: var(--bs-border-radius);
+    --xtabs-header-bg: var(--bs-tertiary-bg);
+    --xtabs-link-color: var(--bs-body-color);
+    --xtabs-link-active-bg: var(--bs-body-bg);
+    --xtabs-link-active-border-color: var(--bs-border-color) var(--bs-border-color) var(--bs-body-bg);
+    --xtabs-drop-border: 1px dashed var(--bs-success);
+    --xtabs-close-color: var(--bs-body-color);
+    --xtabs-close-text-shadow: none;
+    --xtabs-close-all-color: var(--bs-danger);
+}
